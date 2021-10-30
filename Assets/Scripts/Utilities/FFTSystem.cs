@@ -27,6 +27,7 @@ public class FFTSystem : MonoBehaviour
 
     void Start()
     {
+
         samples = new float[qSamples];
         spectrum = new float[qSamples];
         fSample = AudioSettings.outputSampleRate;
@@ -86,7 +87,7 @@ public class FFTSystem : MonoBehaviour
 
     public void StartRecording()
     {
-        audioSource.clip = Microphone.Start(null, true, 60, 44100);
+        audioSource.clip = Microphone.Start(Microphone.devices[0], true, 60, 44100);
 
         audioSource.loop = true;
         audioSource.mute = false;
