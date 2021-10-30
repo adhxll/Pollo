@@ -97,5 +97,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   assignedTime: 0
   noteLength: 0
-  noteWrong: {fileID: 21300000, guid: 2ee15e76ae8b54239a3e718d9bc90bfd, type: 3}
-  noteRight: {fileID: 21300000, guid: 46a1963c4549548e7ab9466f22532eba, type: 3}
+  noteWrong: {fileID: 21300000, guid: 91f2f6c15858845c5aea963f82f459c2, type: 3}
+  noteRight: {fileID: 21300000, guid: e87987f2d8d5f4874a990c20af1ecbc6, type: 3}
