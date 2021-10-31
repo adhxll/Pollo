@@ -38,15 +38,9 @@ public class FFTSystem : MonoBehaviour
         AnalyzeSound();
     }
 
-    //void StartPlaying()
-    //{
-    //    dspTime = AudioSettings.dspTime;
-    //    pitchDetector.source.PlayScheduled(0);
-    //}
-
     void AnalyzeSound()
     {
-        audioSource.GetSpectrumData(spectrum, 0, FFTWindow.BlackmanHarris);
+        audioSource.GetSpectrumData(spectrum, 0, FFTWindow.Hamming);
 
         float maxV = 0;
         var maxN = 0;
@@ -85,9 +79,15 @@ public class FFTSystem : MonoBehaviour
         }
     }
 
+    public void StartPlaying()
+    {
+        //dspTime = AudioSettings.dspTime;
+        pitchDetector.source.PlayScheduled(0);
+    }
+
     public void StartRecording()
     {
-        audioSource.clip = Microphone.Start(Microphone.devices[0], true, 60, 44100);
+        audioSource.clip = Microphone.Start(Microphone.devices[0], true, 1, 44100);
 
         audioSource.loop = true;
         audioSource.mute = false;

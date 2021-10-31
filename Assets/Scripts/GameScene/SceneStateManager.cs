@@ -7,17 +7,26 @@ using DG.Tweening;
 
 public class SceneStateManager : MonoBehaviour
 {
-    public GameObject[] instructionObjects;
-    public GameObject[] countdownObjects;
-    public GameObject[] gameplayObjects;
-    public GameObject overlay;
+    public static SceneStateManager Instance;
+
+    [SerializeReference]
+    private GameObject[] instructionObjects = null;
+
+    [SerializeReference]
+    private GameObject[] countdownObjects = null;
+
+    [SerializeReference]
+    private GameObject[] gameplayObjects = null;
+
+    [SerializeReference]
+    private GameObject overlay = null;
 
     private GameObject titleButton;
     private GameObject countButton;
     private TMPro.TextMeshProUGUI title;
     private TMPro.TextMeshProUGUI countdown;
 
-    private SceneState sceneState = SceneState.Instruction;
+    SceneState sceneState = SceneState.Instruction;
 
     float delay = 1;
 
@@ -31,6 +40,7 @@ public class SceneStateManager : MonoBehaviour
 
     void Start()
     {
+        Instance = this;
         CheckSceneState();
     }
 
@@ -38,21 +48,14 @@ public class SceneStateManager : MonoBehaviour
     {
     }
 
-    public void ChangeSceneState()
+    public SceneState GetSceneState()
     {
-        switch (sceneState)
-        {
-            case SceneState.Instruction:
-                sceneState = SceneState.Countdown;
-                break;
-            case SceneState.Countdown:
-                sceneState = SceneState.Gameplay;
-                break;
-            case SceneState.Gameplay:
-                sceneState = SceneState.Instruction;
-                break;
-        }
+        return sceneState;
+    }
 
+    public void ChangeSceneState(SceneState scene)
+    {
+        sceneState = scene;
         CheckSceneState();
     }
 
@@ -113,6 +116,10 @@ public class SceneStateManager : MonoBehaviour
         StartCoroutine(AnimateObjects(gameplayObjects, 0.1f, AnimationType.MoveY));
         countButton.SetActive(false);
         countdown.SetText("3");
+
+        yield return new WaitForSeconds(2);
+
+        SongManager.Instance.StartSong();
     }
 
     IEnumerator AnimateObjects(GameObject[] objects, float duration, AnimationType type)
@@ -159,10 +166,11 @@ public class SceneStateManager : MonoBehaviour
         MoveY
     }
 
-    enum SceneState
+    public enum SceneState
     {
         Instruction,
         Countdown,
         Gameplay
     }
 }
+

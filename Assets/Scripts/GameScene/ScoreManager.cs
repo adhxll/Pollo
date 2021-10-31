@@ -9,7 +9,7 @@ public class ScoreManager : MonoBehaviour
     public static ScoreManager Instace;
     public AudioSource hitSFX;
     //public AudioSource missSFX;
-    public TMPro.TextMeshPro scoreText;
+    public TMPro.TextMeshProUGUI scoreText;
     public TMPro.TextMeshPro comboText;
 
     static int comboScore;
@@ -28,6 +28,7 @@ public class ScoreManager : MonoBehaviour
         comboScore += 1;
         totalScore += (98 + comboScore * 2);
 
+        ParticleController.Instance.EmitParticle(1);
         AnimationManager.Instace.AnimateHit(Instace.scoreText.gameObject, 0.25f);
         AnimationManager.Instace.AnimateHit(Instace.comboText.gameObject, 0.25f);
         //Instace.hitSFX.Play();
@@ -37,6 +38,12 @@ public class ScoreManager : MonoBehaviour
     {
         comboScore = 0;
         //Instace.missSFX.Play();
+    }
+
+    public void Reset()
+    {
+        comboScore = 0;
+        totalScore = 0;
     }
 
     // Update is called once per frame

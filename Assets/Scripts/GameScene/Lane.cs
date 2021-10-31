@@ -7,12 +7,16 @@ using DG.Tweening;
 
 public class Lane : MonoBehaviour
 {
-    public TMPro.TextMeshProUGUI accuracyScore;
-    public TMPro.TextMeshProUGUI accuracyPercentage;
+    //public TMPro.TextMeshProUGUI accuracyScore;
+    //public TMPro.TextMeshProUGUI accuracyPercentage;
 
-    public KeyCode input;
-    public GameObject notePrefab;
-    public GameObject barPrefab;
+    public static Lane Instance;
+
+    [SerializeField]
+    private GameObject notePrefab = null;
+
+    [SerializeField]
+    private GameObject barPrefab = null;
 
     List<Note> notes = new List<Note>();
     public List<double> timeStamps = new List<double>();
@@ -27,6 +31,7 @@ public class Lane : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Instance = this;
     }
 
     public void SetTimeStamps(MIDI.Notes[] array)
@@ -82,8 +87,8 @@ public class Lane : MonoBehaviour
                 }
             }
 
-            accuracyScore.text = $"{correctNotes} / {inputIndex}";
-            accuracyPercentage.text = ((float)correctNotes / inputIndex * 100).ToString("0.00") + " %";
+            //accuracyScore.text = $"{correctNotes} / {inputIndex}";
+            //accuracyPercentage.text = ((float)correctNotes / inputIndex * 100).ToString("0.00") + " %";
             //Debug.Log($"ACCURACY {(float)correctNotes / inputIndex * 100}%");
         }
     }
@@ -124,5 +129,15 @@ public class Lane : MonoBehaviour
         notes[inputIndex].GetComponent<SpriteRenderer>().sprite = note.noteWrong;
         AnimationManager.Instace.AnimateHit(note.gameObject, -0.1f);
         inputIndex++;
+    }
+
+    // Reset Lane to the initial state
+    public void Reset()
+    {
+        spawnIndex = 0;
+        inputIndex = 0;
+        barIndex = 0;
+        correctNotes = 0;
+        notes.Clear();
     }
 }

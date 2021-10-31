@@ -18,7 +18,9 @@ public class SongManager : MonoBehaviour
     public double marginOfError; // in seconds
     public int inputDelayInMilliseconds;
 
-    public TextAsset midiJSON;
+    [SerializeField]
+    TextAsset midiJSON = null;
+
     public static MIDI.MidiFile midiFile;
 
     public float noteTime; //Time needed for the note spawn location to the tap location
@@ -50,7 +52,7 @@ public class SongManager : MonoBehaviour
         GetDataFromMidi();
     }
 
-    private void GetDataFromMidi()
+    void GetDataFromMidi()
     {
         var notes = midiFile.tracks[0].notes;
         var array = new MIDI.Notes[notes.Length];
@@ -61,20 +63,30 @@ public class SongManager : MonoBehaviour
         Invoke(nameof(StartSong), songDelayInSeconds);
     }
 
-    private void StartSong()
+    public void StartSong()
     {
         songPlayed = true;
         dspTimeSong = AudioSettings.dspTime;
-        //detectedPitch.source.PlayScheduled(0);
-        detectedPitch.GetComponent<FFTSystem>().StartRecording();
+        switch (SceneStateManager.Instance.GetSceneState())
+        {
+            case SceneStateManager.SceneState.Instruction:
+                detectedPitch.GetComponent<FFTSystem>().StartPlaying();
+                break;
+            case SceneStateManager.SceneState.Countdown:
+                detectedPitch.GetComponent<FFTSystem>().StartRecording();
+                break;
+            case SceneStateManager.SceneState.Gameplay:
+                detectedPitch.GetComponent<FFTSystem>().StartRecording();
+                break;
+        }
         audioSource.PlayScheduled(0);
     }
 
     // Get current playback position in metric times
     public static double GetAudioSourceTime()
     {
-        //return (double)Instance.audioSource.timeSamples / Instance.audioSource.clip.frequency;
-        return AudioSettings.dspTime - Instance.dspTimeSong;
+        return (double)Instance.audioSource.timeSamples / Instance.audioSource.clip.frequency;
+        //return AudioSettings.dspTime - Instance.dspTimeSong;
     }
 
     // Get current beat in float
@@ -83,9 +95,22 @@ public class SongManager : MonoBehaviour
         return (float)GetAudioSourceTime() / midiBPM;
     }
 
-    // Update is called once per frame
     void Update()
     {
+        if (GetAudioSourceTime() == 0
+            && songPlayed
+            && (AudioSettings.dspTime - dspTimeSong) > songDelayInSeconds)
+        {
+            songPlayed = false;
+            ResetScene();
+            SceneStateManager.Instance.ChangeSceneState(SceneStateManager.SceneState.Countdown);
+        }
+    }
 
+    // Reset all instance to its default state
+    public void ResetScene()
+    {
+        ScoreManager.Instace.Reset();
+        Lane.Instance.Reset();
     }
 }
