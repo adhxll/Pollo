@@ -1998,7 +1998,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8cbb72ee36e804823a562530eabdba23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  score: 0
+  score: 90
   scoreObject: {fileID: 1502010217}
   scoreMessage: {fileID: 706271761}
   scoreMessageShadow: {fileID: 315244304}
