@@ -7,7 +7,7 @@ public class FFTSystem : MonoBehaviour
     PitchDetector pitchDetector;
 
     public float pitchValue = 0;
-    int qSamples = 1024;  // array size
+    int qSamples = 2048;  // array size
     float threshold = 0.005f;      // minimum amplitude to extract pitch
     float rmsValue;   // sound level - RMS
     private float[] samples; // audio samples
@@ -27,7 +27,6 @@ public class FFTSystem : MonoBehaviour
 
     void Start()
     {
-
         samples = new float[qSamples];
         spectrum = new float[qSamples];
         fSample = AudioSettings.outputSampleRate;
@@ -40,7 +39,7 @@ public class FFTSystem : MonoBehaviour
 
     void AnalyzeSound()
     {
-        audioSource.GetSpectrumData(spectrum, 0, FFTWindow.Hamming);
+        audioSource.GetSpectrumData(spectrum, 0, FFTWindow.Hanning);
 
         float maxV = 0;
         var maxN = 0;

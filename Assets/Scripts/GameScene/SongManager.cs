@@ -1,8 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-//using Melanchall.DryWetMidi.Core;
-//using Melanchall.DryWetMidi.Interaction;
 using System.IO;
 using UnityEngine.Networking;
 using System;
@@ -15,7 +13,7 @@ public class SongManager : MonoBehaviour
     
     public Lane lanes;
     public float songDelayInSeconds;
-    public double marginOfError; // in seconds
+    public double marginOfError; // In seconds
     public int inputDelayInMilliseconds;
 
     [SerializeField]
@@ -23,9 +21,9 @@ public class SongManager : MonoBehaviour
 
     public static MIDI.MidiFile midiFile;
 
-    public float noteTime; //Time needed for the note spawn location to the tap location
-    public float noteSpawnX;
-    public float noteTapX;
+    public float noteTime; // Time needed for the note spawn location to the tap location
+    public float noteSpawnX; // Note spawn position in world space
+    public float noteTapX; // Note tap position in world space
 
     public float noteDespawnX
     {
@@ -70,13 +68,10 @@ public class SongManager : MonoBehaviour
         switch (SceneStateManager.Instance.GetSceneState())
         {
             case SceneStateManager.SceneState.Instruction:
-                detectedPitch.GetComponent<FFTSystem>().StartPlaying();
+                detectedPitch.GetComponent<FFTSystem>().StartPlaying(); // Play audio source if the current scene state is 'Instruction'
                 break;
             case SceneStateManager.SceneState.Countdown:
-                detectedPitch.GetComponent<FFTSystem>().StartRecording();
-                break;
-            case SceneStateManager.SceneState.Gameplay:
-                detectedPitch.GetComponent<FFTSystem>().StartRecording();
+                detectedPitch.GetComponent<FFTSystem>().StartRecording(); // Play through microphone if the current scene state is 'Countdown/Gameplay'
                 break;
         }
         audioSource.PlayScheduled(0);
@@ -97,9 +92,12 @@ public class SongManager : MonoBehaviour
 
     void Update()
     {
+        // Check if the song has ended
+        // If the condition is true, it'll change current scene state 'Instruction' to 'Countdown/Gameplay'
         if (GetAudioSourceTime() == 0
             && songPlayed
-            && (AudioSettings.dspTime - dspTimeSong) > songDelayInSeconds)
+            && (AudioSettings.dspTime - dspTimeSong) > songDelayInSeconds
+            && SceneStateManager.Instance.GetSceneState() != SceneStateManager.SceneState.Pause)
         {
             songPlayed = false;
             ResetScene();

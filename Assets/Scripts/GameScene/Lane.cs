@@ -69,7 +69,8 @@ public class Lane : MonoBehaviour
                 double marginOfError = SongManager.Instance.marginOfError;
                 double audioTime = SongManager.GetAudioSourceTime() - (SongManager.Instance.inputDelayInMilliseconds / 1000.0);
 
-                if (SongManager.Instance.detectedPitch.midiNote == midiNotes[inputIndex])
+                if (SongManager.Instance.detectedPitch.midiNote == midiNotes[inputIndex] ||
+                    SongManager.Instance.detectedPitch.midiNote % 12 == midiNotes[inputIndex] % 12)
                 {
                     if (Math.Abs(audioTime - timeStamp) < marginOfError)
                     {

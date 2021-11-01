@@ -9,13 +9,13 @@ public class ParticleController : MonoBehaviour
     [SerializeField]
     private ParticleSystem particles;
 
-    // Start is called before the first frame update
     void Start()
     {
         Instance = this;
         particles = GetComponent<ParticleSystem>();
     }
 
+    // Emit assigned particle
     public void EmitParticle(int count)
     {
         if (particles != null)

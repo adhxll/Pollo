@@ -9,6 +9,9 @@ public class SceneStateManager : MonoBehaviour
 {
     public static SceneStateManager Instance;
 
+    [SerializeField]
+    private AudioSource[] audioSources = null;
+
     [SerializeReference]
     private GameObject[] instructionObjects = null;
 
@@ -61,6 +64,8 @@ public class SceneStateManager : MonoBehaviour
 
     void CheckSceneState()
     {
+        // Loop through the animated object list, and inactive them
+        // Later, the inactived objects will show up based on the current scene state
         var array = instructionObjects.Concat(countdownObjects).Concat(gameplayObjects).ToArray();
         SetInactives(array);
 
@@ -72,9 +77,6 @@ public class SceneStateManager : MonoBehaviour
             case SceneState.Countdown:
                 StartCoroutine(CountdownStart());
                 break;
-            case SceneState.Gameplay:
-                overlay.SetActive(true);
-                break;
         }
     }
 
@@ -83,6 +85,28 @@ public class SceneStateManager : MonoBehaviour
         foreach (var obj in objects)
         {
             obj.SetActive(false);
+        }
+    }
+
+    public void PauseGame()
+    {
+        sceneState = SceneState.Pause;
+        overlay.SetActive(true);
+
+        foreach (var audio in audioSources)
+        {
+            audio.Pause();
+        }
+    }
+
+    public void ResumeGame()
+    {
+        sceneState = SceneState.Countdown;
+        overlay.SetActive(false);
+
+        foreach (var audio in audioSources)
+        {
+            audio.Play();
         }
     }
 
@@ -170,7 +194,7 @@ public class SceneStateManager : MonoBehaviour
     {
         Instruction,
         Countdown,
-        Gameplay
+        Pause,
     }
 }
 
