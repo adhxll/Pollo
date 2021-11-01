@@ -6,8 +6,6 @@ using UnityEngine.Events;
 
 public class SceneManagerScript : MonoBehaviour
 {
-    public static SceneManagerScript Instance;
-
     private string sceneIdentifier; 
    
     public void SceneInvoke(string sceneName) // invoke scene without delay
@@ -24,22 +22,7 @@ public class SceneManagerScript : MonoBehaviour
     public void GoToScene() {
         SceneManager.LoadScene(sceneIdentifier); 
     }
-    private void Awake()
-    {
-        StartSingleton();
-    }
-    private void StartSingleton()
-    {
-        if (Instance != null)
-        {
-            Destroy(gameObject);
-        }
-        else
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-    }
+
  
   
 }
