@@ -33,22 +33,25 @@ public class SceneStateManager : MonoBehaviour
 
     float delay = 1;
 
-    private void Awake()
-    {
-        titleButton = countdownObjects[1];
-        countButton = countdownObjects[0];
-        title = countdownObjects[1].GetComponentInChildren<TMPro.TextMeshProUGUI>();
-        countdown = countdownObjects[0].GetComponentInChildren<TMPro.TextMeshProUGUI>();
-    }
-
     void Start()
     {
         Instance = this;
+        Initialize();
         CheckSceneState();
     }
 
     void Update()
     {
+    }
+
+    void Initialize()
+    {
+        // Initialize title & countdown object
+        // Title is static, countdown is dynamic
+        titleButton = countdownObjects[1];
+        countButton = countdownObjects[0];
+        title = countdownObjects[1].GetComponentInChildren<TMPro.TextMeshProUGUI>();
+        countdown = countdownObjects[0].GetComponentInChildren<TMPro.TextMeshProUGUI>();
     }
 
     public SceneState GetSceneState()
@@ -80,6 +83,8 @@ public class SceneStateManager : MonoBehaviour
         }
     }
 
+    // Set all objects to inactive.
+    // This is needed, to reset all objects on the scene before transition to the next scene state begin.
     void SetInactives(GameObject[] objects)
     {
         foreach (var obj in objects)
@@ -88,6 +93,9 @@ public class SceneStateManager : MonoBehaviour
         }
     }
 
+    // At the moment, we use dspTime to control spawned notes and notes position.
+    // Hence, all we need to do to pause/resume the game is just pausing/resuming the song.
+    // Since we use audio playback reference to spawn our game object.
     public void PauseGame()
     {
         sceneState = SceneState.Pause;
@@ -116,6 +124,8 @@ public class SceneStateManager : MonoBehaviour
     }
 
     // Countdown to Gameplay transition
+    // The code is pretty self explanatory since it's a hardcoded & sequential one
+    // Basically telling the sequence of animation that need to be played in transition
     IEnumerator CountdownStart()
     {
         StartCoroutine(AnimateObjects(countdownObjects, 0.1f, AnimationType.MoveY));
@@ -146,6 +156,7 @@ public class SceneStateManager : MonoBehaviour
         SongManager.Instance.StartSong();
     }
 
+    // Animate group of objects based on the given parameter (duration & animationType)
     IEnumerator AnimateObjects(GameObject[] objects, float duration, AnimationType type)
     {
         foreach(var obj in objects)
