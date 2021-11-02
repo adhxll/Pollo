@@ -39,7 +39,14 @@ public class SongManager : MonoBehaviour
     double dspTimeSong;
     public bool songPlayed = false;
 
-    static float midiBPM = 0.6f;
+    static float midiBPM
+    {
+        get
+        {
+            return (float)60 / (float)midiFile.header.tempos[0].bpm;
+            //return 0.6f;
+        }
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -54,6 +61,9 @@ public class SongManager : MonoBehaviour
     {
         var notes = midiFile.tracks[0].notes;
         var array = new MIDI.Notes[notes.Length];
+
+        Debug.Log(midiFile.header.tempos[0].bpm);
+
         notes.CopyTo(array, 0);
 
         lanes.SetTimeStamps(array);
