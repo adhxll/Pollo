@@ -140,4 +140,11 @@ public class Lane : MonoBehaviour
         correctNotes = 0;
         notes.Clear();
     }
+
+    // temporary function to pass the session's data
+    public void OnDestroy()
+    {
+        PlayerPrefs.SetInt("SessionTotalNotes", inputIndex);
+        PlayerPrefs.SetInt("SessionCorrectNotes", correctNotes);
+    }
 }

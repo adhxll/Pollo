@@ -3,21 +3,24 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System;
 
 public class ScoreDisplayScript : MonoBehaviour
 {
     public int score;
-    public TMP_Text scoreObject;
-    public TMP_Text scoreMessage;
-    public TMP_Text scoreMessageShadow;
-    public GameObject[] stars;
+    private int totalNotes;
+    private int totalCorrect;
+    public TMP_Text scoreObject; // the Score game object on ResultPage scen
+    public TMP_Text scoreMessage; // scoreMessage is the success message
+    public TMP_Text scoreMessageShadow; // the shadow of scoreMessage, to be removed
+    public GameObject[] stars; // the yellow stars inside the Tag GameObject
     public int star = 0;
     private string[] successMessages = { "Bohoo, sucks to be u", "You passed!(barely)", "Good!", "Awesome!!" };
 
 
     private void Awake()
     {
-        setScore();
+        getSessionScores();
     }
     // Start is called before the first frame update
     void Start()
@@ -34,11 +37,13 @@ public class ScoreDisplayScript : MonoBehaviour
         
     }
 
-    void setScore()
+    void getSessionScores()
     {
         // The score would be taken from a playerpref called 'SessionScore' that was recorded from the GameScene
         // If an error occured and the playerpref does not exist, it will return 0
-        score = PlayerPrefs.GetInt("SessionScore", 90);
+        score = PlayerPrefs.GetInt("SessionScore", 0);
+        totalNotes = PlayerPrefs.GetInt("SessionTotalNotes", 1);
+        totalCorrect = PlayerPrefs.GetInt("SessionCorrectNotes", 0);
     }
 
     void SetScoreText()
@@ -65,10 +70,15 @@ public class ScoreDisplayScript : MonoBehaviour
 
     void CalculateStar()
     {
+        double halfThreshold = totalNotes / 2;
+        halfThreshold = Math.Round(halfThreshold);
 
-        if (score > 80) star = 3;
-        else if (score > 50) star = 2;
-        else if (score > 20) star = 1;
+        double thirdThreshold = totalNotes / 3;
+        thirdThreshold = Math.Round(thirdThreshold);
+
+        if (totalCorrect == totalNotes) star = 3;
+        else if (score >= totalCorrect*100 || totalCorrect >= halfThreshold) star = 2;
+        else if (totalCorrect >= thirdThreshold) star = 1;
         else star = 0;
 
     }
