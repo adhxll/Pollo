@@ -2,18 +2,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Events; 
 
 public class SceneManagerScript : MonoBehaviour
 {
-    // Update is called once per frame
-    public static void GoToGameScene()
+    private string sceneIdentifier; 
+   
+    public void SceneInvoke(string sceneName) // invoke scene without delay
     {
-        Debug.Log("Successfully clicked");
-        SceneManager.LoadScene("GameScene");
+        sceneIdentifier = sceneName;
+        Invoke(nameof(GoToScene), 0f);
+    }
 
-    }
-    public static void GoToHomePage()
+    public void DelayedSceneInvoke(string sceneName)//invoke scene with delay
     {
-        SceneManager.LoadScene("Homepage");
+        sceneIdentifier = sceneName;
+        Invoke(nameof(GoToScene), 0.1f);
     }
+    public void GoToScene() {
+        SceneManager.LoadScene(sceneIdentifier); 
+    }
+
+ 
+  
 }
