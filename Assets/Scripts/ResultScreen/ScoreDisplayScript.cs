@@ -70,13 +70,17 @@ public class ScoreDisplayScript : MonoBehaviour
 
     void CalculateStar()
     {
+        // for pitch detection tolerance
+        double firstThreshold = totalNotes * 0.85;
+        firstThreshold = Math.Round(firstThreshold);
+
         double halfThreshold = totalNotes / 2;
         halfThreshold = Math.Round(halfThreshold);
 
         double thirdThreshold = totalNotes / 3;
         thirdThreshold = Math.Round(thirdThreshold);
 
-        if (totalCorrect == totalNotes) star = 3;
+        if (totalCorrect >= firstThreshold) star = 3;
         else if (score >= totalCorrect*100 || totalCorrect >= halfThreshold) star = 2;
         else if (totalCorrect >= thirdThreshold) star = 1;
         else star = 0;
