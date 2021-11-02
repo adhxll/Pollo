@@ -18,9 +18,9 @@ public class Lane : MonoBehaviour
     private GameObject barPrefab = null;
 
     List<Note> notes = new List<Note>();
-    public List<double> timeStamps = new List<double>(); // A list that store each notes timestamp (telling the exact time when its need to be spawned)
-    public List<float> noteDurations = new List<float>(); // A list that store each notes ticks duration
-    public List<int> midiNotes = new List<int>(); // A list that store what MIDI notes need to be played at the given note
+    public List<double> timeStamps = new List<double>();    // A list that store each notes timestamp (telling the exact time when its need to be spawned)
+    public List<float> noteDurations = new List<float>();   // A list that store each notes ticks duration
+    public List<int> midiNotes = new List<int>();   // A list that store what MIDI notes need to be played at the given note
 
     int spawnIndex = 0;
     int inputIndex = 0;

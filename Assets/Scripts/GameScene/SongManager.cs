@@ -13,7 +13,7 @@ public class SongManager : MonoBehaviour
     
     public Lane lanes;
     public float songDelayInSeconds;
-    public double marginOfError; // In seconds
+    public double marginOfError;    // In seconds
     public int inputDelayInMilliseconds;
 
     [SerializeField]
@@ -21,9 +21,9 @@ public class SongManager : MonoBehaviour
 
     public static MIDI.MidiFile midiFile;
 
-    public float noteTime; // Time needed for the note spawn location to the tap location
-    public float noteSpawnX; // Note spawn position in world space
-    public float noteTapX; // Note tap position in world space
+    public float noteTime;  // Time needed for the note spawn location to the tap location
+    public float noteSpawnX;    // Note spawn position in world space
+    public float noteTapX;  // Note tap position in world space
 
     public float noteDespawnX
     {
@@ -74,6 +74,7 @@ public class SongManager : MonoBehaviour
                 detectedPitch.GetComponent<FFTSystem>().StartRecording(); // Play through microphone if the current scene state is 'Countdown/Gameplay'
                 break;
         }
+        PolloController.Instance.SetActive(true);
         audioSource.PlayScheduled(0);
     }
 

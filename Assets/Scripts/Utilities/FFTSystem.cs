@@ -61,7 +61,7 @@ public class FFTSystem : MonoBehaviour
         // Yeah, in short, those audio file may consist any frequency between 0 - 44100hz in theory.
         // In this code, I use Unity audio default audio setting (line 34) to read the default frequency.
         // So, each block of those array will consist any 44100/2048 or 21,5hz of frequency range per block.
-        // To visualize sample[0] = 0 - 21,5hz, sample[1] = 21,6 - 43hz, etc.
+        // To visualize, sample[0] = 0 - 21,5hz, sample[1] = 21,6 - 43hz, etc.
         // Since all we got is frequency range, not the exact frequency, this function below will determine what is the exact frequency by it's neighbors (n+1 & n-1) amplitude value.
 
         float freqN = maxN;
@@ -77,8 +77,10 @@ public class FFTSystem : MonoBehaviour
         var midiCents = 0;
 
         pitchValue = pitch;
-        Pitch.PitchDsp.PitchToMidiNote(pitch, out midiNote, out midiCents);
 
+        // Converting frequency to MIDI notes, this methods is another black magic and I'm not sure how it works.
+        // All I know is this one does it job really well.
+        Pitch.PitchDsp.PitchToMidiNote(pitch, out midiNote, out midiCents);
         pitchDetector.pitch = pitch;
         pitchDetector.midiNote = midiNote;
 

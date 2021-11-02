@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Audio;
 using DG.Tweening;
 
 public class SceneStateManager : MonoBehaviour
@@ -24,6 +25,10 @@ public class SceneStateManager : MonoBehaviour
     [SerializeReference]
     private GameObject overlay = null;
 
+    [SerializeReference]
+    private AudioMixer audioMixer = null;
+
+    private GameObject comboIndicator;
     private GameObject titleButton;
     private GameObject countButton;
     private TMPro.TextMeshProUGUI title;
@@ -46,6 +51,9 @@ public class SceneStateManager : MonoBehaviour
 
     void Initialize()
     {
+        // Get component named Combo, we need it to hide/show the object based on the screen state
+        comboIndicator = gameplayObjects[0].transform.Find("Combo").gameObject;
+
         // Initialize title & countdown object
         // Title is static, countdown is dynamic
         titleButton = countdownObjects[1];
@@ -111,21 +119,26 @@ public class SceneStateManager : MonoBehaviour
     {
         sceneState = SceneState.Countdown;
         overlay.SetActive(false);
+        var pauseDelay = 3;
+        StartCoroutine(FadeMixerGroup.StartFade(audioMixer, "backsoundVolume", pauseDelay, FadeMixerGroup.Fade.In));
 
         foreach (var audio in audioSources)
         {
-            audio.Play();
+            var currentTime = audio.time;
+            audio.time = currentTime - pauseDelay;
+            audio.PlayScheduled(0);
         }
     }
 
     void InstructionStart()
     {
+        comboIndicator.SetActive(false);
         StartCoroutine(AnimateObjects(instructionObjects, 0.1f, AnimationType.MoveY));
     }
 
-    // Countdown to Gameplay transition
-    // The code is pretty self explanatory since it's a hardcoded & sequential one
-    // Basically telling the sequence of animation that need to be played in transition
+    // Countdown to Gameplay transition.
+    // The code is pretty self explanatory since it's a hardcoded & sequential one.
+    // Basically telling the sequence of animation that need to be played in transition.
     IEnumerator CountdownStart()
     {
         StartCoroutine(AnimateObjects(countdownObjects, 0.1f, AnimationType.MoveY));
@@ -148,6 +161,7 @@ public class SceneStateManager : MonoBehaviour
         yield return new WaitForSeconds(delay);
 
         StartCoroutine(AnimateObjects(gameplayObjects, 0.1f, AnimationType.MoveY));
+        comboIndicator.SetActive(true);
         countButton.SetActive(false);
         countdown.SetText("3");
 

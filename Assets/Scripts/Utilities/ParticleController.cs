@@ -7,18 +7,33 @@ public class ParticleController : MonoBehaviour
     public static ParticleController Instance;
 
     [SerializeField]
-    private ParticleSystem particles;
+    private ParticleSystem particleHit = null;
+
+    [SerializeField]
+    private ParticleSystem particleMiss = null;
 
     void Start()
     {
         Instance = this;
-        particles = GetComponent<ParticleSystem>();
     }
 
     // Emit assigned particle
-    public void EmitParticle(int count)
+    public void EmitParticle(int count, Indicator indicator)
     {
-        if (particles != null)
-            particles.Emit(count);
+        switch (indicator)
+        {
+            case Indicator.Hit:
+                particleHit.Emit(count);
+                break;
+            case Indicator.Miss:
+                particleMiss.Emit(count);
+                break;
+        }
+    }
+
+    public enum Indicator
+    {
+        Hit,
+        Miss,
     }
 }
