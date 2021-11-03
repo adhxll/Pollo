@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using System;
 
 public class ScoreManager : MonoBehaviour
 {
@@ -60,5 +61,10 @@ public class ScoreManager : MonoBehaviour
     {
         scoreText.text = totalScore.ToString();
         comboText.text = comboScore.ToString();
+    }
+
+    private void OnDestroy()
+    {
+        PlayerPrefs.SetInt("SessionScore", totalScore);
     }
 }

@@ -2054,6 +2054,7 @@ GameObject:
   - component: {fileID: 1336849978}
   - component: {fileID: 1336849980}
   - component: {fileID: 1336849977}
+  - component: {fileID: 1336849976}
   m_Layer: 0
   m_Name: _ScriptManager
   m_TagString: Untagged
@@ -2103,6 +2104,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1336849976
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1336849973}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e3aced369a8e494b8b20166c7b8bfa4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!82 &1336849977
 AudioSource:
   m_ObjectHideFlags: 0
@@ -3348,7 +3361,7 @@ ParticleSystemRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 400360173
-  m_SortingLayer: -1
+  m_SortingLayer: 0
   m_SortingOrder: 3
   m_RenderMode: 0
   m_SortMode: 0
