@@ -10,9 +10,10 @@ public class ScoreDisplayScript : MonoBehaviour
     public int score;
     private int totalNotes;
     private int totalCorrect;
+    public ShadowTextController scoreMessageObject;
     public TMP_Text scoreObject; // the Score game object on ResultPage scen
-    public TMP_Text scoreMessage; // scoreMessage is the success message
-    public TMP_Text scoreMessageShadow; // the shadow of scoreMessage, to be removed
+    //public TextMeshPro scoreMessage; // scoreMessage is the success message
+    //public TextMeshPro scoreMessageShadow; // the shadow of scoreMessage, to be removed
     public GameObject[] stars; // the yellow stars inside the Tag GameObject
     public int star = 0;
     private string[] successMessages = { "Bohoo, sucks to be u", "You passed!(barely)", "Good!", "Awesome!!" };
@@ -21,14 +22,15 @@ public class ScoreDisplayScript : MonoBehaviour
     private void Awake()
     {
         getSessionScores();
-    }
-    // Start is called before the first frame update
-    void Start()
-    {
         SetScoreText();
         CalculateStar();
         SetStarIndicator();
         SetSuccessMessage();
+    }
+    // Start is called before the first frame update
+    void Start()
+    {
+        
     }
 
     // Update is called once per frame
@@ -64,8 +66,9 @@ public class ScoreDisplayScript : MonoBehaviour
     void SetSuccessMessage()
     {
         // again, need animation
-        scoreMessage.text = successMessages[star];
-        scoreMessageShadow.text = successMessages[star];
+        //scoreMessage.text = successMessages[star];
+        //scoreMessageShadow.text = successMessages[star];
+        scoreMessageObject.text = successMessages[star];
     }
 
     void CalculateStar()
