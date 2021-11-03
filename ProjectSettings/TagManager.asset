@@ -3,7 +3,12 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - PlayButton
+  - AchievementButton
+  - CharacterButton
+  - SoundMuteButton
+  - SettingsButton
   layers:
   - Default
   - TransparentFX
@@ -39,14 +44,14 @@ TagManager:
   - 
   m_SortingLayers:
   - name: Background
-    uniqueID: 2899563037
+    uniqueID: 1310502513
     locked: 0
   - name: Foreground
-    uniqueID: 400360173
+    uniqueID: 2368083933
     locked: 0
   - name: Default
     uniqueID: 0
     locked: 0
   - name: UI
-    uniqueID: 1266855343
+    uniqueID: 2317519923
     locked: 0
