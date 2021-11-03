@@ -31,8 +31,11 @@ public class BarTimeline : MonoBehaviour
     {
         var component = barIndicator.GetComponent<SpriteRenderer>();
         var relativePost = SongManager.Instance.GetCurrentAudioProgress();
+        var progressWidth = width * 2 * relativePost;
         height = component.size.y;
-        component.size = new Vector2((width * 2) * relativePost, height);
+        if (progressWidth < 0.6f)
+            progressWidth = 0.6f;
+        component.size = new Vector2(progressWidth, height);
     }
 
     void Initialize()
