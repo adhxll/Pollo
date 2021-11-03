@@ -101,6 +101,7 @@ public class SongManager : MonoBehaviour
 
     void Update()
     {
+        var sceneManager = GetComponent<SceneManagerScript>();
         // Check if the song has ended
         // If the condition is true, it'll change current scene state 'Instruction' to 'Countdown/Gameplay'
         if (GetAudioSourceTime() == 0
@@ -117,6 +118,7 @@ public class SongManager : MonoBehaviour
                     break;
                 case SceneStateManager.SceneState.Countdown:
                     Debug.Log("Stage Finished");
+                    sceneManager.SceneInvoke("ResultPage");
                     break;
             }
         }
