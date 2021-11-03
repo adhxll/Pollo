@@ -38,7 +38,7 @@ public class FFTSystem : MonoBehaviour
     void AnalyzeSound()
     {
         // Analyze & storing audio spectrum (a chart showing a handful of frequency list and it's amplitude value) of the given audio source in an array
-        audioSource.GetSpectrumData(spectrum, 0, FFTWindow.Hanning);
+        audioSource.GetSpectrumData(spectrum, 0, FFTWindow.Hamming);
 
         // Finding which frequency range is the most dominant (highest amplitude) based on the analyzed/stored spectrum
         float maxV = 0;

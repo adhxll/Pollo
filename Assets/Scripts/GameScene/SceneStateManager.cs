@@ -34,7 +34,8 @@ public class SceneStateManager : MonoBehaviour
     private TMPro.TextMeshProUGUI title;
     private TMPro.TextMeshProUGUI countdown;
 
-    SceneState sceneState = SceneState.Instruction;
+    //SceneState sceneState = SceneState.Instruction;
+    SceneState sceneState = SceneState.Countdown;
 
     float delay = 1;
 

@@ -7,19 +7,24 @@ using System;
 
 public class SongManager : MonoBehaviour
 {
-
-    public PitchDetector detectedPitch;
     public static SongManager Instance;
-    
-    public Lane lanes;
-    public float songDelayInSeconds;
-    public double marginOfError;    // In seconds
-    public int inputDelayInMilliseconds;
+    public PitchDetector detectedPitch;
 
     [SerializeField]
     TextAsset midiJSON = null;
 
+    [SerializeField]
+    private Lane lanes = null;
+
+    [SerializeField]
+    private BarTimeline barTimeline = null;
+
+    private AudioSource audioSource;
     public static MIDI.MidiFile midiFile;
+
+    public float songDelayInSeconds;
+    public double marginOfError;    // In seconds
+    public int inputDelayInMilliseconds;
 
     public float noteTime;  // Time needed for the note spawn location to the tap location
     public float noteSpawnX;    // Note spawn position in world space
@@ -33,20 +38,17 @@ public class SongManager : MonoBehaviour
         }
     }
 
-    AudioSource audioSource;
-
-    // Position Tracking
-    double dspTimeSong;
-    public bool songPlayed = false;
-
     static float midiBPM
     {
         get
         {
             return (float)60 / (float)midiFile.header.tempos[0].bpm;
-            //return 0.6f;
         }
     }
+
+    // Position Tracking
+    double dspTimeSong;
+    public bool songPlayed = false;
 
     // Start is called before the first frame update
     void Start()
@@ -59,16 +61,25 @@ public class SongManager : MonoBehaviour
 
     void GetDataFromMidi()
     {
-        var notes = midiFile.tracks[0].notes;
-        var array = new MIDI.Notes[notes.Length];
+        var tracks = midiFile.tracks;
+        int i = 0;
+        foreach(var track in tracks)
+        {
+            var notes = track.notes;
+            var array = new MIDI.Notes[notes.Length];
+            notes.CopyTo(array, 0);
 
-        Debug.Log(midiFile.header.tempos[0].bpm);
+            if (i == 0)
+                lanes.SetTimeStamps(array);
 
-        notes.CopyTo(array, 0);
+            if (i == 1)
+                barTimeline.SetTimeStamps(array);
 
-        lanes.SetTimeStamps(array);
+            i++;
+        }
+        barTimeline.PlaceTimestamp();
 
-        Invoke(nameof(StartSong), songDelayInSeconds);
+        //Invoke(nameof(StartSong), songDelayInSeconds);
     }
 
     public void StartSong()
@@ -88,6 +99,29 @@ public class SongManager : MonoBehaviour
         audioSource.PlayScheduled(0);
     }
 
+    void Update()
+    {
+        // Check if the song has ended
+        // If the condition is true, it'll change current scene state 'Instruction' to 'Countdown/Gameplay'
+        if (GetAudioSourceTime() == 0
+            && songPlayed
+            && (AudioSettings.dspTime - dspTimeSong) > songDelayInSeconds
+            && SceneStateManager.Instance.GetSceneState() != SceneStateManager.SceneState.Pause)
+        {
+            switch (SceneStateManager.Instance.GetSceneState())
+            {
+                case SceneStateManager.SceneState.Instruction:
+                    songPlayed = false;
+                    ResetScene();
+                    SceneStateManager.Instance.ChangeSceneState(SceneStateManager.SceneState.Countdown);
+                    break;
+                case SceneStateManager.SceneState.Countdown:
+                    Debug.Log("Stage Finished");
+                    break;
+            }
+        }
+    }
+
     // Get current playback position in metric times
     public static double GetAudioSourceTime()
     {
@@ -101,19 +135,14 @@ public class SongManager : MonoBehaviour
         return (float)GetAudioSourceTime() / midiBPM;
     }
 
-    void Update()
+    public float GetCurrentAudioProgress()
     {
-        // Check if the song has ended
-        // If the condition is true, it'll change current scene state 'Instruction' to 'Countdown/Gameplay'
-        if (GetAudioSourceTime() == 0
-            && songPlayed
-            && (AudioSettings.dspTime - dspTimeSong) > songDelayInSeconds
-            && SceneStateManager.Instance.GetSceneState() != SceneStateManager.SceneState.Pause)
-        {
-            songPlayed = false;
-            ResetScene();
-            SceneStateManager.Instance.ChangeSceneState(SceneStateManager.SceneState.Countdown);
-        }
+        return (float)(GetAudioSourceTime() / audioSource.clip.length);
+    }
+
+    public float GetAudioSourceLength()
+    {
+        return audioSource.clip.length;
     }
 
     // Reset all instance to its default state
