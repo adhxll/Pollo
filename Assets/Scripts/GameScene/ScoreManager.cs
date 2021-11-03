@@ -27,8 +27,7 @@ public class ScoreManager : MonoBehaviour
     public static void Hit()
     {
         comboScore += 1;
-        int calculatedCombo = (int)Math.Pow(comboScore, 2); // getting the comboscore squared, it returns double so I typecasted it to int
-        totalScore += (98 + calculatedCombo); //So that the default score is 100
+        totalScore += (98 + comboScore * 2); //So that the default score is 100
 
         ParticleController.Instance.EmitParticle(1);
         AnimationManager.Instace.AnimateHit(Instace.scoreText.gameObject, 0.25f);
