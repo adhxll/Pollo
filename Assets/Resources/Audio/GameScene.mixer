@@ -29,7 +29,9 @@ AudioMixerController:
   m_SuspendThreshold: -80
   m_EnableSuspend: 1
   m_UpdateMode: 0
-  m_ExposedParameters: []
+  m_ExposedParameters:
+  - guid: baa39d2a2e1ac43339c67a4191d842d4
+    name: backsoundVolume
   m_AudioMixerGroupViews:
   - guids:
     - c5746ed08a18b4f8b95ee87ed047643b
