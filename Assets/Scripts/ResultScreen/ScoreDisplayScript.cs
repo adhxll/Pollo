@@ -81,7 +81,7 @@ public class ScoreDisplayScript : MonoBehaviour
         thirdThreshold = Math.Round(thirdThreshold);
 
         if (totalCorrect >= firstThreshold) star = 3;
-        else if (score >= totalCorrect*100 || totalCorrect >= halfThreshold) star = 2;
+        else if (score > totalCorrect*100 && totalCorrect >= halfThreshold) star = 2;
         else if (totalCorrect >= thirdThreshold) star = 1;
         else star = 0;
 
