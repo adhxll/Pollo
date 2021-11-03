@@ -15,7 +15,7 @@ public class MIDI
     {
         public string name;
         public int ppq; // pulse per quarter
-        public Tempos[] tempo;
+        public Tempos[] tempos;
     }
 
     [System.Serializable]
