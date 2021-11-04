@@ -2508,8 +2508,8 @@ MonoBehaviour:
   lanes: {fileID: 1631138547}
   barTimeline: {fileID: 761331726}
   songDelayInSeconds: 3
-  marginOfError: 0.2
-  inputDelayInMilliseconds: 300
+  marginOfError: 0.3
+  inputDelayInMilliseconds: 250
   noteTime: 3
   noteSpawnX: 16
   noteTapX: 0
