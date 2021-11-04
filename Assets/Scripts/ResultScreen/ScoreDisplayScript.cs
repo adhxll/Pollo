@@ -16,7 +16,7 @@ public class ScoreDisplayScript : MonoBehaviour
     //public TextMeshPro scoreMessageShadow; // the shadow of scoreMessage, to be removed
     public GameObject[] stars; // the yellow stars inside the Tag GameObject
     public int star = 0;
-    private string[] successMessages = { "Bohoo, sucks to be u", "You passed!(barely)", "Good!", "Awesome!!" };
+    private string[] successMessages = { "Bru..", "You passed!(barely)", "Good!", "Awesome!!" };
 
 
     private void Awake()
