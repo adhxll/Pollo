@@ -27,6 +27,9 @@ public class Lane : MonoBehaviour
     int barIndex = 0;
     int correctNotes = 0;
 
+    //Variable to count in exact midi note to prevent Hit() function called accidentally
+    int averageCount = 0;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -71,12 +74,19 @@ public class Lane : MonoBehaviour
                 double audioTime = SongManager.GetAudioSourceTime() - (SongManager.Instance.inputDelayInMilliseconds / 1000.0);
 
                 if ((SongManager.Instance.detectedPitch.midiNote == midiNotes[inputIndex] ||
-                    SongManager.Instance.detectedPitch.midiNote % 12 == midiNotes[inputIndex] % 12) &&
-                    SongManager.Instance.detectedPitch.midiNote != 0)
+                   SongManager.Instance.detectedPitch.midiNote + 12 == midiNotes[inputIndex] ||
+                   SongManager.Instance.detectedPitch.midiNote - 12 == midiNotes[inputIndex]))
                 {
                     if (Math.Abs(audioTime - timeStamp) < marginOfError)
                     {
-                        Hit();
+                        //Algo to count if the note really is played & not accidentally detected
+                        averageCount++;
+                        if(averageCount >= 5){
+                            Hit();
+                            //Reset count after Hit
+                            averageCount = 0;
+                        }
+                        
                     }
                     else
                     {
@@ -87,8 +97,15 @@ public class Lane : MonoBehaviour
                 if (timeStamp + marginOfError <= audioTime)
                 {
                     Miss();
+                    //Reset count after miss
+                    averageCount = 0;
                 }
+                if(averageCount>0){
+                    Debug.Log($"Average Count : {averageCount}");
+                }
+                
             }
+            
 
             //accuracyScore.text = $"{correctNotes} / {inputIndex}";
             //accuracyPercentage.text = ((float)correctNotes / inputIndex * 100).ToString("0.00") + " %";

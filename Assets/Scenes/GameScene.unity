@@ -1835,6 +1835,7 @@ GameObject:
   - component: {fileID: 939586806}
   - component: {fileID: 939586805}
   - component: {fileID: 939586808}
+  - component: {fileID: 939586809}
   m_Layer: 0
   m_Name: _PitchDetector
   m_TagString: Untagged
@@ -1979,6 +1980,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 175e8321b819a43a1ad33e4d9619daf4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &939586809
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 939586804}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 918467e97dce14c5d9e0322e5eda7cfd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  frequencyMin: 40
+  frequencyMax: 1200
+  harmonicsToUse: 5
+  smoothingWidth: 450
+  thresholdSRH: 8
 --- !u!1001 &958363645
 PrefabInstance:
   m_ObjectHideFlags: 0
