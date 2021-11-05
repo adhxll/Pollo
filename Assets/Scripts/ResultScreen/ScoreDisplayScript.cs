@@ -10,7 +10,7 @@ public class ScoreDisplayScript : MonoBehaviour
     public int score;
     private int totalNotes;
     private int totalCorrect;
-    public ShadowTextController scoreMessageObject;
+    public TMP_Text scoreMessageObject;
     public TMP_Text scoreObject; // the Score game object on ResultPage scen
     //public TextMeshPro scoreMessage; // scoreMessage is the success message
     //public TextMeshPro scoreMessageShadow; // the shadow of scoreMessage, to be removed
@@ -66,8 +66,6 @@ public class ScoreDisplayScript : MonoBehaviour
     void SetSuccessMessage()
     {
         // again, need animation
-        //scoreMessage.text = successMessages[star];
-        //scoreMessageShadow.text = successMessages[star];
         scoreMessageObject.text = successMessages[star];
     }
 
