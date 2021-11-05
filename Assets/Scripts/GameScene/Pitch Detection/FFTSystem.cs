@@ -15,6 +15,7 @@ public class FFTSystem : MonoBehaviour
     AudioSource audioSource;
     private string microphone = null;
     private int tempMidi = 0;
+    private int averageCount = 0;
 
     void Start()
     {
@@ -38,10 +39,10 @@ public class FFTSystem : MonoBehaviour
     void AnalyzeSound()
     {
         // Analyze & storing audio spectrum (a chart showing a handful of frequency list and it's amplitude value) of the given audio source in an array
-        audioSource.GetSpectrumData(spectrum, 0, FFTWindow.Hamming);
+        //audioSource.GetSpectrumData(spectrum, 0, FFTWindow.Hamming);
 
         // Finding which frequency range is the most dominant (highest amplitude) based on the analyzed/stored spectrum
-        float maxV = 0;
+        /*float maxV = 0;
         var maxN = 0;
         int i;
         for (i = 0; i < qSamples; i++)
@@ -71,8 +72,9 @@ public class FFTSystem : MonoBehaviour
             var dR = spectrum[maxN + 1] / spectrum[maxN];
             freqN += 0.5f * (dR * dR - dL * dL);
         }
-
-        var pitch = freqN * (fSample / 2) / qSamples; // Convert index to frequency
+        */
+        //var pitch = freqN * (fSample / 2) / qSamples; // Convert index to frequency
+        var pitch = GetComponent<AudioPitchEstimator>().Estimate(audioSource);
         var midiNote = 0;
         var midiCents = 0;
 
@@ -90,7 +92,7 @@ public class FFTSystem : MonoBehaviour
         if (midiNote != 0 && midiNote != tempMidi)
         {
             tempMidi = midiNote;
-            Debug.Log($"FFT Transcribed : {midiNote}, time : {SongManager.GetAudioSourceTime()}");
+            //Debug.Log($"FFT Transcribed : {midiNote}, time : {SongManager.GetAudioSourceTime()}");
         }
     }
 
