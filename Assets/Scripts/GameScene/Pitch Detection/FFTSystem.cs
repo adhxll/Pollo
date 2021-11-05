@@ -8,7 +8,7 @@ public class FFTSystem : MonoBehaviour
 
     private float pitchValue = 0;
     private int qSamples = 2048;    // Array size, it should be a power of 2
-    private float threshold = 0.05f;   // Minimum amplitude to extract pitch
+    private float threshold = 0.005f;   // Minimum amplitude to extract pitch
     private float[] spectrum;   // Audio spectrum
     private float fSample;
 
