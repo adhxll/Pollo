@@ -81,7 +81,7 @@ public class Lane : MonoBehaviour
                     {
                         //Algo to count if the note really is played & not accidentally detected
                         averageCount++;
-                        if(averageCount >= 5){
+                        if(averageCount >= 3){
                             Hit();
                             //Reset count after Hit
                             averageCount = 0;
@@ -99,11 +99,7 @@ public class Lane : MonoBehaviour
                     Miss();
                     //Reset count after miss
                     averageCount = 0;
-                }
-                if(averageCount>0){
-                    Debug.Log($"Average Count : {averageCount}");
-                }
-                
+                }                
             }
             
 

@@ -1994,9 +1994,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   frequencyMin: 40
   frequencyMax: 1200
-  harmonicsToUse: 5
-  smoothingWidth: 450
-  thresholdSRH: 8
+  harmonicsToUse: 6
+  smoothingWidth: 500
+  thresholdSRH: 7
 --- !u!1001 &958363645
 PrefabInstance:
   m_ObjectHideFlags: 0
