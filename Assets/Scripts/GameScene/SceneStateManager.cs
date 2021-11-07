@@ -13,19 +13,22 @@ public class SceneStateManager : MonoBehaviour
     [SerializeField]
     private AudioSource[] audioSources = null;
 
-    [SerializeReference]
+    [SerializeField]
     private GameObject[] instructionObjects = null;
 
-    [SerializeReference]
+    [SerializeField]
     private GameObject[] countdownObjects = null;
 
-    [SerializeReference]
+    [SerializeField]
     private GameObject[] gameplayObjects = null;
 
-    [SerializeReference]
+    [SerializeField]
+    private GameObject pauseButton = null;
+
+    [SerializeField]
     private GameObject overlay = null;
 
-    [SerializeReference]
+    [SerializeField]
     private AudioMixer audioMixer = null;
 
     private GameObject comboIndicator;
@@ -34,10 +37,10 @@ public class SceneStateManager : MonoBehaviour
     private TMPro.TextMeshProUGUI title;
     private TMPro.TextMeshProUGUI countdown;
 
-    //SceneState sceneState = SceneState.Instruction;
     SceneState sceneState = SceneState.Countdown;
 
     float delay = 1;
+    bool setPause = false;
 
     void Start()
     {
@@ -48,6 +51,7 @@ public class SceneStateManager : MonoBehaviour
 
     void Update()
     {
+        SetPause();
     }
 
     void Initialize()
@@ -100,6 +104,14 @@ public class SceneStateManager : MonoBehaviour
         {
             obj.SetActive(false);
         }
+    }
+
+    void SetPause()
+    {
+        if (Lane.Instance != null)
+            setPause = Lane.Instance.SetPause();
+
+        pauseButton.SetActive(setPause);
     }
 
     // At the moment, we use dspTime to control spawned notes and notes position.
@@ -197,6 +209,7 @@ public class SceneStateManager : MonoBehaviour
         }
     }
 
+    // TODO - Move this to animation utilities
     // DoTween Animation
     void PunchScale(GameObject obj)
     {

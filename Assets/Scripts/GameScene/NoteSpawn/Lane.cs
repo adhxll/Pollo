@@ -18,8 +18,14 @@ public class Lane : MonoBehaviour
     private GameObject barPrefab = null;
 
     List<Note> notes = new List<Note>();
+
+    [HideInInspector]
     public List<double> timeStamps = new List<double>();    // A list that store each notes timestamp (telling the exact time when its need to be spawned)
+
+    [HideInInspector]
     public List<float> noteDurations = new List<float>();   // A list that store each notes ticks duration
+
+    [HideInInspector]
     public List<int> midiNotes = new List<int>();   // A list that store what MIDI notes need to be played at the given note
 
     int spawnIndex = 0;
@@ -55,7 +61,6 @@ public class Lane : MonoBehaviour
         {
             if (SongManager.GetCurrentBeat() >= barIndex)
             {
-                //Debug.Log($"Current Time = {SongManager.GetAudioSourceTime()}, Current Beat = {SongManager.GetCurrentBeat()}, Current Index {barIndex}");
                 SpawnMusicBar();
             }
 
@@ -101,7 +106,6 @@ public class Lane : MonoBehaviour
                     averageCount = 0;
                 }                
             }
-            
 
             //accuracyScore.text = $"{correctNotes} / {inputIndex}";
             //accuracyPercentage.text = ((float)correctNotes / inputIndex * 100).ToString("0.00") + " %";
@@ -145,6 +149,18 @@ public class Lane : MonoBehaviour
         notes[inputIndex].GetComponent<SpriteRenderer>().sprite = note.noteWrong;
         AnimationManager.Instace.AnimateHit(note.gameObject, -0.1f);
         inputIndex++;
+    }
+
+    public bool SetPause()
+    {
+        if (!SongManager.Instance.songPlayed || inputIndex == timeStamps.Count)
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
     }
 
     // Reset Lane to the initial state
