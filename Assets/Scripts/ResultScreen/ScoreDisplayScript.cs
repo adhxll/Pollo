@@ -56,10 +56,11 @@ public class ScoreDisplayScript : MonoBehaviour
 
     void SetStarIndicator()
     {
+        
         // Need to add animation
-        if (star > 0) stars[0].SetActive(true);
-        if (star > 1) stars[1].SetActive(true);
-        if (star > 2) stars[2].SetActive(true);
+        if (star > 0) stars[0].GetComponent<Image>().enabled = true;
+        if (star > 1) stars[1].GetComponent<Image>().enabled = true;
+        if (star > 2) stars[2].GetComponent<Image>().enabled = true;
     }
 
     // Depends on the star, it will show a corresponding message
