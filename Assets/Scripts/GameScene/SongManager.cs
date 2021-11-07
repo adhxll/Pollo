@@ -76,6 +76,7 @@ public class SongManager : MonoBehaviour
                 barTimeline.SetTimeStamps(array);
 
             i++;
+            //Debug.Log(notes.Length);
         }
         barTimeline.PlaceTimestamp();
 

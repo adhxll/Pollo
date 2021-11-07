@@ -2370,7 +2370,9 @@ MonoBehaviour:
   - {fileID: 1641415554}
   - {fileID: 440858861}
   - {fileID: 993202834}
+  - {fileID: 1888668446}
   overlay: {fileID: 1509997636}
+  pauseButton: {fileID: 1888668446}
   audioMixer: {fileID: 24100000, guid: c187fd5a9a16942a58096a21ab995ebb, type: 2}
 --- !u!4 &1336849975
 Transform:
@@ -3387,7 +3389,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1888668447
 RectTransform:
   m_ObjectHideFlags: 0

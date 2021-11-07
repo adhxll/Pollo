@@ -26,7 +26,12 @@ public class SceneStateManager : MonoBehaviour
     private GameObject overlay = null;
 
     [SerializeReference]
+    private GameObject pauseButton = null;
+
+    [SerializeReference]
     private AudioMixer audioMixer = null;
+
+
 
     private GameObject comboIndicator;
     private GameObject titleButton;
@@ -110,6 +115,7 @@ public class SceneStateManager : MonoBehaviour
         sceneState = SceneState.Pause;
         overlay.SetActive(true);
 
+
         foreach (var audio in audioSources)
         {
             audio.Pause();
@@ -134,21 +140,24 @@ public class SceneStateManager : MonoBehaviour
     void InstructionStart()
     {
         comboIndicator.SetActive(false);
-        StartCoroutine(AnimateObjects(instructionObjects, 0.1f, AnimationType.MoveY));
+        StartCoroutine(AnimateObjects(instructionObjects, 0.1f, AnimationType.MoveY, 0f, 5f));
     }
+
+
+
 
     // Countdown to Gameplay transition.
     // The code is pretty self explanatory since it's a hardcoded & sequential one.
     // Basically telling the sequence of animation that need to be played in transition.
     IEnumerator CountdownStart()
     {
-        StartCoroutine(AnimateObjects(countdownObjects, 0.1f, AnimationType.MoveY));
+        StartCoroutine(AnimateObjects(countdownObjects, 0.1f, AnimationType.MoveY, 0f, 5f));
 
         int count = 3;
         while (count > 0)
         {
             yield return new WaitForSeconds(delay);
-            StartCoroutine(AnimateObjects(countdownObjects, 0.2f, AnimationType.PunchScale));
+            StartCoroutine(AnimateObjects(countdownObjects, 0.2f, AnimationType.PunchScale, 0f, 0f));
             countdown.SetText(count.ToString());
             count --;
         }
@@ -161,7 +170,7 @@ public class SceneStateManager : MonoBehaviour
 
         yield return new WaitForSeconds(delay);
 
-        StartCoroutine(AnimateObjects(gameplayObjects, 0.1f, AnimationType.MoveY));
+        StartCoroutine(AnimateObjects(gameplayObjects, 0.1f, AnimationType.MoveY, 0f, 5f));
         comboIndicator.SetActive(true);
         countButton.SetActive(false);
         countdown.SetText("3");
@@ -171,8 +180,15 @@ public class SceneStateManager : MonoBehaviour
         SongManager.Instance.StartSong();
     }
 
+    public IEnumerator EndOfSongAnimation()
+    {
+        yield return new WaitForSeconds(2);
+        StartCoroutine(AnimateObjects(gameplayObjects, 0.1f, AnimationType.MoveY, 5f, 0f));
+
+    }
+
     // Animate group of objects based on the given parameter (duration & animationType)
-    IEnumerator AnimateObjects(GameObject[] objects, float duration, AnimationType type)
+    IEnumerator AnimateObjects(GameObject[] objects, float duration, AnimationType type, float target, float from)
     {
         foreach(var obj in objects)
         {
@@ -187,7 +203,7 @@ public class SceneStateManager : MonoBehaviour
 
             switch (type) {
                 case AnimationType.MoveY:
-                    MoveY(obj);
+                    MoveY(obj, target, from);
                     break;
                 case AnimationType.PunchScale:
                     PunchScale(obj);
@@ -203,11 +219,12 @@ public class SceneStateManager : MonoBehaviour
         obj.transform.DOPunchScale(new Vector3(0.25f, 0.25f, 0.25f), 0.2f, 1, 1);
     }
 
-    void MoveY(GameObject obj)
+    void MoveY(GameObject obj, float target, float from)
     {
         var post = obj.transform.position;
-        obj.transform.DOMoveY(post.y, 0.75f).SetEase(Ease.InOutQuad).From(post.y + 5f);
+        obj.transform.DOMoveY(post.y + target, 0.75f).SetEase(Ease.InOutQuad).From(post.y + from);
     }
+
 
     // Enumeration
     enum AnimationType
@@ -221,6 +238,7 @@ public class SceneStateManager : MonoBehaviour
         Instruction,
         Countdown,
         Pause,
+        EndOfSong
     }
 }
 

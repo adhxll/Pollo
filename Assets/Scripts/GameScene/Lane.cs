@@ -45,6 +45,7 @@ public class Lane : MonoBehaviour
             timeStamps.Add(note.time);
             noteDurations.Add((float)note.durationTicks / SongManager.midiFile.header.ppq);
             midiNotes.Add(note.midi);
+            //Debug.Log(midiNotes.Count);
         }
     }
 
@@ -105,12 +106,25 @@ public class Lane : MonoBehaviour
                 }
                 
             }
-            
+            Debug.Log(spawnIndex);
+            Debug.Log(midiNotes.Count);
+            if(spawnIndex == midiNotes.Count)
+            {
+                StartCoroutine(ToggleEndOfSong());
+            }
 
             //accuracyScore.text = $"{correctNotes} / {inputIndex}";
             //accuracyPercentage.text = ((float)correctNotes / inputIndex * 100).ToString("0.00") + " %";
             //Debug.Log($"ACCURACY {(float)correctNotes / inputIndex * 100}%");
         }
+    }
+
+    //Wait 2 seconds after the last midi spawned and toggle the songPlayed variable
+    IEnumerator ToggleEndOfSong()
+    {
+        yield return new WaitForSeconds(5);
+        SongManager.Instance.songPlayed = false;
+        StartCoroutine(SceneStateManager.Instance.EndOfSongAnimation());
     }
 
     private void SpawnMusicNote()
