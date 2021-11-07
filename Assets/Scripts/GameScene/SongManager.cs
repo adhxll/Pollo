@@ -96,6 +96,7 @@ public class SongManager : MonoBehaviour
                 break;
         }
         PolloController.Instance.SetActive(true);
+        Screen.sleepTimeout = SleepTimeout.NeverSleep;
         audioSource.PlayScheduled(0);
     }
 

@@ -41,7 +41,7 @@ public class FastYinSystem : MonoBehaviour
         var midiNote = 0;
         var midiCents = 0;
 
-        Pitch.PitchDsp.PitchToMidiNote(pitch, out midiNote, out midiCents);
+        PitchAC.PitchDsp.PitchToMidiNote(pitch, out midiNote, out midiCents);
 
         pitchDetector.pitch = pitch;
         pitchDetector.midiNote = midiNote;
@@ -62,7 +62,7 @@ public class FastYinSystem : MonoBehaviour
 
     public void StarRecording()
     {
-        audioSource.clip = Microphone.Start(null, true, 60, 44100);
+        audioSource.clip = Microphone.Start(null, true, 60, AudioSettings.outputSampleRate);
 
         audioSource.loop = true;
         audioSource.mute = false;

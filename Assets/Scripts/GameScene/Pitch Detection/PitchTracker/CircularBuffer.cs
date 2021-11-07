@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Collections;
 
-namespace Pitch
+namespace PitchAC
 {
     public class CircularBuffer<T> : IDisposable
     {

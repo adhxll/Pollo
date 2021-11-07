@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Pitch
+namespace PitchAC
 {
     /// <summary>
     /// Infinite impulse response filter (old style analog filters)

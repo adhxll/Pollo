@@ -41,7 +41,7 @@ public class FFTSystem : MonoBehaviour
 
         // Converting frequency to MIDI notes, this methods is another black magic and I'm not sure how it works.
         // All I know is this one does it job really well.
-        Pitch.PitchDsp.PitchToMidiNote(pitch, out midiNote, out midiCents);
+        PitchAC.PitchDsp.PitchToMidiNote(pitch, out midiNote, out midiCents);
         pitchDetector.pitch = pitch;
         pitchDetector.midiNote = midiNote;
 
