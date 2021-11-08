@@ -2917,7 +2917,7 @@ MonoBehaviour:
   - {fileID: 1641415554}
   - {fileID: 440858861}
   - {fileID: 993202834}
-  pauseButton: {fileID: 1888668446}
+  - {fileID: 1888668446}
   overlay: {fileID: 1509997636}
   audioMixer: {fileID: 24100000, guid: c187fd5a9a16942a58096a21ab995ebb, type: 2}
 --- !u!4 &1336849975
@@ -3702,6 +3702,8 @@ MonoBehaviour:
   timeStamps: []
   noteDurations: []
   midiNotes: 
+  spawnIndex: 0
+  inputIndex: 0
 --- !u!331 &1631138548
 SpriteMask:
   m_ObjectHideFlags: 0

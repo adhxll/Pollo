@@ -23,9 +23,6 @@ public class SceneStateManager : MonoBehaviour
     private GameObject[] gameplayObjects = null;
 
     [SerializeField]
-    private GameObject pauseButton = null;
-
-    [SerializeField]
     private GameObject overlay = null;
 
     [SerializeField]
@@ -42,7 +39,6 @@ public class SceneStateManager : MonoBehaviour
     SceneState sceneState = SceneState.Countdown;
 
     float delay = 1;
-    bool setPause = false;
 
     void Start()
     {
@@ -53,7 +49,6 @@ public class SceneStateManager : MonoBehaviour
 
     void Update()
     {
-        SetPause();
     }
 
     void Initialize()
@@ -111,14 +106,6 @@ public class SceneStateManager : MonoBehaviour
         {
             obj.SetActive(false);
         }
-    }
-
-    void SetPause()
-    {
-        if (Lane.Instance != null)
-            setPause = Lane.Instance.SetPause();
-
-        pauseButton.SetActive(setPause);
     }
 
     // At the moment, we use dspTime to control spawned notes and notes position.
