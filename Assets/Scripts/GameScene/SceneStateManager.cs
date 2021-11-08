@@ -84,7 +84,7 @@ public class SceneStateManager : MonoBehaviour
         // Loop through the animated object list, and inactive them
         // Later, the inactived objects will show up based on the current scene state
         var array = instructionObjects.Concat(countdownObjects).Concat(gameplayObjects).ToArray();
-        SetInactives(array);
+        
 
         switch (sceneState)
         {
@@ -92,8 +92,13 @@ public class SceneStateManager : MonoBehaviour
                 InstructionStart();
                 break;
             case SceneState.Countdown:
+                SetInactives(array);
                 StartCoroutine(CountdownStart());
                 break;
+            case SceneState.EndOfSong:
+                StartCoroutine(EndOfSongAnimation());
+                break;
+
         }
     }
 

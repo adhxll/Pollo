@@ -50,6 +50,9 @@ public class SongManager : MonoBehaviour
     double dspTimeSong;
     public bool songPlayed = false;
 
+    //Bool to state the end of song
+    bool endOfSong = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -122,6 +125,11 @@ public class SongManager : MonoBehaviour
                     sceneManager.SceneInvoke("ResultPage");
                     break;
             }
+        }
+        if(GetAudioSourceTime() >= GetAudioSourceLength() - 3 && endOfSong == false){
+            Debug.Log("BLOK");
+            endOfSong = true;
+            SceneStateManager.Instance.ChangeSceneState(SceneStateManager.SceneState.EndOfSong);
         }
     }
 
