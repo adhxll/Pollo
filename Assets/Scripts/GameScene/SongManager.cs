@@ -120,7 +120,7 @@ public class SongManager : MonoBehaviour
                     ResetScene();
                     SceneStateManager.Instance.ChangeSceneState(SceneStateManager.SceneState.Countdown);
                     break;
-                case SceneStateManager.SceneState.Countdown:
+                case SceneStateManager.SceneState.EndOfSong:
                     Debug.Log("Stage Finished");
                     sceneManager.SceneInvoke("ResultPage");
                     break;
