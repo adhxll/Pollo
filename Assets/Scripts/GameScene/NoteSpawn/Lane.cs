@@ -18,12 +18,22 @@ public class Lane : MonoBehaviour
     private GameObject barPrefab = null;
 
     List<Note> notes = new List<Note>();
+
+    [HideInInspector]
     public List<double> timeStamps = new List<double>();    // A list that store each notes timestamp (telling the exact time when its need to be spawned)
+
+    [HideInInspector]
     public List<float> noteDurations = new List<float>();   // A list that store each notes ticks duration
+
+    [HideInInspector]
     public List<int> midiNotes = new List<int>();   // A list that store what MIDI notes need to be played at the given note
 
-    int spawnIndex = 0;
-    int inputIndex = 0;
+    [HideInInspector]
+    public int spawnIndex = 0;
+
+    [HideInInspector]
+    public int inputIndex = 0;
+
     int barIndex = 0;
     int correctNotes = 0;
 
@@ -45,7 +55,6 @@ public class Lane : MonoBehaviour
             timeStamps.Add(note.time);
             noteDurations.Add((float)note.durationTicks / SongManager.midiFile.header.ppq);
             midiNotes.Add(note.midi);
-            //Debug.Log(midiNotes.Count);
         }
     }
 
@@ -56,7 +65,6 @@ public class Lane : MonoBehaviour
         {
             if (SongManager.GetCurrentBeat() >= barIndex)
             {
-                //Debug.Log($"Current Time = {SongManager.GetAudioSourceTime()}, Current Beat = {SongManager.GetCurrentBeat()}, Current Index {barIndex}");
                 SpawnMusicBar();
             }
 
@@ -82,7 +90,7 @@ public class Lane : MonoBehaviour
                     {
                         //Algo to count if the note really is played & not accidentally detected
                         averageCount++;
-                        if(averageCount >= 5){
+                        if(averageCount >= 3){
                             Hit();
                             //Reset count after Hit
                             averageCount = 0;
@@ -100,15 +108,8 @@ public class Lane : MonoBehaviour
                     Miss();
                     //Reset count after miss
                     averageCount = 0;
-                }
-                if(averageCount>0){
-                    Debug.Log($"Average Count : {averageCount}");
-                }
-                
+                }                
             }
-            Debug.Log(spawnIndex);
-            Debug.Log(midiNotes.Count);
-
 
             //accuracyScore.text = $"{correctNotes} / {inputIndex}";
             //accuracyPercentage.text = ((float)correctNotes / inputIndex * 100).ToString("0.00") + " %";
@@ -152,6 +153,18 @@ public class Lane : MonoBehaviour
         notes[inputIndex].GetComponent<SpriteRenderer>().sprite = note.noteWrong;
         AnimationManager.Instace.AnimateHit(note.gameObject, -0.1f);
         inputIndex++;
+    }
+
+    public bool SetPause()
+    {
+        if (!SongManager.Instance.songPlayed || inputIndex == timeStamps.Count)
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
     }
 
     // Reset Lane to the initial state

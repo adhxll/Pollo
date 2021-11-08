@@ -13,22 +13,22 @@ public class SceneStateManager : MonoBehaviour
     [SerializeField]
     private AudioSource[] audioSources = null;
 
-    [SerializeReference]
+    [SerializeField]
     private GameObject[] instructionObjects = null;
 
-    [SerializeReference]
+    [SerializeField]
     private GameObject[] countdownObjects = null;
 
-    [SerializeReference]
+    [SerializeField]
     private GameObject[] gameplayObjects = null;
 
-    [SerializeReference]
-    private GameObject overlay = null;
-
-    [SerializeReference]
+    [SerializeField]
     private GameObject pauseButton = null;
 
-    [SerializeReference]
+    [SerializeField]
+    private GameObject overlay = null;
+
+    [SerializeField]
     private AudioMixer audioMixer = null;
 
 
@@ -39,10 +39,10 @@ public class SceneStateManager : MonoBehaviour
     private TMPro.TextMeshProUGUI title;
     private TMPro.TextMeshProUGUI countdown;
 
-    //SceneState sceneState = SceneState.Instruction;
     SceneState sceneState = SceneState.Countdown;
 
     float delay = 1;
+    bool setPause = false;
 
     void Start()
     {
@@ -53,6 +53,7 @@ public class SceneStateManager : MonoBehaviour
 
     void Update()
     {
+        SetPause();
     }
 
     void Initialize()
@@ -112,6 +113,14 @@ public class SceneStateManager : MonoBehaviour
         }
     }
 
+    void SetPause()
+    {
+        if (Lane.Instance != null)
+            setPause = Lane.Instance.SetPause();
+
+        pauseButton.SetActive(setPause);
+    }
+
     // At the moment, we use dspTime to control spawned notes and notes position.
     // Hence, all we need to do to pause/resume the game is just pausing/resuming the song.
     // Since we use audio playback reference to spawn our game object.
@@ -139,6 +148,14 @@ public class SceneStateManager : MonoBehaviour
             var currentTime = audio.time;
             audio.time = currentTime - pauseDelay;
             audio.PlayScheduled(0);
+        }
+    }
+
+    public void SetAudioTime(float time)
+    {
+        foreach (var audio in audioSources)
+        {
+            audio.time = time;
         }
     }
 
@@ -218,6 +235,7 @@ public class SceneStateManager : MonoBehaviour
         }
     }
 
+    // TODO - Move this to animation utilities
     // DoTween Animation
     void PunchScale(GameObject obj)
     {
