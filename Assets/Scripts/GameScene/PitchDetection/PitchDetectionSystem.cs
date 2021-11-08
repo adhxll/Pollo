@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Pitch.Algorithm;
 
-public class FFTSystem : MonoBehaviour
+public class PitchDetectionSystem : MonoBehaviour
 {
     PitchDetector pitchDetector;
     AudioSource audioSource;
@@ -60,21 +60,25 @@ public class FFTSystem : MonoBehaviour
 
         switch (algo)
         {
+            case PitchAlgo.SRH:
+                pitchValue = PitchTracker.FromSRH(spectrum, audioSamplerate);
+                break;
+
+            case PitchAlgo.HSS:
+                pitchValue = PitchTracker.FromHSS(spectrum, audioSamplerate, 80, 1600);
+                break;
+
+            case PitchAlgo.HPS:
+                pitchValue = PitchTracker.FromHPS(spectrum, audioSamplerate, 80, 1600);
+                break;
+
             case PitchAlgo.FFT:
                 pitchValue = PitchTracker.FromFFT(spectrum, audioSamplerate);
                 break;
 
-            case PitchAlgo.HSS:
-                pitchValue = PitchTracker.FromHss(spectrum, audioSamplerate, 80, 1600);
-                break;
-
-            case PitchAlgo.SRH:
-                pitchValue = PitchTracker.FromSRH(spectrum, audioSamplerate);
-                break;
         }
 
         PitchUtilities.PitchToMidiNote(pitchValue, out int midiNote, out int midiCents);
-        //PitchAC.PitchDsp.PitchToMidiNote(pitchValue, out int midiNote, out int midiCents);
         pitchDetector.pitch = pitchValue;
         pitchDetector.midiNote = midiNote;
 
@@ -111,13 +115,6 @@ public class FFTSystem : MonoBehaviour
         }
     }
 
-    public enum PitchAlgo
-    {
-        FFT,
-        HSS,
-        SRH,
-    }
-
     void PopulateList()
     {
         string[] enumNames = Enum.GetNames(typeof(PitchAlgo));
@@ -128,7 +125,7 @@ public class FFTSystem : MonoBehaviour
 
     public void DropdownValueChanged(int index)
     {
-        PitchAlgo algorithm = (PitchAlgo)index;
+        dropdown.value = index;
         PlayerPrefs.SetInt("pitchAlgo", index);
     }
 }

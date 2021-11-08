@@ -143,6 +143,14 @@ public class SceneStateManager : MonoBehaviour
         }
     }
 
+    public void SetAudioTime(float time)
+    {
+        foreach (var audio in audioSources)
+        {
+            audio.time = time;
+        }
+    }
+
     void InstructionStart()
     {
         comboIndicator.SetActive(false);

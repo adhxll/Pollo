@@ -28,8 +28,12 @@ public class Lane : MonoBehaviour
     [HideInInspector]
     public List<int> midiNotes = new List<int>();   // A list that store what MIDI notes need to be played at the given note
 
-    int spawnIndex = 0;
-    int inputIndex = 0;
+    [HideInInspector]
+    public int spawnIndex = 0;
+
+    [HideInInspector]
+    public int inputIndex = 0;
+
     int barIndex = 0;
     int correctNotes = 0;
 

@@ -5,6 +5,14 @@ using System;
 
 namespace Pitch.Algorithm
 {
+    public enum PitchAlgo
+    {
+        SRH,
+        HSS,
+        HPS,
+        FFT
+    }
+
     public static class PitchTracker
     {
         // This variables below are being used only for SRH algorithm
@@ -28,7 +36,7 @@ namespace Pitch.Algorithm
         /// <param name="samplingRate">Sampling rate</param>
         /// <param name="low">Lower frequency of expected pitch range</param>
         /// <param name="high">Upper frequency of expected pitch range</param>
-        public static float FromHss(
+        public static float FromHSS(
             float[] spectrum,
             int samplingRate,
             float low = 80/*Hz*/,
@@ -47,7 +55,8 @@ namespace Pitch.Algorithm
 
             for (var j = startIdx; j < endIdx; j++)
             {
-                sumSpectrum[j] *= 1.5f;         // slightly emphasize 1st component
+                // Slightly emphasize 1st component
+                sumSpectrum[j] *= 1.5f;         
 
                 for (var k = 2; k < decimations; k++)
                 {
@@ -62,6 +71,47 @@ namespace Pitch.Algorithm
             }
 
             return (float)hssIndex * samplingRate / fftSize;
+        }
+
+        /// <summary>
+        /// Estimates pitch from <paramref name="spectrum"/> using Harmonic Product Spectrum (HPS) method.
+        /// </summary>
+        /// <param name="spectrum">Spectrum</param>
+        /// <param name="samplingRate">Sampling rate</param>
+        /// <param name="low">Lower frequency of expected pitch range</param>
+        /// <param name="high">Upper frequency of expected pitch range</param>
+        public static float FromHPS(
+            float[] spectrum,
+            int samplingRate,
+            float low = 80/*Hz*/,
+            float high = 400/*Hz*/)
+        {
+            var sumSpectrum = spectrum.FastCopy();
+
+            var fftSize = (spectrum.Length - 1) * 2;
+
+            var startIdx = (int)(low * fftSize / samplingRate) + 1;
+            var endIdx = (int)(high * fftSize / samplingRate) + 1;
+            var decimations = Math.Min(spectrum.Length / endIdx, 10);
+
+            var hpsIndex = 0;
+            var maxHps = 0.0f;
+
+            for (var j = startIdx; j < endIdx; j++)
+            {
+                for (var k = 2; k < decimations; k++)
+                {
+                    sumSpectrum[j] *= (spectrum[j * k - 1] + spectrum[j * k] + spectrum[j * k + 1]) / 3;
+                }
+
+                if (sumSpectrum[j] > maxHps)
+                {
+                    maxHps = sumSpectrum[j];
+                    hpsIndex = j;
+                }
+            }
+
+            return (float)hpsIndex * samplingRate / fftSize;
         }
 
         // Taken from aldonaletto's answer from Unity Forum

@@ -89,17 +89,17 @@ public class SongManager : MonoBehaviour
         switch (SceneStateManager.Instance.GetSceneState())
         {
             case SceneStateManager.SceneState.Instruction:
-                detectedPitch.GetComponent<FFTSystem>().StartPlaying(); // Play audio source if the current scene state is 'Instruction'
+                detectedPitch.GetComponent<PitchDetectionSystem>().StartPlaying(); // Play audio source if the current scene state is 'Instruction'
                 break;
             case SceneStateManager.SceneState.Countdown:
-                detectedPitch.GetComponent<FFTSystem>().StartRecording(); // Play through microphone if the current scene state is 'Countdown/Gameplay'
+                detectedPitch.GetComponent<PitchDetectionSystem>().StartRecording(); // Play through microphone if the current scene state is 'Countdown/Gameplay'
                 break;
         }
         PolloController.Instance.SetActive(true);
         Screen.sleepTimeout = SleepTimeout.NeverSleep;
         audioSource.PlayScheduled(0);
     }
-
+    
     void Update()
     {
         var sceneManager = GetComponent<SceneManagerScript>();
