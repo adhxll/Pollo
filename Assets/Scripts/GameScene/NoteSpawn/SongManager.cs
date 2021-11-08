@@ -50,6 +50,9 @@ public class SongManager : MonoBehaviour
     double dspTimeSong;
     public bool songPlayed = false;
 
+    //Bool to state the end of song
+    bool endOfSong = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -76,6 +79,7 @@ public class SongManager : MonoBehaviour
                 barTimeline.SetTimeStamps(array);
 
             i++;
+            //Debug.Log(notes.Length);
         }
         barTimeline.PlaceTimestamp();
 
@@ -89,16 +93,17 @@ public class SongManager : MonoBehaviour
         switch (SceneStateManager.Instance.GetSceneState())
         {
             case SceneStateManager.SceneState.Instruction:
-                detectedPitch.GetComponent<FFTSystem>().StartPlaying(); // Play audio source if the current scene state is 'Instruction'
+                detectedPitch.GetComponent<PitchDetectionSystem>().StartPlaying(); // Play audio source if the current scene state is 'Instruction'
                 break;
             case SceneStateManager.SceneState.Countdown:
-                detectedPitch.GetComponent<FFTSystem>().StartRecording(); // Play through microphone if the current scene state is 'Countdown/Gameplay'
+                detectedPitch.GetComponent<PitchDetectionSystem>().StartRecording(); // Play through microphone if the current scene state is 'Countdown/Gameplay'
                 break;
         }
         PolloController.Instance.SetActive(true);
+        Screen.sleepTimeout = SleepTimeout.NeverSleep;
         audioSource.PlayScheduled(0);
     }
-
+    
     void Update()
     {
         var sceneManager = GetComponent<SceneManagerScript>();
@@ -116,11 +121,16 @@ public class SongManager : MonoBehaviour
                     ResetScene();
                     SceneStateManager.Instance.ChangeSceneState(SceneStateManager.SceneState.Countdown);
                     break;
-                case SceneStateManager.SceneState.Countdown:
+                case SceneStateManager.SceneState.EndOfSong:
                     Debug.Log("Stage Finished");
                     sceneManager.SceneInvoke("ResultPage");
                     break;
             }
+        }
+        if(GetAudioSourceTime() >= GetAudioSourceLength() - 3 && endOfSong == false){
+            Debug.Log("BLOK");
+            endOfSong = true;
+            SceneStateManager.Instance.ChangeSceneState(SceneStateManager.SceneState.EndOfSong);
         }
     }
 

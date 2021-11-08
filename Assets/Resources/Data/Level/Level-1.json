@@ -420,6 +420,15 @@
                     "durationTicks": 120,
                     "midi": 36,
                     "name": "C2",
+                    "ticks": 0,
+                    "time": 0,
+                    "velocity": 0.6299212598425197
+                },
+                {
+                    "duration": 0.13043474999999916,
+                    "durationTicks": 120,
+                    "midi": 36,
+                    "name": "C2",
                     "ticks": 11520,
                     "time": 12.521735999999999,
                     "velocity": 0.6299212598425197
