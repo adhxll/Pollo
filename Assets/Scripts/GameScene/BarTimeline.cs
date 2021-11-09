@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using System.Linq;
 
 public class BarTimeline : MonoBehaviour
@@ -14,23 +15,16 @@ public class BarTimeline : MonoBehaviour
     [SerializeField]
     private GameObject barPrefab = null;
 
+    private List<GameObject> barList = new List<GameObject>();
     private List<double> timeStamps = new List<double>();
     private List<int> spawnIndex = new List<int>();
     private List<int> inputIndex = new List<int>();
 
-    SpriteRenderer barSprite
+    RectTransform barSprite
     {
         get
         {
-            return barIndicator.GetComponent<SpriteRenderer>();
-        }
-    }
-
-    float barSpriteScale
-    {
-        get
-        {
-            return barSprite.transform.localScale.x;
+            return barIndicator.GetComponent<RectTransform>();
         }
     }
 
@@ -38,11 +32,19 @@ public class BarTimeline : MonoBehaviour
     {
         get
         {
-            return barSprite.size.y;
+            return barSprite.rect.height;
         }
     }
 
-    float width;
+    float width
+    {
+        get
+        {
+            var rect = barBackground.GetComponent<RectTransform>();
+            return rect.rect.width;
+        }
+    }
+
     int currentSection = 0;
 
     // Start is called before the first frame update
@@ -55,27 +57,21 @@ public class BarTimeline : MonoBehaviour
     void Update()
     {
         var relativePost = SongManager.Instance.GetCurrentAudioProgress();
-        var progressWidth = width / barSpriteScale * relativePost;
-
-        // Determin sprite height & width, also setting the minimum width
-        if (progressWidth < 0.6f)
-            progressWidth = 0.6f;
+        var progressWidth = width * relativePost;
 
         // Update sprite width based on current audio progress
-        barSprite.size = new Vector2(progressWidth, height);
+        barSprite.sizeDelta = new Vector2(progressWidth, height);
 
         SectionManager();
     }
 
     void Initialize()
     {
-        // Calculate parent object width
-        var rect = barBackground.GetComponent<RectTransform>();
-        width = rect.sizeDelta.x;
 
         // Initialize spawnCount first value
         spawnIndex.Add(0);
         inputIndex.Add(0);
+
     }
 
     public void PlaceTimestamp()
@@ -87,8 +83,11 @@ public class BarTimeline : MonoBehaviour
             var bar = Instantiate(barPrefab, transform);
             var relativePost = time / SongManager.Instance.GetAudioSourceLength();
 
+            // Add instantiated bar to list
+            barList.Add(bar);
+
             // Set bar width and height
-            bar.transform.localScale = new Vector2(0.25f, 1.25f);
+            bar.transform.localScale = new Vector2(1f, 16f);
 
             // Place bar based on linear interpolation between start point, end point, and audio progress
             bar.transform.localPosition = Vector3.Lerp(left, right, (float)relativePost);
@@ -112,6 +111,7 @@ public class BarTimeline : MonoBehaviour
             if (SongManager.GetAudioSourceTime() >= timeStamps[currentSection + 1])
             {
                 currentSection++;
+                barList[currentSection].GetComponent<Image>().color = new Color32(255, 200, 113, 255);
                 spawnIndex.Add(Lane.Instance.spawnIndex);
                 inputIndex.Add(Lane.Instance.inputIndex);
             }

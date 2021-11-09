@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using DG.Tweening;
 using System;
 
@@ -8,49 +9,101 @@ public class ScoreManager : MonoBehaviour
 {
 
     public static ScoreManager Instace;
-    public AudioSource hitSFX;
-    //public AudioSource missSFX;
-    public TMPro.TextMeshProUGUI scoreText;
-    public TMPro.TextMeshPro comboText;
 
-    static int comboScore;
-    static int wrongScore;
-    static int totalScore;
+    //[SerializeField]
+    //AudioSource hitSFX = null;
+
+    //[SerializeField]
+    //AudioSource missSFX = null;
+
+    [SerializeField]
+    private TMPro.TextMeshProUGUI scoreText = null;
+
+    [SerializeField]
+    private TMPro.TextMeshProUGUI comboText = null;
+
+    [SerializeField]
+    private TMPro.TextMeshProUGUI accuracyText = null;
+
+    [SerializeField]
+    private GameObject hitBadge = null;
+
+    static float correctNotes = 0;
+    static float totalNotes = 0;
+
+    static int comboScore = 0;
+    static int wrongScore = 0;
+    static int totalScore = 0;
+
+    static bool badgeShowed = false;
+    double timer = 0;
+    double timeSinceShowed = 0;
 
     // Start is called before the first frame update
     void Start()
     {
         Instace = this;
-        comboScore = 0;
-        totalScore = 0;
-        wrongScore = 0;
     }
 
     public static void Hit()
     {
-        comboScore += 1;
+        comboScore++;
+        correctNotes++;
+        totalNotes++;
+
         wrongScore = 0;
         totalScore += (98 + comboScore * 2);
 
         ParticleController.Instance.EmitParticle(1, ParticleController.Indicator.Hit);
         PolloController.Instance.SetAnimation(comboScore, wrongScore);
+
+        Instace.HitBadge(true);
+
         AnimationManager.Instace.AnimateHit(Instace.scoreText.gameObject, 0.25f);
         AnimationManager.Instace.AnimateHit(Instace.comboText.gameObject, 0.25f);
+        AnimationManager.Instace.AnimateHit(Instace.accuracyText.gameObject, 0.25f);
+
         //Instace.hitSFX.Play();
     }
 
     public static void Miss()
     {
-        wrongScore += 1;
+        wrongScore++;
+        totalNotes++;
         comboScore = 0;
+
+        Instace.HitBadge(false);
 
         PolloController.Instance.SetAnimation(comboScore, wrongScore);
         ParticleController.Instance.EmitParticle(1, ParticleController.Indicator.Miss);
+
         //Instace.missSFX.Play();
+    }
+
+    public void HitBadge(bool hit)
+    {
+        if (hit)
+            hitBadge.GetComponent<Image>().color = new Color32(151, 174, 124, 255);
+        else
+            hitBadge.GetComponent<Image>().color = new Color32(247, 86, 82, 255);
+
+        if (badgeShowed)
+        {
+            AnimationManager.Instace.AnimateHit(hitBadge, 0.25f);
+            timer = AudioSettings.dspTime;
+        }
+        else
+        {
+            AnimationManager.Instace.AnimatePos(hitBadge, 24f, 0.25f);
+            badgeShowed = true;
+            timer = AudioSettings.dspTime;
+        }
     }
 
     public void Reset()
     {
+        correctNotes = 0;
+        totalNotes = 0;
         comboScore = 0;
         totalScore = 0;
         wrongScore = 0;
@@ -61,6 +114,20 @@ public class ScoreManager : MonoBehaviour
     {
         scoreText.text = totalScore.ToString();
         comboText.text = comboScore.ToString();
+
+        if (correctNotes == 0 && totalNotes == 0)
+            accuracyText.text = "0";
+        else
+            accuracyText.text = (correctNotes / totalNotes * 100).ToString("0");
+
+        timeSinceShowed = AudioSettings.dspTime - timer;
+
+        if (badgeShowed && timeSinceShowed > 1f)
+        {
+            badgeShowed = false;
+            AnimationManager.Instace.AnimatePos(hitBadge, 60f, 0.25f);
+        }
+
     }
 
     private void OnDestroy()

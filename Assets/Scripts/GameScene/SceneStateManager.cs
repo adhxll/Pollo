@@ -28,9 +28,6 @@ public class SceneStateManager : MonoBehaviour
     [SerializeField]
     private AudioMixer audioMixer = null;
 
-
-
-    private GameObject comboIndicator;
     private GameObject titleButton;
     private GameObject countButton;
     private TMPro.TextMeshProUGUI title;
@@ -53,9 +50,6 @@ public class SceneStateManager : MonoBehaviour
 
     void Initialize()
     {
-        // Get component named Combo, we need it to hide/show the object based on the screen state
-        comboIndicator = gameplayObjects[0].transform.Find("Combo").gameObject;
-
         // Initialize title & countdown object
         // Title is static, countdown is dynamic
         titleButton = countdownObjects[1];
@@ -148,7 +142,6 @@ public class SceneStateManager : MonoBehaviour
 
     void InstructionStart()
     {
-        comboIndicator.SetActive(false);
         StartCoroutine(AnimateObjects(instructionObjects, 0.1f, AnimationType.MoveY, 0f, 5f));
     }
 
@@ -180,7 +173,6 @@ public class SceneStateManager : MonoBehaviour
         yield return new WaitForSeconds(delay);
 
         StartCoroutine(AnimateObjects(gameplayObjects, 0.1f, AnimationType.MoveY, 0f, 5f));
-        comboIndicator.SetActive(true);
         countButton.SetActive(false);
         countdown.SetText("3");
 

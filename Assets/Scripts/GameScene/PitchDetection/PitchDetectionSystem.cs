@@ -88,7 +88,7 @@ public class PitchDetectionSystem : MonoBehaviour
         if (midiNote != 0 && midiNote != tempMidi)
         {
             tempMidi = midiNote;
-            Debug.Log($"Transcribed : {midiNote}, time : {SongManager.GetAudioSourceTime()}");
+            //Debug.Log($"Transcribed : {midiNote}, time : {SongManager.GetAudioSourceTime()}");
         }
     }
 
