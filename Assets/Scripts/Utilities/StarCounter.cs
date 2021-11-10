@@ -13,23 +13,17 @@ public class StarCounter : MonoBehaviour
     public void FillStars() {
         for (int i = 0; i< starCount; i++)
         {
-            
             var star = starSlots[i].GetComponent<SpriteRenderer>();
-            star.color = new Color32(255, 255, 255, 255); 
-
+            star.color = new Color32(255, 255, 255, 255); //white
             star.sprite = yellowStar;
         }
     }
     public void EmptyStars() {
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < starSlots.Length; i++)
         {
-            
             var star = starSlots[i].GetComponent<SpriteRenderer>();
-            star.color = new Color32(90, 133, 113, 255);
+            star.color = new Color32(90, 133, 113, 255); //darkgreen
             star.sprite = purpleStar;
-            
-            
-            
             
         }
        

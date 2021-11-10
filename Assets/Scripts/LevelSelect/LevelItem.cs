@@ -41,24 +41,20 @@ public class LevelItemContainer {
 }
 public class LevelItem : MonoBehaviour
 {
-    // Level item itu object level yang ada di gamenya
+    //data to fill the level item
     public LevelItemContainer data;
+    //containers for showing the data
     public TMPro.TextMeshPro text; 
-    
     public GameObject starContainer;
-   
-    //awake dan start harus ada karena adu cepat dengan LevelSelectionController dan StarCounter
-    private void Awake()
-    {
-       
-        //buat fill stars berdasarkan pencapaian
-
-    }
+    public GameObject circle;
+    public Sprite goldCircle; 
     void Start()
     {
+        //setup the data into container
         text.GetComponent<TMPro.TextMeshPro>().text = data.getLevelCount();
         starContainer.GetComponent<StarCounter>().starCount = data.starCount;
-        starContainer.GetComponent<StarCounter>().FillStars(); 
+        starContainer.GetComponent<StarCounter>().FillStars();
+        if (data.isUnlocked) circle.GetComponent<SpriteRenderer>().sprite = goldCircle; 
     }
     
 
