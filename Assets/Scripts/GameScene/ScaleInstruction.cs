@@ -7,13 +7,16 @@ using TMPro;
 public class ScaleInstruction : MonoBehaviour
 {
     [SerializeField]
+    private AudioSource audioSource;
+    [SerializeField]
+    private AudioClip[] audioClips;
+    [SerializeField]
     private TextMeshProUGUI instructionText;
-    //public List<GameObject> pianoTiles = new List<GameObject>();
-
     [SerializeField]
-    private GameObject[] instructionBoard = null;
+    private GameObject[] instructionBoard;
     [SerializeField]
-    private GameObject[] pianoTiles = null;
+    private GameObject[] pianoTiles;
+    
 
     private int[] majorRange = { 2, 2, 1, 2, 2, 2, 1};
     private int startIndex = 0;
@@ -47,6 +50,9 @@ public class ScaleInstruction : MonoBehaviour
         {
             Color baseColor = pianoTiles[currentIndex].GetComponent<Image>().color;
             pianoTiles[currentIndex].GetComponent<Image>().color = yellowColor;
+            audioSource.clip = audioClips[currentIndex];
+            audioSource.Play();
+
             yield return new WaitForSeconds(1f);
             pianoTiles[currentIndex].GetComponent<Image>().color = baseColor;
             if (index != majorRange.Length) currentIndex += majorRange[index];
@@ -55,7 +61,7 @@ public class ScaleInstruction : MonoBehaviour
                 index = -1;
                 currentIndex = startIndex;
             }
-            //Debug.Log(index);
+
             Debug.Log($"Current index : {currentIndex}");
         }
         yield return new WaitForSeconds(1);
@@ -64,8 +70,7 @@ public class ScaleInstruction : MonoBehaviour
     void setupKeySignature()
     {
         //var keySignature = SongManager.midiFile.header.name;
-        keySignature = "F#";
-
+        keySignature = "D#";
         instructionText.text = $"For this level, you are going to play on <color=#7E2684>{keySignature} Major</color> Scale.";
 
         foreach(GameObject tiles in pianoTiles)
