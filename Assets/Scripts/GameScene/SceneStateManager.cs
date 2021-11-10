@@ -197,7 +197,7 @@ public class SceneStateManager : MonoBehaviour
     }
 
     // Animate group of objects based on the given parameter (duration & animationType)
-    IEnumerator AnimateObjects(GameObject[] objects, float duration, AnimationType type, float target, float from)
+    public IEnumerator AnimateObjects(GameObject[] objects, float duration, AnimationType type, float target, float from)
     {
         foreach(var obj in objects)
         {
@@ -237,7 +237,7 @@ public class SceneStateManager : MonoBehaviour
 
 
     // Enumeration
-    enum AnimationType
+    public enum AnimationType
     {
         PunchScale,
         MoveY

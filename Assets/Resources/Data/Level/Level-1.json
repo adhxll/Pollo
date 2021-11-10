@@ -19,7 +19,8 @@
                 "type": "marker"
             }
         ],
-        "name": "",
+        "key": "C",
+        "name": "C",
         "ppq": 480,
         "tempos": [
             {
