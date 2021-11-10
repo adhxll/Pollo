@@ -34,7 +34,9 @@ public class Lane : MonoBehaviour
     [HideInInspector]
     public int inputIndex = 0;
 
-    int barIndex = 0;
+    [HideInInspector]
+    public int barIndex = 0;
+
     int correctNotes = 0;
 
     //Variable to count in exact midi note to prevent Hit() function called accidentally
@@ -95,7 +97,6 @@ public class Lane : MonoBehaviour
                             //Reset count after Hit
                             averageCount = 0;
                         }
-                        
                     }
                     else
                     {
@@ -110,10 +111,6 @@ public class Lane : MonoBehaviour
                     averageCount = 0;
                 }                
             }
-
-            //accuracyScore.text = $"{correctNotes} / {inputIndex}";
-            //accuracyPercentage.text = ((float)correctNotes / inputIndex * 100).ToString("0.00") + " %";
-            //Debug.Log($"ACCURACY {(float)correctNotes / inputIndex * 100}%");
         }
     }
 
@@ -155,15 +152,33 @@ public class Lane : MonoBehaviour
         inputIndex++;
     }
 
-    public bool SetPause()
+    // Destroy all spawned child objects in lane
+    public void DestroyChild()
     {
-        if (!SongManager.Instance.songPlayed || inputIndex == timeStamps.Count)
+        var obj = GetComponent<Transform>();
+
+        foreach (Transform child in obj)
         {
-            return false;
+            Destroy(child.gameObject);
         }
-        else
+
+    }
+
+    // Clear/destroy rest of notes to match it with current inputIndex & spawnIndex
+    public void ClearRest()
+    {
+        var clearCount = notes.Count - inputIndex;
+        notes.RemoveRange(inputIndex, clearCount);
+    }
+
+    // Fill rest of notes with empty notes (in case of advancing the audio) to match with the correct inputIndex & spawnIndex
+    public void FillRest()
+    {
+        var fillCount = Math.Abs(notes.Count - inputIndex);
+        for (var i = 0; i < fillCount; i++)
         {
-            return true;
+            var note = Instantiate(notePrefab, transform);
+            notes.Add(note.GetComponent<Note>());
         }
     }
 

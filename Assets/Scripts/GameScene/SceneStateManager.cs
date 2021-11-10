@@ -126,8 +126,11 @@ public class SceneStateManager : MonoBehaviour
 
         foreach (var audio in audioSources)
         {
-            var currentTime = audio.time;
-            audio.time = currentTime - pauseDelay;
+            var time = audio.time - pauseDelay;
+            if (time < 0)
+                time = 0;
+
+            audio.time = time;
             audio.PlayScheduled(0);
         }
     }

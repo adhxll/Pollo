@@ -43,6 +43,7 @@ public class ScoreManager : MonoBehaviour
     void Start()
     {
         Instace = this;
+        Reset();
     }
 
     public static void Hit()
@@ -82,18 +83,21 @@ public class ScoreManager : MonoBehaviour
 
     public void HitBadge(bool hit)
     {
+        // Determine badge display based on hit or miss
         if (hit)
             hitBadge.GetComponent<Image>().color = new Color32(151, 174, 124, 255);
         else
             hitBadge.GetComponent<Image>().color = new Color32(247, 86, 82, 255);
-
+        
         if (badgeShowed)
         {
+            // Animate punch if badge is shown
             AnimationManager.Instace.AnimateHit(hitBadge, 0.25f);
             timer = AudioSettings.dspTime;
         }
         else
         {
+            // Animate slide position if badge isn't shown
             AnimationManager.Instace.AnimatePos(hitBadge, 24f, 0.25f);
             badgeShowed = true;
             timer = AudioSettings.dspTime;
@@ -102,6 +106,10 @@ public class ScoreManager : MonoBehaviour
 
     public void Reset()
     {
+        badgeShowed = false;
+        timeSinceShowed = 0;
+        timer = 0;
+
         correctNotes = 0;
         totalNotes = 0;
         comboScore = 0;
@@ -120,14 +128,15 @@ public class ScoreManager : MonoBehaviour
         else
             accuracyText.text = (correctNotes / totalNotes * 100).ToString("0");
 
+        // Track how long the badge has shown
         timeSinceShowed = AudioSettings.dspTime - timer;
 
-        if (badgeShowed && timeSinceShowed > 1f)
+        // If the badge has shown for more than 2s and nothing else is happening, hide the badge
+        if (badgeShowed && timeSinceShowed > 2f)
         {
             badgeShowed = false;
             AnimationManager.Instace.AnimatePos(hitBadge, 60f, 0.25f);
         }
-
     }
 
     private void OnDestroy()

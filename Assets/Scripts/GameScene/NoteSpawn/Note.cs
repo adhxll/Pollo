@@ -30,6 +30,7 @@ public class Note : MonoBehaviour
         if (t > 1)
         {
             Destroy(gameObject);
+            //gameObject.SetActive(false);
         }
         else
         {
