@@ -10,6 +10,7 @@ public class LevelSelectionController : MonoBehaviour
     TouchPhase phase = TouchPhase.Began;
     Vector2 touchPosition;
 
+    public GameObject modal; 
 
     void Awake()
     {
@@ -59,30 +60,41 @@ public class LevelSelectionController : MonoBehaviour
      LevelItemContainer generateDummy(int idCount) {
         //generate dummy
             LevelItemContainer data = new LevelItemContainer(idCount+1);
-            data.starCount = 2; 
+        data.starCount = Random.Range(0, 4) ; 
 
         return data; 
  
          //initialize isi attribute, nanti kalo udah load dari binary aja
         
     }
-    private void Update()
+   
+    public void ShowLevelModal(GameObject sourceLevel)
     {
-        if (Input.touchCount > 0 && Input.GetTouch(0).phase == phase)
+
+        //set modal data menjadi level data
+        var levelData = sourceLevel.GetComponent<LevelItem>().data;
+        var modalData = modal.GetComponent<ModalController>();
+        modal.GetComponent<StarCounter>().starCount = levelData.starCount;
+        modalData.scoreValue = levelData.highScore.ToString();
+        modalData.levelValue = "Level " + levelData.getLevelCount();
+        //TODO: get level ID then set modal data menjadi level ID
+       
+        if (!modal.activeSelf)
         {
-            touchPosition = Camera.main.ScreenToWorldPoint(Input.GetTouch(0).position);
+            modal.GetComponent<StarCounter>().FillStars();
+            modalData.SetValues();
 
-            RaycastHit2D hitInfo = Physics2D.Raycast(touchPosition, Camera.main.transform.forward);
 
-            if (hitInfo.collider != null)
-            {
-                GameObject touchedObject = hitInfo.transform.gameObject;
-                Debug.Log("Touched" + touchedObject.transform.name);
-
-            }
-
+            modal.SetActive(true);
         }
+       
     }
+    public void CloseModal() {
+        modal.SetActive(false);
+    }
+    
+  
+
 
 
 

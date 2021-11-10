@@ -50,12 +50,15 @@ public class LevelItem : MonoBehaviour
     //awake dan start harus ada karena adu cepat dengan LevelSelectionController dan StarCounter
     private void Awake()
     {
+       
         //buat fill stars berdasarkan pencapaian
-        starContainer.GetComponent<StarCounter>().starCount = data.starCount;
+
     }
     void Start()
     {
-        text.GetComponent<TMPro.TextMeshPro>().text = data.getLevelCount(); 
+        text.GetComponent<TMPro.TextMeshPro>().text = data.getLevelCount();
+        starContainer.GetComponent<StarCounter>().starCount = data.starCount;
+        starContainer.GetComponent<StarCounter>().FillStars(); 
     }
     
 
