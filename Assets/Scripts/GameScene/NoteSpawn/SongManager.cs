@@ -53,17 +53,13 @@ public class SongManager : MonoBehaviour
     //Bool to state the end of song
     bool endOfSong = false;
 
-    private void Awake()
-    {
-        midiFile = MIDI.CreateFromJSON(midiJSON.text);
-        GetDataFromMidi();
-    }
-
     // Start is called before the first frame update
     void Start()
     {
         Instance = this;
         audioSource = GetComponent<AudioSource>();
+        midiFile = MIDI.CreateFromJSON(midiJSON.text);
+        GetDataFromMidi();
     }
 
     void GetDataFromMidi()
