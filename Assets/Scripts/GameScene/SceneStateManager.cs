@@ -28,6 +28,13 @@ public class SceneStateManager : MonoBehaviour
     [SerializeField]
     private AudioMixer audioMixer = null;
 
+    [Header("Practice Mode")]
+    [SerializeField]
+    private GameObject practiceObject = null;
+
+    [SerializeField]
+    private GameObject scoreObject = null;
+
     private GameObject titleButton;
     private GameObject countButton;
     private TMPro.TextMeshProUGUI title;
@@ -36,6 +43,7 @@ public class SceneStateManager : MonoBehaviour
     SceneState sceneState = SceneState.Countdown;
 
     float delay = 1;
+    bool practice = false;
 
     void Start()
     {
@@ -148,9 +156,6 @@ public class SceneStateManager : MonoBehaviour
         StartCoroutine(AnimateObjects(instructionObjects, 0.1f, AnimationType.MoveY, 0f, 5f));
     }
 
-
-
-
     // Countdown to Gameplay transition.
     // The code is pretty self explanatory since it's a hardcoded & sequential one.
     // Basically telling the sequence of animation that need to be played in transition.
@@ -230,6 +235,22 @@ public class SceneStateManager : MonoBehaviour
         obj.transform.DOMoveY(post.y + target, 0.75f).SetEase(Ease.InOutQuad).From(post.y + from);
     }
 
+    public void TogglePractice()
+    {
+        if (!Instance.practice)
+        {
+            Debug.Log("TOGGLED");
+            practiceObject.SetActive(true);
+            scoreObject.SetActive(false);
+            Instance.practice = true;
+        }
+        else
+        {
+            practiceObject.SetActive(false);
+            scoreObject.SetActive(true);
+            Instance.practice = false;
+        } 
+    }
 
     // Enumeration
     enum AnimationType
@@ -241,6 +262,7 @@ public class SceneStateManager : MonoBehaviour
     public enum SceneState
     {
         Instruction,
+        Practice,
         Countdown,
         Pause,
         EndOfSong

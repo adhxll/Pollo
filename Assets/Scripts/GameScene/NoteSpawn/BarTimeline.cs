@@ -93,29 +93,36 @@ public class BarTimeline : MonoBehaviour
     }
 
     // Configuring inputIndex and spawnIndex for each section
-    void ConfigureSection()
+    public void ConfigureSection()
     {
         var musicNotes = Lane.Instance.timeStamps;
         var noteTime = SongManager.Instance.noteTime;
         var i = 0;
         var j = 0;
 
+        // Loop through each section timestamp
         foreach (var section in timestamp)
         {
             var barObj = barList[j].GetComponent<Timestamp>();
 
+            // Loop through all the notes timestamp
             for (; i < musicNotes.Count; i++)
             {
+                // If section timestamp is equal to note timestamp
+                // Or note timestamp at index [i] is larger than the section timestamp
+                // Then [i] is the inputIndex
                 if (section == musicNotes[i] || section < musicNotes[i])
                 {
                     barObj.inputIndex = i;
                 }
 
+                // After getting the inputIndex, continue the loop to search for spawnIndex
+                // If section timestamp + noteTime (note travel time) is lower than note timestamp at index [i]
+                // Then [i] is the spawnIndex
                 if (section + noteTime < musicNotes[i])
                 {
                     barObj.spawnIndex = i;
                     j++;
-                    Debug.Log($"[GUESS] Section {j}, inputIndex is {barObj.inputIndex}, spawnIndex is {barObj.spawnIndex}");
                     break;
                 }
             }
@@ -124,54 +131,77 @@ public class BarTimeline : MonoBehaviour
 
     void SectionManager()
     {
-        // Determine current section that the player's at
+        // Determine the current section that the player's at
         if (currentSection < timestamp.Count - 1)
         {
             if (SongManager.GetAudioSourceTime() >= timestamp[currentSection + 1])
             {
                 currentSection++;
-                barList[currentSection].GetComponent<Image>().color = new Color32(255, 200, 113, 255);
-                ConfigureSection();
-                SaveLane();
+                SetTimestampStyle();
             }
         }
 
-        // Restart current section
-        if (Input.GetKeyUp(KeyCode.R))
-        {
-            ResetLane();
-            Lane.Instance.ClearRest();
-        }
+        //// Restart current section
+        //if (Input.GetKeyUp(KeyCode.R))
+        //{
+        //    ResetLane();
+        //    Lane.Instance.ClearRest();
+        //}
 
-        // Go to previous section
-        if (Input.GetKeyUp(KeyCode.E))
-        {
-            if (currentSection > 0)
-                currentSection--;
+        //// Go to previous section
+        //if (Input.GetKeyUp(KeyCode.E))
+        //{
+        //    if (currentSection > 0)
+        //        currentSection--;
 
-            ResetLane();
-            Lane.Instance.ClearRest();
-        }
+        //    ResetLane();
+        //    Lane.Instance.ClearRest();
+        //}
 
-        // Go to next section
-        if (Input.GetKeyUp(KeyCode.T))
-        {
-            if (currentSection < timestamp.Count)
-                currentSection++;
+        //// Go to next section
+        //if (Input.GetKeyUp(KeyCode.T))
+        //{
+        //    if (currentSection < timestamp.Count)
+        //        currentSection++;
 
-            ResetLane();
-            Lane.Instance.FillRest();
-        }
+        //    ResetLane();
+        //    Lane.Instance.FillRest();
+        //}
     }
 
-    void SaveLane()
+    public void RepeatSection()
     {
-        var barObj = barList[currentSection].GetComponent<Timestamp>();
-        barObj.inputIndex = Lane.Instance.inputIndex;
-        barObj.spawnIndex = Lane.Instance.spawnIndex;
-        barObj.barIndex = Lane.Instance.barIndex;
+        ResetLane();
+        Lane.Instance.ClearRest();
+    }
 
-        Debug.Log($"[CORRECT] Section {currentSection}, inputIndex is {barObj.inputIndex}, spawnIndex is {barObj.spawnIndex}");
+    public void NextSection()
+    {
+        if (currentSection < timestamp.Count)
+            currentSection++;
+
+        ResetLane();
+        Lane.Instance.FillRest();
+    }
+
+    public void PreviousSection()
+    {
+        if (currentSection > 0)
+            currentSection--;
+
+        ResetLane();
+        Lane.Instance.ClearRest();
+    }
+
+    void SetTimestampStyle()
+    {
+        for (int i = 0; i < timestamp.Count; i++)
+        {
+            barList[i].GetComponent<Image>().color = Color.white;
+
+            if (i <= currentSection)
+                barList[i].GetComponent<Image>().color = new Color32(255, 200, 113, 255); 
+        }
     }
 
     // Assign some lane input index variables to the saved index
@@ -179,9 +209,8 @@ public class BarTimeline : MonoBehaviour
     {
         var barObj = barList[currentSection].GetComponent<Timestamp>();
         SceneStateManager.Instance.SetAudioTime((float)timestamp[currentSection]);
-        Lane.Instance.inputIndex = barObj.inputIndex;
-        Lane.Instance.spawnIndex = barObj.spawnIndex;
-        Lane.Instance.barIndex = barObj.barIndex;
+        Lane.Instance.SetIndexValue(barObj.spawnIndex, barObj.inputIndex);
         Lane.Instance.DestroyChild();
+        SetTimestampStyle();
     }
 }

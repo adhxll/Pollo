@@ -28,19 +28,10 @@ public class Lane : MonoBehaviour
     [HideInInspector]
     public List<int> midiNotes = new List<int>();   // A list that store what MIDI notes need to be played at the given note
 
-    [HideInInspector]
-    public int spawnIndex = 0;
-
-    [HideInInspector]
-    public int inputIndex = 0;
-
-    [HideInInspector]
-    public int barIndex = 0;
-
-    int correctNotes = 0;
-
-    //Variable to count in exact midi note to prevent Hit() function called accidentally
-    int averageCount = 0;
+    int spawnIndex = 0;
+    int inputIndex = 0;
+    int barIndex = 0;
+    int averageCount = 0; // Variable to count in exact midi note to prevent Hit() function called accidentally
 
     // Start is called before the first frame update
     void Start()
@@ -67,49 +58,48 @@ public class Lane : MonoBehaviour
         {
             if (SongManager.GetCurrentBeat() >= barIndex)
             {
+                // Handle fast forward, if the clip is being fast forwarded, then barIndex will be equal to the integer value of current beat
+                // So it'll not be spawned multiple time (since the default increment is 1)
+                barIndex = (int)SongManager.GetCurrentBeat();
                 SpawnMusicBar();
             }
 
-            if (spawnIndex < timeStamps.Count)
-            {
-                if (SongManager.GetAudioSourceTime() >= timeStamps[spawnIndex] - SongManager.Instance.noteTime)
-                {
-                    SpawnMusicNote();
-                }
-            }
+            // If current clip time is equal or larger than the current noteTimestamp - noteTime (note travel time)
+            // Then the note will be spawned
+            if (spawnIndex < timeStamps.Count &&
+                SongManager.GetAudioSourceTime() >= timeStamps[spawnIndex] - SongManager.Instance.noteTime)
+                SpawnMusicNote();
 
+            // Configure what note that need to be hit at the given time, based on the spawn note
             if (inputIndex < timeStamps.Count)
             {
                 double timeStamp = timeStamps[inputIndex];
                 double marginOfError = SongManager.Instance.marginOfError;
                 double audioTime = SongManager.GetAudioSourceTime() - (SongManager.Instance.inputDelayInMilliseconds / 1000.0);
 
+                // If detected pitch (played note by user) is equal to the current MIDI note or one octave's lower/higher
+                // And the hit time is still within the range of marginOfError
+                // Then the note will be considered correct
                 if ((SongManager.Instance.detectedPitch.midiNote == midiNotes[inputIndex] ||
                    SongManager.Instance.detectedPitch.midiNote + 12 == midiNotes[inputIndex] ||
-                   SongManager.Instance.detectedPitch.midiNote - 12 == midiNotes[inputIndex]))
+                   SongManager.Instance.detectedPitch.midiNote - 12 == midiNotes[inputIndex]) &&
+                   Math.Abs(audioTime - timeStamp) < marginOfError)
                 {
-                    if (Math.Abs(audioTime - timeStamp) < marginOfError)
+                    averageCount++;
+                    if (averageCount >= 3)
                     {
-                        //Algo to count if the note really is played & not accidentally detected
-                        averageCount++;
-                        if(averageCount >= 3){
-                            Hit();
-                            //Reset count after Hit
-                            averageCount = 0;
-                        }
-                    }
-                    else
-                    {
-                        //print($"Hit inaccurate on {inputIndex} note with {Math.Abs(audioTime - timeStamp)} delay");
+                        Hit();
+                        averageCount = 0;
                     }
                 }
 
+                // If the note that should be played [inputIndex] is exceeding the timeStamp + marginOfError value
+                // Then the note will be considered miss, and the next note will be the [inputIndex]
                 if (timeStamp + marginOfError <= audioTime)
                 {
                     Miss();
-                    //Reset count after miss
                     averageCount = 0;
-                }                
+                }
             }
         }
     }
@@ -133,19 +123,15 @@ public class Lane : MonoBehaviour
     private void Hit()
     {
         var note = notes[inputIndex];
-
         ScoreManager.Hit();
         note.GetComponent<SpriteRenderer>().sprite = note.noteRight;
         AnimationManager.Instace.AnimateHit(note.gameObject, -0.1f);
-
-        correctNotes++;
         inputIndex++;
     }
 
     private void Miss()
     {
         var note = notes[inputIndex];
-
         ScoreManager.Miss();
         notes[inputIndex].GetComponent<SpriteRenderer>().sprite = note.noteWrong;
         AnimationManager.Instace.AnimateHit(note.gameObject, -0.1f);
@@ -153,6 +139,8 @@ public class Lane : MonoBehaviour
     }
 
     // Destroy all spawned child objects in lane
+    // In case of seeking clip to previous of next section, all instantiated game object will be stored as child elements of Lane objects
+    // In order to not having multiple instance of the same notes/value stored and showed at the same time, we will destroy all spawned child objects before seeking audio clip
     public void DestroyChild()
     {
         var obj = GetComponent<Transform>();
@@ -161,7 +149,6 @@ public class Lane : MonoBehaviour
         {
             Destroy(child.gameObject);
         }
-
     }
 
     // Clear/destroy rest of notes to match it with current inputIndex & spawnIndex
@@ -182,20 +169,19 @@ public class Lane : MonoBehaviour
         }
     }
 
+    public void SetIndexValue(int spawn, int input)
+    {
+        Instance.spawnIndex = spawn;
+        Instance.inputIndex = input;
+        Instance.barIndex = 0;
+    }
+
     // Reset Lane to the initial state
     public void Reset()
     {
         spawnIndex = 0;
         inputIndex = 0;
         barIndex = 0;
-        correctNotes = 0;
         notes.Clear();
-    }
-
-    // temporary function to pass the session's data
-    public void OnDestroy()
-    {
-        PlayerPrefs.SetInt("SessionTotalNotes", inputIndex);
-        PlayerPrefs.SetInt("SessionCorrectNotes", correctNotes);
     }
 }

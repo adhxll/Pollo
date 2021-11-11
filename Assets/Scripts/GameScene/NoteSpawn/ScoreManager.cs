@@ -28,6 +28,9 @@ public class ScoreManager : MonoBehaviour
     [SerializeField]
     private GameObject hitBadge = null;
 
+    private string[] hitMessage = { "Perfect", "Eggcellent", "Awesome", "Great", "Good" };
+    private string[] missMessage = { "Miss", "Oopsy", "Aw...", "Sad Trombone", "Uh-oh"};
+
     static float correctNotes = 0;
     static float totalNotes = 0;
 
@@ -39,7 +42,6 @@ public class ScoreManager : MonoBehaviour
     double timer = 0;
     double timeSinceShowed = 0;
 
-    // Start is called before the first frame update
     void Start()
     {
         Instace = this;
@@ -83,11 +85,23 @@ public class ScoreManager : MonoBehaviour
 
     public void HitBadge(bool hit)
     {
-        // Determine badge display based on hit or miss
+        System.Random rnd = new System.Random();
+        int hitIndex = rnd.Next(0, hitMessage.Length - 1);
+        int missIndex = rnd.Next(0, missMessage.Length - 1);
+        var messageText = hitBadge.GetComponentInChildren<TMPro.TextMeshProUGUI>();
+
+        // Determine badge style based on hit or miss
         if (hit)
+        {
+            messageText.SetText(hitMessage[hitIndex]);
             hitBadge.GetComponent<Image>().color = new Color32(151, 174, 124, 255);
+        }
+
         else
+        {
+            messageText.SetText(missMessage[missIndex]);
             hitBadge.GetComponent<Image>().color = new Color32(247, 86, 82, 255);
+        }
         
         if (badgeShowed)
         {
@@ -139,8 +153,11 @@ public class ScoreManager : MonoBehaviour
         }
     }
 
+    // Temporary function to pass the session's data
     private void OnDestroy()
     {
         PlayerPrefs.SetInt("SessionScore", totalScore);
+        PlayerPrefs.SetInt("SessionTotalNotes", (int)totalNotes);
+        PlayerPrefs.SetInt("SessionCorrectNotes", (int)correctNotes);
     }
 }
