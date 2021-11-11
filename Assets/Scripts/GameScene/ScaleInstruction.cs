@@ -16,11 +16,16 @@ public class ScaleInstruction : MonoBehaviour
     private GameObject[] instructionBoard;
     [SerializeField]
     private GameObject[] pianoTiles;
-    
 
-    private int[] majorRange = { 2, 2, 1, 2, 2, 2, 1};
-    private int startIndex = 0;
+    [SerializeField]
+    private float playbackSpeed;
+    [SerializeField]
     private string keySignature;
+
+    //A major range scale multiplied by 2
+    private int[] majorRange = { 2, 2, 1, 2, 2, 2, 1 };
+    private int startIndex = 0;
+    
 
     private Color yellowColor = new Color32 (255, 200, 113, 255);
 
@@ -53,7 +58,7 @@ public class ScaleInstruction : MonoBehaviour
             audioSource.clip = audioClips[currentIndex];
             audioSource.Play();
 
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(playbackSpeed);
             pianoTiles[currentIndex].GetComponent<Image>().color = baseColor;
             if (index != majorRange.Length) currentIndex += majorRange[index];
             else
@@ -69,8 +74,8 @@ public class ScaleInstruction : MonoBehaviour
 
     void setupKeySignature()
     {
-        //var keySignature = SongManager.midiFile.header.name;
-        keySignature = "D#";
+        //var keySignature = SongManager.midiFile.header.keySignatures[0].key;
+
         instructionText.text = $"For this level, you are going to play on <color=#7E2684>{keySignature} Major</color> Scale.";
 
         foreach(GameObject tiles in pianoTiles)
@@ -80,4 +85,5 @@ public class ScaleInstruction : MonoBehaviour
         }
         Debug.Log(keySignature);
     }
+
 }

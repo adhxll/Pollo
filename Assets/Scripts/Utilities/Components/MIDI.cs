@@ -13,11 +13,16 @@ public class MIDI
     [System.Serializable]
     public class Header
     {
+        public KeySignatures[] keySignatures;
         public string name;
         public int ppq; // pulse per quarter
         public Tempos[] tempos;
     }
-
+    public class KeySignatures
+    {
+        public string key;
+        public string scale;
+    }
     [System.Serializable]
     public class Tempos
     {
