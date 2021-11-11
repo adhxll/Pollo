@@ -4,26 +4,26 @@ using UnityEngine;
 
 public class StarCounter : MonoBehaviour
 {
-    public GameObject[] starSlots;
+    public GameObject[] StarSlots;
     // Start is called before the first frame update
-    public int starCount;
-    public Sprite yellowStar;
-    public Sprite purpleStar;
+    public int StarCount;
+    public Sprite FilledStarSprite;
+    public Sprite EmptyStarSprite;
 
     public void FillStars() {
-        for (int i = 0; i< starCount; i++)
+        for (int i = 0; i< StarCount; i++)
         {
-            var star = starSlots[i].GetComponent<SpriteRenderer>();
+            var star = StarSlots[i].GetComponent<SpriteRenderer>();
             star.color = new Color32(255, 255, 255, 255); //white
-            star.sprite = yellowStar;
+            star.sprite = FilledStarSprite;
         }
     }
     public void EmptyStars() {
-        for (int i = 0; i < starSlots.Length; i++)
+        for (int i = 0; i < StarSlots.Length; i++)
         {
-            var star = starSlots[i].GetComponent<SpriteRenderer>();
+            var star = StarSlots[i].GetComponent<SpriteRenderer>();
             star.color = new Color32(90, 133, 113, 255); //darkgreen
-            star.sprite = purpleStar;
+            star.sprite = EmptyStarSprite;
             
         }
        

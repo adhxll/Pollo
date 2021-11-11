@@ -17,6 +17,7 @@ public class AnimationUtilities : MonoBehaviour
     }
     public static void AnimatePopUp(GameObject obj) {
         obj.transform.DORewind();
+      
         float vectorX = obj.transform.localScale.x * 0.25f;
         float vectorY = obj.transform.localScale.y * 0.25f;
         float vectorZ = obj.transform.localScale.z * 0.25f; 
@@ -26,6 +27,7 @@ public class AnimationUtilities : MonoBehaviour
     public static void AnimatePopUpDisappear(GameObject obj)
     {
         obj.transform.DORewind();
+
         float vectorX = obj.transform.localScale.x * -0.99f;
         float vectorY = obj.transform.localScale.y * -0.99f;
         float vectorZ = obj.transform.localScale.z * -0.99f;

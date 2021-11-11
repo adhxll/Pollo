@@ -126,13 +126,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19829bdfbf362d342b1221376b6c1775, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  starSlots:
+  StarSlots:
   - {fileID: 1809401032620771192}
   - {fileID: 4373146304099693149}
   - {fileID: 4668675266763868164}
-  starCount: 0
-  yellowStar: {fileID: 21300000, guid: ab0de4ab80b474ea3a0e0a05eae533ed, type: 3}
-  purpleStar: {fileID: 21300000, guid: d29ac956de608459c9548d935f2b4f38, type: 3}
+  StarCount: 0
+  FilledStarSprite: {fileID: 21300000, guid: ab0de4ab80b474ea3a0e0a05eae533ed, type: 3}
+  EmptyStarSprite: {fileID: 21300000, guid: d29ac956de608459c9548d935f2b4f38, type: 3}
 --- !u!1 &4373146304099693149
 GameObject:
   m_ObjectHideFlags: 0
@@ -368,8 +368,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 142172421
-  m_SortingLayer: 0
+  m_SortingLayerID: 1986902605
+  m_SortingLayer: 1
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 49d122e2b127a4630bdd9c249b775b91, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

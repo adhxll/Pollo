@@ -7,29 +7,33 @@ public class PerspectivePan : MonoBehaviour
 {
     // Start is called before the first frame update
     public Camera cam;
-    public EventSystem event_system; 
-    private Vector3 touchStart;
+    private Vector3 touchStart; //Vector for storing user input touch
     private float minX, minY, maxX, maxY;
     public GameObject GameObjectWithMaxBounds; //max boundsnya tergantung object, contoh: background
     private SpriteRenderer mapRenderer;
 
     void Awake()
     {
-        //get sprite renderer dari si gameobject
-        mapRenderer  = GameObjectWithMaxBounds.GetComponent<SpriteRenderer>();
-
-        cam = Camera.main;
-       
-        //bikin max min values berdasarkan gameobject
-        minX = mapRenderer.transform.position.x - mapRenderer.bounds.size.x /2f; 
-        maxX = mapRenderer.transform.position.x + mapRenderer.bounds.size.x / 2f;
-        minY = mapRenderer.transform.position.y - mapRenderer.bounds.size.y / 2f;
-        maxY = mapRenderer.transform.position.y + mapRenderer.bounds.size.y / 2f;
-
+        SetupPanningObjects();
     }
+
+
     private void Update()
     {
         PanCamera(); 
+    }
+
+    private void SetupPanningObjects() {
+        //get sprite renderer dari si gameobject
+        mapRenderer = GameObjectWithMaxBounds.GetComponent<SpriteRenderer>();
+
+        cam = Camera.main;
+
+        //bikin max min values berdasarkan gameobject
+        minX = mapRenderer.transform.position.x - mapRenderer.bounds.size.x / 2f;
+        maxX = mapRenderer.transform.position.x + mapRenderer.bounds.size.x / 2f;
+        minY = mapRenderer.transform.position.y - mapRenderer.bounds.size.y / 2f;
+        maxY = mapRenderer.transform.position.y + mapRenderer.bounds.size.y / 2f;
     }
     private void PanCamera() {
         //receive input drag dan click
@@ -38,7 +42,6 @@ public class PerspectivePan : MonoBehaviour
         if (Input.GetMouseButton(0)) {
             Vector3 difference = touchStart - cam.ScreenToWorldPoint(Input.mousePosition);
             cam.transform.position =  ClampCamera(cam.transform.position + difference); 
-
         }
     }
 

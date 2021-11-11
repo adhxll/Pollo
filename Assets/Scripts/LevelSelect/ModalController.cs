@@ -13,10 +13,7 @@ public class ModalController : MonoBehaviour
     public void SetValues()
     {
         levelText.text = levelValue;
-        scoreText.text = scoreValue; 
-
+        scoreText.text = scoreValue;
     }
-
-
     
 }

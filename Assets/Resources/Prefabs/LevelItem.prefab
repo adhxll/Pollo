@@ -131,10 +131,10 @@ MonoBehaviour:
     bpm: 0
     songMelodies: []
     segmentMelodies: 
-  text: {fileID: 7509754647007974667}
-  starContainer: {fileID: 1149134762082396481}
-  circle: {fileID: 2504493785883356013}
-  goldCircle: {fileID: 21300000, guid: 51935e5b607d54256a552983b713726c, type: 3}
+  LevelCountText: {fileID: 7509754647007974667}
+  StarContainer: {fileID: 1149134762082396481}
+  LockUnlockCircle: {fileID: 2504493785883356013}
+  UnlockedCircleSprite: {fileID: 21300000, guid: 51935e5b607d54256a552983b713726c, type: 3}
 --- !u!1 &2504493785883356013
 GameObject:
   m_ObjectHideFlags: 0
@@ -402,6 +402,14 @@ PrefabInstance:
     - target: {fileID: 1065316808487954123, guid: ff9982f216eee6649ac09ee52556bd33, type: 3}
       propertyPath: m_SortingLayerID
       value: 1986902605
+      objectReference: {fileID: 0}
+    - target: {fileID: 1181571928712793168, guid: ff9982f216eee6649ac09ee52556bd33, type: 3}
+      propertyPath: StarCount
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1181571928712793168, guid: ff9982f216eee6649ac09ee52556bd33, type: 3}
+      propertyPath: StarSlots.Array.size
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1809401032620771192, guid: ff9982f216eee6649ac09ee52556bd33, type: 3}
       propertyPath: m_Layer

@@ -5,8 +5,8 @@ using UnityEngine.UI;
 public class LevelSelectionController : MonoBehaviour
 {
     //beberapa function buat save system itu lagi on progress jadi hiraukan aja
-    public GameObject[] levels;
-    public List<LevelItem> items = new List<LevelItem>();
+    public GameObject[] Levels;
+    public List<LevelItem> LevelData = new List<LevelItem>();
     public GameObject modal;
     public GameObject overlay;
     
@@ -15,8 +15,8 @@ public class LevelSelectionController : MonoBehaviour
     {
         Camera cam = Camera.main; 
         overlay.GetComponent<SpriteRenderer>().bounds.SetMinMax(new Vector3(), new Vector3(cam.orthographicSize, cam.orthographicSize * cam.aspect)); 
-        for (int i = 0; i < levels.Length;  i++) {
-            items.Add(levels[i].GetComponent<LevelItem>()); 
+        for (int i = 0; i < Levels.Length;  i++) {
+            LevelData.Add(Levels[i].GetComponent<LevelItem>()); 
 }
         Debug.Log("Loading Level Data..."); 
         loadLevels();
@@ -27,8 +27,8 @@ public class LevelSelectionController : MonoBehaviour
         //TODO: Load data from binary here
         //PlayerData data = SaveSystem.LoadLevelData();
         GameObject lvl; 
-        for (int i = 0; i < levels.Length; i++) {
-            lvl = levels[i];
+        for (int i = 0; i < Levels.Length; i++) {
+            lvl = Levels[i];
             lvl.GetComponent<LevelItem>().data = generateDummy(i);  
             //lvl.GetComponent<LevelItem>().data = data.levelData[i];
             // lvl.GetComponent<LevelItem>().data.starCount = items[i].data.starCount; 
@@ -68,10 +68,10 @@ public class LevelSelectionController : MonoBehaviour
         //set modal data menjadi level data
         var levelData = sourceLevel.GetComponent<LevelItem>().data;
         var modalData = modal.GetComponent<ModalController>();
-        modal.GetComponent<StarCounter>().starCount = levelData.starCount;
+        modal.GetComponent<StarCounter>().StarCount = levelData.starCount;
         modalData.scoreValue = levelData.highScore.ToString();
         modalData.levelValue = "Level " + levelData.getLevelCount();
-        //TODO: get level ID then set modal data menjadi level ID
+        //TODO: - get level ID then set modal data menjadi level ID
        
         if (!modal.activeSelf)
         {

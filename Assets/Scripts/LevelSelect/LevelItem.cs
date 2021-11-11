@@ -7,14 +7,16 @@ using UnityEngine.UI;
 public class LevelItemContainer {
    //LevelItemContainer itu data yang disimpen di dalem levelItem
 
+    //level data 
     public bool isUnlocked;
-    private int levelCount; // actual level title
+    private int levelCount; //level number
     public int levelScore;
     public int starCount;
     public int score;
     public int highScore;
     public int maxScore;
 
+    //song data
     public char song;
     public int bpm;
     public string[] songMelodies;
@@ -32,8 +34,6 @@ public class LevelItemContainer {
         bpm = 0;
         songMelodies = new string[14];
         segmentMelodies = new int[14];
-
-
     }
     public string getLevelCount() { //used for displaying only!!! don't fuck with this please!!!!!!
         return this.levelCount.ToString(); 
@@ -44,17 +44,17 @@ public class LevelItem : MonoBehaviour
     //data to fill the level item
     public LevelItemContainer data;
     //containers for showing the data
-    public TMPro.TextMeshPro text; 
-    public GameObject starContainer;
-    public GameObject circle;
-    public Sprite goldCircle; 
+    public TMPro.TextMeshPro LevelCountText; 
+    public GameObject StarContainer;
+    public GameObject LockUnlockCircle;
+    public Sprite UnlockedCircleSprite; 
     void Start()
     {
         //setup the data into container
-        text.GetComponent<TMPro.TextMeshPro>().text = data.getLevelCount();
-        starContainer.GetComponent<StarCounter>().starCount = data.starCount;
-        starContainer.GetComponent<StarCounter>().FillStars();
-        if (data.isUnlocked) circle.GetComponent<SpriteRenderer>().sprite = goldCircle; 
+        LevelCountText.GetComponent<TMPro.TextMeshPro>().text = data.getLevelCount();
+        StarContainer.GetComponent<StarCounter>().StarCount = data.starCount;
+        StarContainer.GetComponent<StarCounter>().FillStars();
+        if (data.isUnlocked) LockUnlockCircle.GetComponent<SpriteRenderer>().sprite = UnlockedCircleSprite; 
     }
     
 
