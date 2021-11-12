@@ -20,6 +20,7 @@ public class AnimationUtilities : MonoBehaviour
     // You can use it for any object that is TMP_Text
     public static void AnimateAddMoney(GameObject indicator)
     {
+        // TODO: purchase DOTweenPro so we can animate the value change of a TMP text :D
         Sequence s = DOTween.Sequence();
         indicator.GetComponent<TMP_Text>().alpha = 127;
         indicator.transform.DORewind();   

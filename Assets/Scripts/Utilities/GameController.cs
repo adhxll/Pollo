@@ -4,11 +4,7 @@ using UnityEngine;
 using TMPro;
 
 // enum to define keys for using playerprefs
-enum PlayerDataKey
-{
-    CoinAmount,
-    Character,
-};
+
 
 // GameController is our Singleton Class that serves as the game's controller (duh)
 // It stores the game's global variable such as game currency and player's current skin (future development)
@@ -19,6 +15,12 @@ public class GameController : MonoBehaviour
     private int currentCharacter; // currentSkin is a variable that holds current characterId
     public GameObject[] coinAmount;
     public GameObject[] coinChangeIndicator;
+
+    private enum PlayerDataKey
+    {
+        CoinAmount,
+        Character,
+    };
 
 
     private void Awake()
@@ -105,18 +107,18 @@ public class GameController : MonoBehaviour
         PlayerPrefs.SetInt(PlayerDataKey.CoinAmount.ToString(), totalCoin); // Automatically saves the new value to PlayerPrefs
     }
 
-    public void setCurrentSkin(int skinId)
+    public void SetCurrentSkin(int skinId)
     {
         this.currentCharacter = skinId;
         PlayerPrefs.SetInt(PlayerDataKey.Character.ToString(), skinId); // Automatically saves the new value to PlayerPrefs
     }
 
-    public int getCurrentSkin()
+    public int GetCurrentSkin()
     {
         return this.currentCharacter;
     }
 
-    public int getTotalCoin()
+    public int GetTotalCoin()
     {
         return this.totalCoin;
     }
