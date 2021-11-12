@@ -1,8 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using DG.Tweening;
-using TMPro;
+using DG.Tweening; 
 
 public class AnimationUtilities : MonoBehaviour
 {
@@ -15,18 +14,5 @@ public class AnimationUtilities : MonoBehaviour
         obj.transform.DOPunchScale(new Vector3(vectorX, vectorY, vectorZ), 0.2f, 1, 1);
 
     }
-
-    // This function is the one responsible for the moving up and fading money indicator.
-    // You can use it for any object that is TMP_Text
-    public static void AnimateAddMoney(GameObject indicator)
-    {
-        // TODO: purchase DOTweenPro so we can animate the value change of a TMP text :D
-        Sequence s = DOTween.Sequence();
-        indicator.GetComponent<TMP_Text>().alpha = 127;
-        indicator.transform.DORewind();   
-        float vectorY = indicator.transform.localPosition.y + 50f;
-        s.Append(indicator.transform.DOLocalMoveY(vectorY,2.5f));
-        s.Insert(0, indicator.GetComponent<TMP_Text>().DOFade(0, 2f));
-        s.Play();
-    }
+    
 }

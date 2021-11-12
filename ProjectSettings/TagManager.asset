@@ -9,8 +9,6 @@ TagManager:
   - CharacterButton
   - SoundMuteButton
   - SettingsButton
-  - CoinAmount
-  - CoinChangeIndicator
   layers:
   - Default
   - TransparentFX
