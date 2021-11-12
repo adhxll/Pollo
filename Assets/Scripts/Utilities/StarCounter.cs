@@ -4,9 +4,12 @@ using UnityEngine;
 
 public class StarCounter : MonoBehaviour
 {
+    //This script can be used to fill the stars UI Element (result, levelselect, etc.).
+    
+    //Gameobject used to store the stars
     public GameObject[] StarSlots;
-    // Start is called before the first frame update
     public int StarCount;
+    //set star sprites for filled / empty state in starslots
     public Sprite FilledStarSprite;
     public Sprite EmptyStarSprite;
 
@@ -18,7 +21,7 @@ public class StarCounter : MonoBehaviour
             star.sprite = FilledStarSprite;
         }
     }
-    public void EmptyStars() {
+    public void EmptyStars() {//remember to empty the slots before the parent GameObject is set to inactive (kalo destroy gaperlu)
         for (int i = 0; i < StarSlots.Length; i++)
         {
             var star = StarSlots[i].GetComponent<SpriteRenderer>();

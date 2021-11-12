@@ -5,11 +5,10 @@ using UnityEngine.EventSystems;
 
 public class PerspectivePan : MonoBehaviour
 {
-    // Start is called before the first frame update
     public Camera cam;
     private Vector3 touchStart; //Vector for storing user input touch
     private float minX, minY, maxX, maxY;
-    public GameObject GameObjectWithMaxBounds; //max boundsnya tergantung object, contoh: background
+    public GameObject GameObjectWithMaxBounds; //max bounds panning tergantung object, contoh: background
     private SpriteRenderer mapRenderer;
 
     void Awake()
@@ -36,7 +35,6 @@ public class PerspectivePan : MonoBehaviour
         maxY = mapRenderer.transform.position.y + mapRenderer.bounds.size.y / 2f;
     }
     private void PanCamera() {
-        //receive input drag dan click
         if (Input.GetMouseButtonDown(0)) touchStart = cam.ScreenToWorldPoint(Input.mousePosition);
 
         if (Input.GetMouseButton(0)) {
@@ -45,8 +43,9 @@ public class PerspectivePan : MonoBehaviour
         }
     }
 
-    private Vector3 ClampCamera(Vector3 targetPosition) { //biar ga out of bounds pas geser2 camera
+    private Vector3 ClampCamera(Vector3 targetPosition) { 
 
+        //"jepit" camera move bounds biar ga out of bounds pas geser2 camera
         float camHeight = cam.orthographicSize;
         float camWidth = cam.orthographicSize * cam.aspect;
         float camMinX = minX + camWidth;

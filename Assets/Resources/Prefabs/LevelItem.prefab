@@ -120,17 +120,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ab9ffc12d0a99243b49e4fc82901be9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  data:
-    isUnlocked: 0
-    levelScore: 0
-    starCount: 0
-    score: 0
-    highScore: 0
-    maxScore: 0
-    song: 0
-    bpm: 0
-    songMelodies: []
-    segmentMelodies: 
+  data: {fileID: 0}
   LevelCountText: {fileID: 7509754647007974667}
   StarContainer: {fileID: 1149134762082396481}
   LockUnlockCircle: {fileID: 2504493785883356013}
@@ -230,7 +220,7 @@ GameObject:
   - component: {fileID: 2862347312243350710}
   - component: {fileID: 7509754647007974667}
   m_Layer: 5
-  m_Name: Text
+  m_Name: Level Number
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
