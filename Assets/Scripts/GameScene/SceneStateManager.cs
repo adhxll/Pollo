@@ -58,12 +58,12 @@ public class SceneStateManager : MonoBehaviour
     private TMPro.TextMeshProUGUI countdown;
 
     //SceneState sceneState = SceneState.Onboarding;
-    SceneState sceneState = SceneState.Countdown;
-    SceneManagerScript sceneManager;
+    private SceneState sceneState = SceneState.Countdown;
+    private SceneManagerScript sceneManager;
 
-    float delay = 1;
-    int onboardingSteps = 0;
-    bool practice = false;
+    private float delay = 1;
+    private int onboardingSteps = 0;
+    private bool practice = false;
 
     void Start()
     {

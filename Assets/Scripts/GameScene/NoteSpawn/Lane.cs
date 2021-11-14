@@ -17,21 +17,33 @@ public class Lane : MonoBehaviour
     [SerializeField]
     private GameObject barPrefab = null;
 
-    public List<Note> notes = new List<Note>();
+    [SerializeField]
+    private List<Note> notes = new List<Note>();
 
     [HideInInspector]
-    public List<double> timeStamps = new List<double>();    // A list that store each notes timestamp (telling the exact time when its need to be spawned)
+    private List<double> timeStamps = new List<double>();    // A list that store each notes timestamp (telling the exact time when its need to be spawned)
 
     [HideInInspector]
-    public List<float> noteDurations = new List<float>();   // A list that store each notes ticks duration
+    private List<float> noteDurations = new List<float>();   // A list that store each notes ticks duration
 
     [HideInInspector]
-    public List<int> midiNotes = new List<int>();   // A list that store what MIDI notes need to be played at the given note
+    private List<int> midiNotes = new List<int>();   // A list that store what MIDI notes need to be played at the given note
 
     private int spawnIndex = 0;
     private int inputIndex = 0;
     private int barIndex = 0;
     private int averageCount = 0; // Variable to count in exact midi note to prevent Hit() function called accidentally
+
+    public GameObject GetNotePrefab() { return Instance.notePrefab; }
+    public GameObject GetBarPrefab() { return Instance.barPrefab; }
+    public List<Note> GetNotes() { return Instance.notes; }
+    public List<double> GetTimeStamps() { return Instance.timeStamps; }
+    public List<float> GetNoteDurations() { return Instance.noteDurations; }
+    public List<int> GetMidiNotes() { return Instance.midiNotes; }
+    public int GetSpawnIndex() { return Instance.spawnIndex; }
+    public int GetInputIndex() { return Instance.inputIndex; }
+    public int GetBarIndex() { return Instance.barIndex; }
+    public int GetAverageCount() { return Instance.averageCount; } 
 
     // Start is called before the first frame update
     void Start()
@@ -46,7 +58,7 @@ public class Lane : MonoBehaviour
         foreach (var note in array)
         {
             timeStamps.Add(note.time);
-            noteDurations.Add((float)note.durationTicks / SongManager.midiFile.header.ppq);
+            noteDurations.Add((float)note.durationTicks / SongManager.Instance.GetMidiFile().header.ppq);
             midiNotes.Add(note.midi);
         }
     }
@@ -54,7 +66,7 @@ public class Lane : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (SongManager.Instance.songPlayed)
+        if (SongManager.Instance.GetSongPlayed())
         {
             if (SongManager.GetCurrentBeat() >= barIndex)
             {
@@ -67,15 +79,15 @@ public class Lane : MonoBehaviour
             // If current clip time is equal or larger than the current noteTimestamp - noteTime (note travel time)
             // Then the note will be spawned
             if (spawnIndex < timeStamps.Count &&
-                SongManager.GetAudioSourceTime() >= timeStamps[spawnIndex] - SongManager.Instance.noteTime)
+                SongManager.GetAudioSourceTime() >= timeStamps[spawnIndex] - SongManager.Instance.GetNoteTime())
                 SpawnMusicNote();
 
             // Configure what note that need to be hit at the given time, based on the spawn note
             if (inputIndex < timeStamps.Count)
             {
                 double timeStamp = timeStamps[inputIndex];
-                double marginOfError = SongManager.Instance.marginOfError;
-                double audioTime = SongManager.GetAudioSourceTime() - (SongManager.Instance.inputDelayInMilliseconds / 1000.0);
+                double marginOfError = SongManager.Instance.GetMarginOfError();
+                double audioTime = SongManager.GetAudioSourceTime() - (SongManager.Instance.GetInputDelayInMilliseconds() / 1000.0);
 
                 if (SceneStateManager.Instance.GetSceneState() == SceneStateManager.SceneState.Onboarding)
                 {
@@ -114,8 +126,8 @@ public class Lane : MonoBehaviour
     private void SpawnMusicNote()
     {
         var note = Instantiate(notePrefab, transform);
-        note.GetComponent<Note>().assignedTime = timeStamps[spawnIndex];
-        note.GetComponent<Note>().noteLength = noteDurations[spawnIndex];
+        note.GetComponent<Note>().SetAssignedTime(timeStamps[spawnIndex]);
+        note.GetComponent<Note>().SetNoteLength(noteDurations[spawnIndex]);
         notes.Add(note.GetComponent<Note>());
         spawnIndex++;
     }
@@ -123,7 +135,7 @@ public class Lane : MonoBehaviour
     private void SpawnMusicBar()
     {
         var bar = Instantiate(barPrefab, transform);
-        bar.GetComponent<Bar>().assignedTime = SongManager.GetAudioSourceTime();
+        bar.GetComponent<Bar>().SetAssignedTime(SongManager.GetAudioSourceTime());
         barIndex++;
     }
 
@@ -131,7 +143,7 @@ public class Lane : MonoBehaviour
     {
         var note = notes[inputIndex];
         ScoreManager.Hit();
-        note.GetComponent<SpriteRenderer>().sprite = note.noteRight;
+        note.GetComponent<SpriteRenderer>().sprite = note.GetNoteRight();
         AnimationManager.Instace.AnimateHit(note.gameObject, -0.1f);
         inputIndex++;
     }
@@ -140,7 +152,7 @@ public class Lane : MonoBehaviour
     {
         var note = notes[inputIndex];
         ScoreManager.Miss();
-        notes[inputIndex].GetComponent<SpriteRenderer>().sprite = note.noteWrong;
+        notes[inputIndex].GetComponent<SpriteRenderer>().sprite = note.GetNoteWrong();
         AnimationManager.Instace.AnimateHit(note.gameObject, -0.1f);
         inputIndex++;
     }
@@ -150,9 +162,9 @@ public class Lane : MonoBehaviour
     // Then the note will be considered correct
     private bool CheckPitch()
     {
-        if (SongManager.Instance.detectedPitch.midiNote == midiNotes[inputIndex] ||
-            SongManager.Instance.detectedPitch.midiNote + 12 == midiNotes[inputIndex] ||
-            SongManager.Instance.detectedPitch.midiNote - 12 == midiNotes[inputIndex])
+        if (SongManager.Instance.GetDetectedPitch().GetMidiNote() == midiNotes[inputIndex] ||
+            SongManager.Instance.GetDetectedPitch().GetMidiNote() + 12 == midiNotes[inputIndex] ||
+            SongManager.Instance.GetDetectedPitch().GetMidiNote() - 12 == midiNotes[inputIndex])
             return true;
 
         return false;

@@ -4,14 +4,31 @@ using UnityEngine;
 
 public class Note : MonoBehaviour
 {
-    double timeInstantiated;    // Time telling when the object is instantiated
-    public double assignedTime; // Time telling when the object should arrive at the hit area
-    public float noteLength;
+    private double timeInstantiated;    // Time telling when the object is instantiated
+    [SerializeField]
+    private double assignedTime; // Time telling when the object should arrive at the hit area
+    [SerializeField]
+    private float noteLength;
 
-    public Sprite noteWrong;
-    public Sprite noteRight;
-
+    [SerializeField]
+    private Sprite noteWrong;
+    [SerializeField]
+    private Sprite noteRight;
     private GameObject noteObject;
+
+    public double GetTimeInstantiated() { return this.timeInstantiated; }    // Time telling when the object is instantiated
+    public void SetTimeInstantiated(double timeInstantiated) { this.timeInstantiated = timeInstantiated; }
+    public double GetAssignedTime() { return this.assignedTime; } // Time telling when the object should arrive at the hit area
+    public void SetAssignedTime(double assignedTime) { this.assignedTime = assignedTime; }
+    public float GetNoteLength() { return this.noteLength; }
+    public void SetNoteLength(float noteLength) { this.noteLength = noteLength; }
+
+    public Sprite GetNoteWrong() { return this.noteWrong; }
+    public void SetNoteWrong(Sprite noteWrong) { this.noteWrong = noteWrong; }
+    public Sprite GetNoteRight() { return this.noteRight; }
+    public void SetNoteRight(Sprite noteRight) { this.noteRight = noteRight; }
+    public GameObject GetNoteObject() { return this.noteObject; }
+    public void SetNoteObject(GameObject noteObject) { this.noteObject = noteObject; }
 
     void Start()
     {
@@ -28,7 +45,7 @@ public class Note : MonoBehaviour
     void Update()
     {
         double timeSinceInstantiated = CheckTime();
-        float t = (float)(timeSinceInstantiated / (SongManager.Instance.noteTime * 2));
+        float t = (float)(timeSinceInstantiated / (SongManager.Instance.GetNoteTime() * 2));
 
         if (t > 1)
         {
@@ -36,7 +53,7 @@ public class Note : MonoBehaviour
         }
         else
         {
-            transform.localPosition = Vector3.Lerp(Vector3.right * SongManager.Instance.noteSpawnX, Vector3.right * SongManager.Instance.noteDespawnX, t);
+            transform.localPosition = Vector3.Lerp(Vector3.right * SongManager.Instance.GetNoteSpawnX(), Vector3.right * SongManager.Instance.GetNoteDespawnX(), t);
             GetComponent<SpriteRenderer>().enabled = true;
             GetComponent<SpriteRenderer>().maskInteraction = SpriteMaskInteraction.VisibleInsideMask;
         }
@@ -46,7 +63,7 @@ public class Note : MonoBehaviour
     {
         // If noteTime (time that each notes needed to arrive at the hit area/noteTapX from the spawn location/noteSpawnX) is bigger than the assigned time, then the condition meets.
         // For example, in our case noteTime is 3s. If there are any notes that need to be spawned at less than 3s (which is lower than the travel time) then it will go through this condition.
-        if (SongManager.Instance.noteTime >= assignedTime)
+        if (SongManager.Instance.GetNoteTime() >= assignedTime)
         {
             // If those condition meet, we'll calculate the interpolation where those note should be.
             // As you can see, at the moment we use Lerp function at line 36.
@@ -63,7 +80,7 @@ public class Note : MonoBehaviour
             // --------------------------------X--------  -> Spawn position
             // A -------------------0------------------- B -> Start & end Position, 0 is hit location
 
-            return SongManager.Instance.noteTime - assignedTime + SongManager.GetAudioSourceTime();
+            return SongManager.Instance.GetNoteTime() - assignedTime + SongManager.GetAudioSourceTime();
         }
         else
         {

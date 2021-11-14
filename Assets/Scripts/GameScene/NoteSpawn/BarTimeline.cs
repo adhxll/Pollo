@@ -95,8 +95,8 @@ public class BarTimeline : MonoBehaviour
     // Configuring inputIndex and spawnIndex for each section
     public void ConfigureSection()
     {
-        var musicNotes = Lane.Instance.timeStamps;
-        var noteTime = SongManager.Instance.inputDelayInMilliseconds / 1000;
+        var musicNotes = Lane.Instance.GetTimeStamps();
+        var noteTime = SongManager.Instance.GetInputDelayInMilliseconds() / 1000;
         var i = 0;
         var j = 0;
 
@@ -113,7 +113,7 @@ public class BarTimeline : MonoBehaviour
                 // Then [i] is the inputIndex
                 if (section == musicNotes[i] || section < musicNotes[i])
                 {
-                    barObj.inputIndex = i;
+                    barObj.SetInputIndex(i);
                 }
 
                 // After getting the inputIndex, continue the loop to search for spawnIndex
@@ -121,7 +121,7 @@ public class BarTimeline : MonoBehaviour
                 // Then [i] is the spawnIndex
                 if (section < musicNotes[i] + noteTime)
                 {
-                    barObj.spawnIndex = i;
+                    barObj.SetSpawnIndex(i);
                     j++;
                     break;
                 }
@@ -182,7 +182,7 @@ public class BarTimeline : MonoBehaviour
     {
         var barObj = barList[currentSection].GetComponent<Timestamp>();
         SongManager.Instance.SetAudioPosition((float)timestamp[currentSection]);
-        Lane.Instance.SetIndexValue(barObj.spawnIndex, barObj.inputIndex);
+        Lane.Instance.SetIndexValue(barObj.GetSpawnIndex(), barObj.GetInputIndex());
         Lane.Instance.DestroyChild();
         SetTimestampStyle();
 

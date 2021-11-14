@@ -7,15 +7,18 @@ using System;
 
 public class ScoreDisplayScript : MonoBehaviour
 {
-    public int score;
+    [SerializeField]
+    private int score;
     private int totalNotes;
     private int totalCorrect;
-    public TMP_Text scoreMessageObject;
-    public TMP_Text scoreObject; // the Score game object on ResultPage scen
-    //public TextMeshPro scoreMessage; // scoreMessage is the success message
-    //public TextMeshPro scoreMessageShadow; // the shadow of scoreMessage, to be removed
-    public GameObject[] stars; // the yellow stars inside the Tag GameObject
-    public int star = 0;
+    [SerializeField]
+    private TMP_Text scoreMessageObject;
+    [SerializeField]
+    private TMP_Text scoreObject; // the Score game object on ResultPage scene
+    [SerializeField]
+    private GameObject[] stars; // the yellow stars inside the Tag GameObject
+    [SerializeField]
+    private int star = 0;
     private string[] successMessages = { "Bru..", "You passed!(barely)", "Good!", "Awesome!!" };
 
 

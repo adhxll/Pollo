@@ -6,7 +6,8 @@ using System.Linq;
 public class Database : MonoBehaviour
 {
     private static Database Instance;
-    public LevelDatabase levels;
+    [SerializeField]
+    private LevelDatabase levels;
 
     private void Awake()
     {
@@ -23,6 +24,6 @@ public class Database : MonoBehaviour
 
     public static Level GetLevelByID(int ID)
     {
-        return Instance.levels.allLevels.FirstOrDefault(i => i.levelID == ID);
+        return Instance.levels.allLevels.FirstOrDefault(i => i.GetLevelID() == ID);
     }
 }

@@ -7,8 +7,8 @@ using Pitch.Algorithm;
 
 public class PitchDetectionSystem : MonoBehaviour
 {
-    PitchDetector pitchDetector;
-    AudioSource audioSource;
+    private PitchDetector pitchDetector;
+    private AudioSource audioSource;
 
     [SerializeField]
     private Dropdown dropdown = null;
@@ -48,7 +48,7 @@ public class PitchDetectionSystem : MonoBehaviour
         pitchDetector = GetComponent<PitchDetector>();
         audioSamplerate = AudioSettings.outputSampleRate;
 
-        audioSource = pitchDetector.source;
+        audioSource = pitchDetector.GetSource();
         spectrum = new float[sampleCount];
         buffer = new float[sampleCount];
     }
@@ -79,8 +79,8 @@ public class PitchDetectionSystem : MonoBehaviour
         }
 
         PitchUtilities.PitchToMidiNote(pitchValue, out int midiNote, out int midiCents);
-        pitchDetector.pitch = pitchValue;
-        pitchDetector.midiNote = midiNote;
+        pitchDetector.SetPitch(pitchValue);
+        pitchDetector.SetMidiNote(midiNote);
 
         // Log pitch detection changes.
         // Pitch detection will be called on each frame updates, so it'll print the result at least 30 times every seconds, whether there's a changes or not in the detected note.
@@ -94,7 +94,7 @@ public class PitchDetectionSystem : MonoBehaviour
 
     public void StartPlaying()
     {
-        pitchDetector.source.PlayScheduled(0);
+        pitchDetector.GetSource().PlayScheduled(0);
     }
 
     public void StartRecording()

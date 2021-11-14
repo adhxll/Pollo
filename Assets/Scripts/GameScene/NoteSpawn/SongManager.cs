@@ -8,61 +8,71 @@ using System;
 public class SongManager : MonoBehaviour
 {
     public static SongManager Instance;
-    public PitchDetector detectedPitch;
 
     // Selected Level ID, see level items & database for reference
     private int levelID = 0;
     // Level object, to load level item based on level ID
     private Level selectedLevel;
-
-    [SerializeField]
-    private Lane lanes = null;
-
-    [SerializeField]
-    private BarTimeline barTimeline = null;
-
     private AudioSource leadTrack;
     private AudioSource backingTrack;
-    public static MIDI.MidiFile midiFile;
+
+    [SerializeField]
+    private PitchDetector detectedPitch;
+    [SerializeField]
+    private Lane lanes = null;
+    [SerializeField]
+    private BarTimeline barTimeline = null;
+    [SerializeField]
+    private static MIDI.MidiFile midiFile;
 
     [Space]
-    public float songDelayInSeconds;
-    public double marginOfError;    // In seconds
-    public int inputDelayInMilliseconds;
+    [SerializeField]
+    private float songDelayInSeconds;
+    [SerializeField]
+    private double marginOfError;    // In seconds
+    [SerializeField]
+    private int inputDelayInMilliseconds;
 
-    public float noteTime;  // Time needed for the note spawn location to the tap location
-    public float noteSpawnX;    // Note spawn position in world space
-    public float noteTapX;  // Note tap position in world space
+    [SerializeField]
+    private float noteTime;  // Time needed for the note spawn location to the tap location
+    [SerializeField]
+    private float noteSpawnX;    // Note spawn position in world space
+    [SerializeField]
+    private float noteTapX;  // Note tap position in world space
 
-    public float noteDespawnX
-    {
-        get
-        {
-            return noteTapX - (noteSpawnX - noteTapX);
-        }
-    }
-
-    TextAsset midiJSON
-    {
-        get
-        {
-            return selectedLevel.midiJson;
-        }
-    }
-
-    static float midiBPM
-    {
-        get
-        {
-            return (float)60 / (float)midiFile.header.tempos[0].bpm;
-        }
-    }
-
+    private  float noteDespawnX { get { return noteTapX - (noteSpawnX - noteTapX); } }
+    private TextAsset midiJSON { get { return selectedLevel.GetMidiJson(); } }
+    private static float midiBPM { get { return (float)60 / (float)midiFile.header.tempos[0].bpm; } }
     [HideInInspector]
-    public bool songPlayed = false;
-
+    private bool songPlayed = false;
     // Position Tracking
-    double dspTimeSong;
+    private double dspTimeSong;
+
+    //Getter Setter
+    public int GetLevelID() { return Instance.levelID; }
+    public Level GetSelectedLevel() { return Instance.selectedLevel; }
+    public AudioSource GetLeadTrack() { return Instance.leadTrack; }
+    public AudioSource GetBackingTrack() { return Instance.backingTrack; }
+    public PitchDetector GetDetectedPitch() { return Instance.detectedPitch; }
+    public Lane GetLanes() { return Instance.lanes; }
+    public BarTimeline GetBarTimeline() { return Instance.barTimeline; }
+    public MIDI.MidiFile GetMidiFile() { return midiFile; }
+
+    public float GetSongDelayInSeconds() { return Instance.songDelayInSeconds; }
+    public double GetMarginOfError() { return Instance.marginOfError; } 
+    public int GetInputDelayInMilliseconds() { return Instance.inputDelayInMilliseconds; }
+
+    public float GetNoteTime() { return Instance.noteTime; }
+    public float GetNoteSpawnX() { return Instance.noteSpawnX; }
+    public float GetNoteTapX() { return Instance.noteTapX; }
+
+    public float GetNoteDespawnX() { return Instance.noteDespawnX; }
+    public TextAsset GetMidiJSON() { return Instance.midiJSON; }
+    public float GetMidiBPM() { return midiBPM; }
+    public bool GetSongPlayed() { return Instance.songPlayed; }
+    // Position Tracking
+    public double GetDspTimeSong() { return Instance.dspTimeSong; }
+
 
     // Start is called before the first frame update
     void Start()
@@ -154,11 +164,11 @@ public class SongManager : MonoBehaviour
         leadTrack = GetComponents<AudioSource>()[0];
         backingTrack = GetComponents<AudioSource>()[1];
 
-        if (selectedLevel.leadTrack != null)
-            leadTrack.clip = selectedLevel.leadTrack;
+        if (selectedLevel.GetLeadTrack() != null)
+            leadTrack.clip = selectedLevel.GetLeadTrack();
 
-        if (selectedLevel.backingTrack != null)
-            backingTrack.clip = selectedLevel.backingTrack;
+        if (selectedLevel.GetBackingTrack() != null)
+            backingTrack.clip = selectedLevel.GetBackingTrack();
     }
 
     void CheckEndOfSong()
