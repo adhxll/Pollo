@@ -146,7 +146,6 @@ public class BarTimeline : MonoBehaviour
     {
         ResetLane();
         Lane.Instance.ClearRest();
-        Debug.Log($"Notes Count: {Lane.Instance.notes.Count}");
     }
 
     public void NextSection()
@@ -182,7 +181,7 @@ public class BarTimeline : MonoBehaviour
     void ResetLane()
     {
         var barObj = barList[currentSection].GetComponent<Timestamp>();
-        SceneStateManager.Instance.SetAudioTime((float)timestamp[currentSection]);
+        SongManager.Instance.SetAudioPosition((float)timestamp[currentSection]);
         Lane.Instance.SetIndexValue(barObj.spawnIndex, barObj.inputIndex);
         Lane.Instance.DestroyChild();
         SetTimestampStyle();

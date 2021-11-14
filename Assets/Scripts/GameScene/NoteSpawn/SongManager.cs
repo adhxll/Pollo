@@ -10,8 +10,10 @@ public class SongManager : MonoBehaviour
     public static SongManager Instance;
     public PitchDetector detectedPitch;
 
-    [SerializeField]
-    TextAsset midiJSON = null;
+    // Selected Level ID, see level items & database for reference
+    private int levelID = 0;
+    // Level object, to load level item based on level ID
+    private Level selectedLevel;
 
     [SerializeField]
     private Lane lanes = null;
@@ -19,11 +21,11 @@ public class SongManager : MonoBehaviour
     [SerializeField]
     private BarTimeline barTimeline = null;
 
-    private AudioSource audioSource;
+    private AudioSource leadTrack;
+    private AudioSource backingTrack;
     public static MIDI.MidiFile midiFile;
 
     [Space]
-    [Header("Note Bar Properties")]
     public float songDelayInSeconds;
     public double marginOfError;    // In seconds
     public int inputDelayInMilliseconds;
@@ -40,6 +42,14 @@ public class SongManager : MonoBehaviour
         }
     }
 
+    TextAsset midiJSON
+    {
+        get
+        {
+            return selectedLevel.midiJson;
+        }
+    }
+
     static float midiBPM
     {
         get
@@ -48,17 +58,25 @@ public class SongManager : MonoBehaviour
         }
     }
 
+    [HideInInspector]
+    public bool songPlayed = false;
+
     // Position Tracking
     double dspTimeSong;
-    public bool songPlayed = false;
-    bool endOfSong = false;
 
     // Start is called before the first frame update
     void Start()
     {
+        Initialize();
+    }
+
+    void Initialize()
+    {
         Instance = this;
-        audioSource = GetComponent<AudioSource>();
+        selectedLevel = Database.GetLevelByID(levelID);
         midiFile = MIDI.CreateFromJSON(midiJSON.text);
+
+        InitializeTrack();
         GetDataFromMidi();
     }
 
@@ -105,18 +123,15 @@ public class SongManager : MonoBehaviour
         Screen.sleepTimeout = SleepTimeout.NeverSleep;
 
         barTimeline.ConfigureSection();
-        audioSource.PlayScheduled(0);
+        PlaySong();
 
     }
     
     void Update()
     {
-        var sceneManager = GetComponent<SceneManagerScript>();
-
         // Check if the song has ended
         // If the condition is true, it'll change current scene state 'Instruction' to 'Countdown/Gameplay'
-        if (GetAudioSourceTime() == 0
-            && songPlayed
+        if (songPlayed
             && (AudioSettings.dspTime - dspTimeSong) > songDelayInSeconds
             && SceneStateManager.Instance.GetSceneState() != SceneStateManager.SceneState.Pause)
         {
@@ -130,36 +145,56 @@ public class SongManager : MonoBehaviour
                 case SceneStateManager.SceneState.Countdown:
                     CheckEndOfSong();
                     break;
-                case SceneStateManager.SceneState.EndOfSong:
-                    sceneManager.SceneInvoke("ResultPage");
-                    break;
             }
         }
     }
 
+    void InitializeTrack()
+    {
+        leadTrack = GetComponents<AudioSource>()[0];
+        backingTrack = GetComponents<AudioSource>()[1];
+
+        if (selectedLevel.leadTrack != null)
+            leadTrack.clip = selectedLevel.leadTrack;
+
+        if (selectedLevel.backingTrack != null)
+            backingTrack.clip = selectedLevel.backingTrack;
+    }
+
     void CheckEndOfSong()
     {
-        if (GetAudioSourceTime() >= GetAudioSourceLength() - 3 && endOfSong == false)
-        {
-            endOfSong = true;
+        if (IsAudioFinished())
             SceneStateManager.Instance.ChangeSceneState(SceneStateManager.SceneState.EndOfSong);
-        }
+    }
+
+    public void PlaySong()
+    {
+        leadTrack.Play();
+        backingTrack.Play();
     }
 
     public void PauseSong()
     {
-        audioSource.Pause();
+        leadTrack.Pause();
+        backingTrack.Pause();
     }
 
     public void ResumeSong()
     {
-        audioSource.UnPause();
+        leadTrack.UnPause();
+        backingTrack.UnPause();
+    }
+
+    public void SetAudioPosition(float time)
+    {
+        leadTrack.time = time;
+        backingTrack.time = time;
     }
 
     // Get current playback position in metric times
     public static double GetAudioSourceTime()
     {
-        return (double)Instance.audioSource.timeSamples / Instance.audioSource.clip.frequency;
+        return (double)Instance.leadTrack.timeSamples / Instance.leadTrack.clip.frequency;
         //return AudioSettings.dspTime - Instance.dspTimeSong;
     }
 
@@ -172,17 +207,17 @@ public class SongManager : MonoBehaviour
     // Get current audio progress in percentage, current position relatives to the clip length
     public float GetCurrentAudioProgress()
     {
-        return (float)(GetAudioSourceTime() / audioSource.clip.length);
+        return (float)(GetAudioSourceTime() / leadTrack.clip.length);
     }
 
     public float GetAudioSourceLength()
     {
-        return audioSource.clip.length;
+        return leadTrack.clip.length;
     }
 
     public bool IsAudioFinished()
     {
-        if (GetCurrentAudioProgress() == 1)
+        if (GetCurrentAudioProgress() > 0.99)
             return true;
 
         return false;

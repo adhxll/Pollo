@@ -12,9 +12,6 @@ public class SceneStateManager : MonoBehaviour
     public static SceneStateManager Instance;
 
     [SerializeField]
-    private AudioSource[] audioSources = null;
-
-    [SerializeField]
     private GameObject[] instructionObjects = null;
 
     [SerializeField]
@@ -60,8 +57,9 @@ public class SceneStateManager : MonoBehaviour
     private TMPro.TextMeshProUGUI title;
     private TMPro.TextMeshProUGUI countdown;
 
-    SceneState sceneState = SceneState.Onboarding;
-    //SceneState sceneState = SceneState.Countdown;
+    //SceneState sceneState = SceneState.Onboarding;
+    SceneState sceneState = SceneState.Countdown;
+    SceneManagerScript sceneManager;
 
     float delay = 1;
     int onboardingSteps = 0;
@@ -84,6 +82,7 @@ public class SceneStateManager : MonoBehaviour
 
     void Initialize()
     {
+        sceneManager = GetComponent<SceneManagerScript>();
         // Initialize title & countdown object
         // Title is static, countdown is dynamic
         titleButton = countdownObjects[1];
@@ -157,14 +156,6 @@ public class SceneStateManager : MonoBehaviour
         StartCoroutine(FadeMixerGroup.StartFade(audioMixer, "backsoundVolume", pauseDelay, FadeMixerGroup.Fade.In));
 
         SongManager.Instance.ResumeSong();
-    }
-
-    public void SetAudioTime(float time)
-    {
-        foreach (var audio in audioSources)
-        {
-            audio.time = time;
-        }
     }
 
     private void StartOnboarding()
@@ -268,8 +259,8 @@ public class SceneStateManager : MonoBehaviour
 
     public IEnumerator EndOfSongAnimation()
     {
-        yield return new WaitForSeconds(2);
-        StartCoroutine(AnimateObjects(gameplayObjects, 0.1f, AnimationType.MoveY, 5f, 0f));
+        yield return StartCoroutine(AnimateObjects(gameplayObjects, 0.1f, AnimationType.MoveY, 5f, 0f));
+        sceneManager.SceneInvoke("ResultPage");
     }
 
     // Animate group of objects based on the given parameter (duration & animationType)
