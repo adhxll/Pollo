@@ -96,7 +96,7 @@ public class BarTimeline : MonoBehaviour
     public void ConfigureSection()
     {
         var musicNotes = Lane.Instance.timeStamps;
-        var noteTime = SongManager.Instance.noteTime;
+        var noteTime = SongManager.Instance.inputDelayInMilliseconds / 1000;
         var i = 0;
         var j = 0;
 
@@ -119,7 +119,7 @@ public class BarTimeline : MonoBehaviour
                 // After getting the inputIndex, continue the loop to search for spawnIndex
                 // If section timestamp + noteTime (note travel time) is lower than note timestamp at index [i]
                 // Then [i] is the spawnIndex
-                if (section + noteTime < musicNotes[i])
+                if (section < musicNotes[i] + noteTime)
                 {
                     barObj.spawnIndex = i;
                     j++;
@@ -140,39 +140,13 @@ public class BarTimeline : MonoBehaviour
                 SetTimestampStyle();
             }
         }
-
-        //// Restart current section
-        //if (Input.GetKeyUp(KeyCode.R))
-        //{
-        //    ResetLane();
-        //    Lane.Instance.ClearRest();
-        //}
-
-        //// Go to previous section
-        //if (Input.GetKeyUp(KeyCode.E))
-        //{
-        //    if (currentSection > 0)
-        //        currentSection--;
-
-        //    ResetLane();
-        //    Lane.Instance.ClearRest();
-        //}
-
-        //// Go to next section
-        //if (Input.GetKeyUp(KeyCode.T))
-        //{
-        //    if (currentSection < timestamp.Count)
-        //        currentSection++;
-
-        //    ResetLane();
-        //    Lane.Instance.FillRest();
-        //}
     }
 
     public void RepeatSection()
     {
         ResetLane();
         Lane.Instance.ClearRest();
+        Debug.Log($"Notes Count: {Lane.Instance.notes.Count}");
     }
 
     public void NextSection()
@@ -212,5 +186,7 @@ public class BarTimeline : MonoBehaviour
         Lane.Instance.SetIndexValue(barObj.spawnIndex, barObj.inputIndex);
         Lane.Instance.DestroyChild();
         SetTimestampStyle();
+
+        SongManager.Instance.ResumeSong();
     }
 }

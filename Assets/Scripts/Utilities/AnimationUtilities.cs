@@ -14,5 +14,9 @@ public class AnimationUtilities : MonoBehaviour
         obj.transform.DOPunchScale(new Vector3(vectorX, vectorY, vectorZ), 0.2f, 1, 1);
 
     }
-    
+
+    public static void AnimateButtonJump(GameObject obj)
+    {
+        obj.transform.DOPunchPosition(new Vector3(0, 5f), 1f, 0, 1f).SetLoops(-1);
+    }
 }

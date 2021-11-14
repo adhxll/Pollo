@@ -22,6 +22,8 @@ public class SongManager : MonoBehaviour
     private AudioSource audioSource;
     public static MIDI.MidiFile midiFile;
 
+    [Space]
+    [Header("Note Bar Properties")]
     public float songDelayInSeconds;
     public double marginOfError;    // In seconds
     public int inputDelayInMilliseconds;
@@ -94,6 +96,9 @@ public class SongManager : MonoBehaviour
             case SceneStateManager.SceneState.Countdown:
                 detectedPitch.GetComponent<PitchDetectionSystem>().StartRecording(); // Play through microphone if the current scene state is 'Countdown/Gameplay'
                 break;
+            case SceneStateManager.SceneState.Onboarding:
+                detectedPitch.GetComponent<PitchDetectionSystem>().StartRecording(); // Play through microphone if the current scene state is 'Countdown/Gameplay'
+                break;
         }
 
         PolloController.Instance.SetActive(true);
@@ -122,16 +127,33 @@ public class SongManager : MonoBehaviour
                     ResetScene();
                     SceneStateManager.Instance.ChangeSceneState(SceneStateManager.SceneState.Countdown);
                     break;
+                case SceneStateManager.SceneState.Countdown:
+                    CheckEndOfSong();
+                    break;
                 case SceneStateManager.SceneState.EndOfSong:
                     sceneManager.SceneInvoke("ResultPage");
                     break;
             }
         }
+    }
 
-        if(GetAudioSourceTime() >= GetAudioSourceLength() - 3 && endOfSong == false){
+    void CheckEndOfSong()
+    {
+        if (GetAudioSourceTime() >= GetAudioSourceLength() - 3 && endOfSong == false)
+        {
             endOfSong = true;
             SceneStateManager.Instance.ChangeSceneState(SceneStateManager.SceneState.EndOfSong);
         }
+    }
+
+    public void PauseSong()
+    {
+        audioSource.Pause();
+    }
+
+    public void ResumeSong()
+    {
+        audioSource.UnPause();
     }
 
     // Get current playback position in metric times
@@ -156,6 +178,14 @@ public class SongManager : MonoBehaviour
     public float GetAudioSourceLength()
     {
         return audioSource.clip.length;
+    }
+
+    public bool IsAudioFinished()
+    {
+        if (GetCurrentAudioProgress() == 1)
+            return true;
+
+        return false;
     }
 
     // Reset all instance to its default state

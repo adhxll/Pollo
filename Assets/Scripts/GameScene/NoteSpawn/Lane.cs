@@ -17,7 +17,7 @@ public class Lane : MonoBehaviour
     [SerializeField]
     private GameObject barPrefab = null;
 
-    List<Note> notes = new List<Note>();
+    public List<Note> notes = new List<Note>();
 
     [HideInInspector]
     public List<double> timeStamps = new List<double>();    // A list that store each notes timestamp (telling the exact time when its need to be spawned)
@@ -28,10 +28,10 @@ public class Lane : MonoBehaviour
     [HideInInspector]
     public List<int> midiNotes = new List<int>();   // A list that store what MIDI notes need to be played at the given note
 
-    int spawnIndex = 0;
-    int inputIndex = 0;
-    int barIndex = 0;
-    int averageCount = 0; // Variable to count in exact midi note to prevent Hit() function called accidentally
+    private int spawnIndex = 0;
+    private int inputIndex = 0;
+    private int barIndex = 0;
+    private int averageCount = 0; // Variable to count in exact midi note to prevent Hit() function called accidentally
 
     // Start is called before the first frame update
     void Start()
@@ -77,13 +77,20 @@ public class Lane : MonoBehaviour
                 double marginOfError = SongManager.Instance.marginOfError;
                 double audioTime = SongManager.GetAudioSourceTime() - (SongManager.Instance.inputDelayInMilliseconds / 1000.0);
 
-                // If detected pitch (played note by user) is equal to the current MIDI note or one octave's lower/higher
-                // And the hit time is still within the range of marginOfError
-                // Then the note will be considered correct
-                if ((SongManager.Instance.detectedPitch.midiNote == midiNotes[inputIndex] ||
-                   SongManager.Instance.detectedPitch.midiNote + 12 == midiNotes[inputIndex] ||
-                   SongManager.Instance.detectedPitch.midiNote - 12 == midiNotes[inputIndex]) &&
-                   Math.Abs(audioTime - timeStamp) < marginOfError)
+                if (SceneStateManager.Instance.GetSceneState() == SceneStateManager.SceneState.Onboarding)
+                {
+                    if (inputIndex < notes.Count && notes[inputIndex].transform.localPosition.x < -0.5f)
+                    {
+                        SongManager.Instance.PauseSong();
+
+                        if (CheckPitch())
+                        {
+                            SongManager.Instance.ResumeSong();
+                        }
+                    }
+                }
+
+                if (CheckPitch() && Math.Abs(audioTime - timeStamp) < marginOfError)
                 {
                     averageCount++;
                     if (averageCount >= 3)
@@ -136,6 +143,19 @@ public class Lane : MonoBehaviour
         notes[inputIndex].GetComponent<SpriteRenderer>().sprite = note.noteWrong;
         AnimationManager.Instace.AnimateHit(note.gameObject, -0.1f);
         inputIndex++;
+    }
+
+    // If detected pitch (played note by user) is equal to the current MIDI note or one octave's lower/higher
+    // And the hit time is still within the range of marginOfError
+    // Then the note will be considered correct
+    private bool CheckPitch()
+    {
+        if (SongManager.Instance.detectedPitch.midiNote == midiNotes[inputIndex] ||
+            SongManager.Instance.detectedPitch.midiNote + 12 == midiNotes[inputIndex] ||
+            SongManager.Instance.detectedPitch.midiNote - 12 == midiNotes[inputIndex])
+            return true;
+
+        return false;
     }
 
     // Destroy all spawned child objects in lane

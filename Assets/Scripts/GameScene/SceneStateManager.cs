@@ -6,6 +6,7 @@ using UnityEngine.UI;
 using UnityEngine.Audio;
 using DG.Tweening;
 
+// TODO: - RENAME DI DEVELOPMENT
 public class SceneStateManager : MonoBehaviour
 {
     public static SceneStateManager Instance;
@@ -21,6 +22,25 @@ public class SceneStateManager : MonoBehaviour
 
     [SerializeField]
     private GameObject[] gameplayObjects = null;
+
+    [SerializeField]
+    private GameObject[] practiceObjects = null;
+
+    [Header("Onboarding")]
+    [SerializeField]
+    private GameObject[] onboardingObjects = null;
+
+    [SerializeField]
+    private GameObject[] noteBar = null;
+
+    [SerializeField]
+    private Button actionButton = null;
+
+    [SerializeField]
+    private Button repeatButton = null;
+
+    [SerializeField]
+    private GameObject scoreObj = null;
 
     [SerializeField]
     private GameObject overlay = null;
@@ -40,9 +60,11 @@ public class SceneStateManager : MonoBehaviour
     private TMPro.TextMeshProUGUI title;
     private TMPro.TextMeshProUGUI countdown;
 
-    SceneState sceneState = SceneState.Countdown;
+    SceneState sceneState = SceneState.Onboarding;
+    //SceneState sceneState = SceneState.Countdown;
 
     float delay = 1;
+    int onboardingSteps = 0;
     bool practice = false;
 
     void Start()
@@ -54,6 +76,10 @@ public class SceneStateManager : MonoBehaviour
 
     void Update()
     {
+        if (sceneState == SceneState.Onboarding && SongManager.Instance.IsAudioFinished())
+        {
+            SetOnboarding();
+        }
     }
 
     void Initialize()
@@ -82,11 +108,14 @@ public class SceneStateManager : MonoBehaviour
         // Loop through the animated object list, and inactive them
         // Later, the inactived objects will show up based on the current scene state
         var array = instructionObjects.Concat(countdownObjects).Concat(gameplayObjects).ToArray();
-        
 
         switch (sceneState)
         {
+            case SceneState.Onboarding:
+                StartOnboarding();
+                break;
             case SceneState.Instruction:
+                SetInactives(array);
                 InstructionStart();
                 break;
             case SceneState.Countdown:
@@ -96,7 +125,6 @@ public class SceneStateManager : MonoBehaviour
             case SceneState.EndOfSong:
                 StartCoroutine(EndOfSongAnimation());
                 break;
-
         }
     }
 
@@ -118,11 +146,7 @@ public class SceneStateManager : MonoBehaviour
         sceneState = SceneState.Pause;
         overlay.SetActive(true);
 
-
-        foreach (var audio in audioSources)
-        {
-            audio.Pause();
-        }
+        SongManager.Instance.PauseSong();
     }
 
     public void ResumeGame()
@@ -132,15 +156,7 @@ public class SceneStateManager : MonoBehaviour
         var pauseDelay = 3;
         StartCoroutine(FadeMixerGroup.StartFade(audioMixer, "backsoundVolume", pauseDelay, FadeMixerGroup.Fade.In));
 
-        foreach (var audio in audioSources)
-        {
-            var time = audio.time - pauseDelay;
-            if (time < 0)
-                time = 0;
-
-            audio.time = time;
-            audio.PlayScheduled(0);
-        }
+        SongManager.Instance.ResumeSong();
     }
 
     public void SetAudioTime(float time)
@@ -149,6 +165,67 @@ public class SceneStateManager : MonoBehaviour
         {
             audio.time = time;
         }
+    }
+
+    private void StartOnboarding()
+    {
+        MoveY(actionButton.gameObject, 0.1f, 0f, true);
+    }
+
+    // Set Onboarding states
+    public void SetOnboarding()
+    {
+        if (onboardingSteps < onboardingObjects.Length)
+        {
+            onboardingObjects[onboardingSteps].SetActive(false);
+
+            if (onboardingSteps < onboardingObjects.Length - 1)
+                onboardingObjects[onboardingSteps + 1].SetActive(true);
+
+            onboardingSteps++;
+            SetOnboardingObjects();
+        }
+    }
+
+    // Set Onboarding objects on each state
+    public void SetOnboardingObjects()
+    {
+        var button = actionButton.GetComponentInChildren<TMPro.TextMeshProUGUI>();
+
+        if (onboardingSteps == 1)
+            button.SetText("Hmm, sure.");
+
+        if (onboardingSteps == 2)
+            button.SetText("Okay!");
+
+        // Showing musical bar
+        if (onboardingSteps == 3)
+        {
+            button.SetText("Next");
+            SetInactives(noteBar);
+            StartCoroutine(AnimateObjects(noteBar, 0.2f, AnimationType.MoveY, 0f, 5f));
+        }
+
+        if (onboardingSteps == 6)
+        {
+            SongManager.Instance.StartSong();
+            actionButton.interactable = false;
+            repeatButton.gameObject.SetActive(true);
+            MoveY(repeatButton.gameObject, 0.1f, 0f, true);
+        }
+
+        if (onboardingSteps == 7)
+        {
+            actionButton.interactable = true;
+            repeatButton.gameObject.SetActive(false);
+            StartCoroutine(AnimateObjects(noteBar, 0.2f, AnimationType.MoveY, 5f, 0f));
+        }
+
+        if (onboardingSteps == onboardingObjects.Length - 1)
+            button.SetText("Finish");
+
+        if (onboardingSteps == onboardingObjects.Length)
+            Debug.Log("STAGE FINISHED");
     }
 
     void InstructionStart()
@@ -193,7 +270,6 @@ public class SceneStateManager : MonoBehaviour
     {
         yield return new WaitForSeconds(2);
         StartCoroutine(AnimateObjects(gameplayObjects, 0.1f, AnimationType.MoveY, 5f, 0f));
-
     }
 
     // Animate group of objects based on the given parameter (duration & animationType)
@@ -229,17 +305,21 @@ public class SceneStateManager : MonoBehaviour
         obj.transform.DOPunchScale(new Vector3(0.25f, 0.25f, 0.25f), 0.2f, 1, 1);
     }
 
-    void MoveY(GameObject obj, float target, float from)
+    void MoveY(GameObject obj, float target, float from, bool loop = false)
     {
         var post = obj.transform.position;
-        obj.transform.DOMoveY(post.y + target, 0.75f).SetEase(Ease.InOutQuad).From(post.y + from);
+        obj.SetActive(true);
+        if (loop)
+            obj.transform.DOMoveY(post.y + target, 0.75f).SetEase(Ease.InOutQuad).From(post.y + from).SetLoops(-1, LoopType.Yoyo);
+
+        else
+            obj.transform.DOMoveY(post.y + target, 0.75f).SetEase(Ease.InOutQuad).From(post.y + from);
     }
 
     public void TogglePractice()
     {
         if (!Instance.practice)
         {
-            Debug.Log("TOGGLED");
             practiceObject.SetActive(true);
             scoreObject.SetActive(false);
             Instance.practice = true;
@@ -261,6 +341,7 @@ public class SceneStateManager : MonoBehaviour
 
     public enum SceneState
     {
+        Onboarding,
         Instruction,
         Practice,
         Countdown,

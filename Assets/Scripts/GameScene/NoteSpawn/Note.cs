@@ -13,15 +13,18 @@ public class Note : MonoBehaviour
 
     private GameObject noteObject;
 
-    // Start is called before the first frame update
     void Start()
+    {
+        Initialize();
+    }
+
+    void Initialize()
     {
         noteObject = GetComponent<GameObject>();
         timeInstantiated = SongManager.GetAudioSourceTime();    // Set value to the current time (the exact moment when it's instantiated)
-        GetComponent<SpriteRenderer>().size = new Vector2(noteLength * 2.5f, 0.6f); // Set the note length
+        GetComponent<SpriteRenderer>().size = new Vector2(noteLength * 2.5f, 0.6f); // Set the note size according to the note length (in midi file)
     }
 
-    //Update is called once per frame
     void Update()
     {
         double timeSinceInstantiated = CheckTime();
@@ -30,7 +33,6 @@ public class Note : MonoBehaviour
         if (t > 1)
         {
             Destroy(gameObject);
-            //gameObject.SetActive(false);
         }
         else
         {
