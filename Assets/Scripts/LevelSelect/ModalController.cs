@@ -5,8 +5,8 @@ using UnityEngine;
 public class ModalController : MonoBehaviour
 {
     public GameObject modal;
-    public TMPro.TextMeshPro levelText;
-    public TMPro.TextMeshPro scoreText;
+    public TMPro.TextMeshProUGUI levelText;
+    public TMPro.TextMeshProUGUI scoreText;
     public string levelValue;
     public string scoreValue;
     public GameObject overlay;
