@@ -7,20 +7,20 @@ using TMPro;
 public class ScaleInstruction : MonoBehaviour
 {
     [SerializeField]
-    private AudioSource audioSource;
+    private AudioSource audioSource = null;
     [SerializeField]
-    private AudioClip[] audioClips;
+    private AudioClip[] audioClips = null;
     [SerializeField]
-    private TextMeshProUGUI instructionText;
+    private TextMeshProUGUI instructionText = null;
     [SerializeField]
     private GameObject[] instructionBoard;
     [SerializeField]
-    private GameObject[] pianoTiles;
+    private GameObject[] pianoTiles = null;
 
     [SerializeField]
-    private float playbackSpeed;
+    private float playbackSpeed = 1.0f;
     [SerializeField]
-    private string keySignature;
+    private string keySignature = "C";
 
     //A major range scale multiplied by 2
     private int[] majorRange = { 2, 2, 1, 2, 2, 2, 1 };
@@ -32,7 +32,7 @@ public class ScaleInstruction : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        setupKeySignature();
+        SetupKeySignature();
         StartCoroutine(ScaleInstructionStart());
     }
 
@@ -44,8 +44,6 @@ public class ScaleInstruction : MonoBehaviour
     IEnumerator ScaleInstructionStart()
     {
         yield return new WaitForSeconds(2);
-
-        Debug.Log($"Current index : {startIndex}");
 
         int currentIndex = startIndex;
         for (int index = 0; index <= majorRange.Length; index++)
@@ -63,15 +61,13 @@ public class ScaleInstruction : MonoBehaviour
                 index = -1;
                 currentIndex = startIndex;
             }
-
-            Debug.Log($"Current index : {currentIndex}");
         }
         yield return new WaitForSeconds(1);
     }
 
-    void setupKeySignature()
+    void SetupKeySignature()
     {
-        //var keySignature = SongManager.midiFile.header.keySignatures[0].key;
+        keySignature = SongManager.Instance.GetMidiFile().header.keySignatures[0].key;
 
         instructionText.text = $"For this level, you are going to play on <color=#7E2684>{keySignature} Major</color> Scale.";
 
@@ -80,7 +76,6 @@ public class ScaleInstruction : MonoBehaviour
             if (tiles.name == keySignature) break;
             else startIndex++;
         }
-        Debug.Log(keySignature);
     }
 
     public void AudioSourceStop(){

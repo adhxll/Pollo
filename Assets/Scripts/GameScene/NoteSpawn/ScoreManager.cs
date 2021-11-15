@@ -7,7 +7,6 @@ using System;
 
 public class ScoreManager : MonoBehaviour
 {
-
     public static ScoreManager Instace;
 
     //[SerializeField]
@@ -62,9 +61,9 @@ public class ScoreManager : MonoBehaviour
 
         Instace.HitBadge(true);
 
-        AnimationManager.Instace.AnimateHit(Instace.scoreText.gameObject, 0.25f);
-        AnimationManager.Instace.AnimateHit(Instace.comboText.gameObject, 0.25f);
-        AnimationManager.Instace.AnimateHit(Instace.accuracyText.gameObject, 0.25f);
+        AnimationUtilities.Instance.PunchScale(Instace.scoreText.gameObject);
+        AnimationUtilities.Instance.PunchScale(Instace.comboText.gameObject);
+        AnimationUtilities.Instance.PunchScale(Instace.accuracyText.gameObject);
 
         //Instace.hitSFX.Play();
     }
@@ -106,13 +105,13 @@ public class ScoreManager : MonoBehaviour
         if (badgeShowed)
         {
             // Animate punch if badge is shown
-            AnimationManager.Instace.AnimateHit(hitBadge, 0.25f);
+            AnimationUtilities.Instance.PunchScale(hitBadge);
             timer = AudioSettings.dspTime;
         }
         else
         {
             // Animate slide position if badge isn't shown
-            AnimationManager.Instace.AnimatePos(hitBadge, 24f, 0.25f);
+            AnimationUtilities.Instance.LocalMoveY(hitBadge, 25f, 0.25f);
             badgeShowed = true;
             timer = AudioSettings.dspTime;
         }
@@ -149,7 +148,7 @@ public class ScoreManager : MonoBehaviour
         if (badgeShowed && timeSinceShowed > 2f)
         {
             badgeShowed = false;
-            AnimationManager.Instace.AnimatePos(hitBadge, 60f, 0.25f);
+            AnimationUtilities.Instance.LocalMoveY(hitBadge, 60f, 0.25f);
         }
     }
 

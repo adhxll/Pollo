@@ -12,11 +12,11 @@ public class ScoreDisplayScript : MonoBehaviour
     private int totalNotes;
     private int totalCorrect;
     [SerializeField]
-    private TMP_Text scoreMessageObject;
+    private TMP_Text scoreMessageObject = null;
     [SerializeField]
-    private TMP_Text scoreObject; // the Score game object on ResultPage scene
+    private TMP_Text scoreObject = null; // the Score game object on ResultPage scene
     [SerializeField]
-    private GameObject[] stars; // the yellow stars inside the Tag GameObject
+    private GameObject[] stars = null; // the yellow stars inside the Tag GameObject
     [SerializeField]
     private int star = 0;
     private string[] successMessages = { "Bru..", "You passed!(barely)", "Good!", "Awesome!!" };

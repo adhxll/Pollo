@@ -4,13 +4,13 @@ using UnityEngine;
 public class Level : ScriptableObject
 {
     [SerializeField]
-    private int levelID;
+    private int levelID = 0;
     [SerializeField]
-    private AudioClip leadTrack;
+    private AudioClip leadTrack = null;
     [SerializeField]
-    private AudioClip backingTrack;
+    private AudioClip backingTrack = null;
     [SerializeField]
-    private TextAsset midiJson;
+    private TextAsset midiJson = null;
 
     public int GetLevelID() { return this.levelID; }
     public AudioClip GetLeadTrack() { return this.leadTrack; }

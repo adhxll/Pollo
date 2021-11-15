@@ -144,7 +144,7 @@ public class Lane : MonoBehaviour
         var note = notes[inputIndex];
         ScoreManager.Hit();
         note.GetComponent<SpriteRenderer>().sprite = note.GetNoteRight();
-        AnimationManager.Instace.AnimateHit(note.gameObject, -0.1f);
+        AnimationUtilities.Instance.AnimateHit(note.gameObject);
         inputIndex++;
     }
 
@@ -153,7 +153,7 @@ public class Lane : MonoBehaviour
         var note = notes[inputIndex];
         ScoreManager.Miss();
         notes[inputIndex].GetComponent<SpriteRenderer>().sprite = note.GetNoteWrong();
-        AnimationManager.Instace.AnimateHit(note.gameObject, -0.1f);
+        AnimationUtilities.Instance.AnimateHit(note.gameObject);
         inputIndex++;
     }
 

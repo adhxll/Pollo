@@ -10,40 +10,49 @@ public class SongManager : MonoBehaviour
     public static SongManager Instance;
 
     // Selected Level ID, see level items & database for reference
-    private int levelID = 0;
+    private int levelID = 1;
+
     // Level object, to load level item based on level ID
     private Level selectedLevel;
+
     private AudioSource leadTrack;
     private AudioSource backingTrack;
 
     [SerializeField]
-    private PitchDetector detectedPitch;
+    private PitchDetector detectedPitch = null;
+
     [SerializeField]
     private Lane lanes = null;
+
     [SerializeField]
     private BarTimeline barTimeline = null;
+
     [SerializeField]
     private static MIDI.MidiFile midiFile;
 
     [Space]
     [SerializeField]
-    private float songDelayInSeconds;
-    [SerializeField]
-    private double marginOfError;    // In seconds
-    [SerializeField]
-    private int inputDelayInMilliseconds;
+    private float songDelayInSeconds = 3;
 
     [SerializeField]
-    private float noteTime;  // Time needed for the note spawn location to the tap location
+    private double marginOfError = 0.3f;    // In seconds
+
     [SerializeField]
-    private float noteSpawnX;    // Note spawn position in world space
+    private int inputDelayInMilliseconds = 250;
+
     [SerializeField]
-    private float noteTapX;  // Note tap position in world space
+    private float noteTime = 3;  // Time needed for the note spawn location to the tap location
+
+    [SerializeField]
+    private float noteSpawnX = 16;    // Note spawn position in world space
+
+    [SerializeField]
+    private float noteTapX = 0; // Note tap position in world space
 
     private  float noteDespawnX { get { return noteTapX - (noteSpawnX - noteTapX); } }
     private TextAsset midiJSON { get { return selectedLevel.GetMidiJson(); } }
     private static float midiBPM { get { return (float)60 / (float)midiFile.header.tempos[0].bpm; } }
-    [HideInInspector]
+
     private bool songPlayed = false;
     // Position Tracking
     private double dspTimeSong;
@@ -70,9 +79,9 @@ public class SongManager : MonoBehaviour
     public TextAsset GetMidiJSON() { return Instance.midiJSON; }
     public float GetMidiBPM() { return midiBPM; }
     public bool GetSongPlayed() { return Instance.songPlayed; }
+
     // Position Tracking
     public double GetDspTimeSong() { return Instance.dspTimeSong; }
-
 
     // Start is called before the first frame update
     void Start()
@@ -143,7 +152,8 @@ public class SongManager : MonoBehaviour
         // If the condition is true, it'll change current scene state 'Instruction' to 'Countdown/Gameplay'
         if (songPlayed
             && (AudioSettings.dspTime - dspTimeSong) > songDelayInSeconds
-            && SceneStateManager.Instance.GetSceneState() != SceneStateManager.SceneState.Pause)
+            && SceneStateManager.Instance.GetSceneState() != SceneStateManager.SceneState.Pause
+            && SceneStateManager.Instance.GetSceneState() != SceneStateManager.SceneState.Practice)
         {
             switch (SceneStateManager.Instance.GetSceneState())
             {

@@ -186,6 +186,6 @@ public class BarTimeline : MonoBehaviour
         Lane.Instance.DestroyChild();
         SetTimestampStyle();
 
-        SongManager.Instance.ResumeSong();
+        SongManager.Instance.PlaySong();
     }
 }
