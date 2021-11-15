@@ -12,6 +12,11 @@ public class SceneStateManager : MonoBehaviour
     public static SceneStateManager Instance;
 
     [SerializeField]
+    private SceneState sceneState = SceneState.Instruction;
+
+    [Space]
+
+    [SerializeField]
     private GameObject[] instructionObjects = null;
 
     [SerializeField]
@@ -23,6 +28,7 @@ public class SceneStateManager : MonoBehaviour
     [SerializeField]
     private GameObject[] practiceObjects = null;
 
+    [Header("Onboarding")]
     [SerializeField]
     private GameObject[] onboardingObjects = null;
 
@@ -60,8 +66,6 @@ public class SceneStateManager : MonoBehaviour
     private TMPro.TextMeshProUGUI title;
     private TMPro.TextMeshProUGUI countdown;
 
-    //SceneState sceneState = SceneState.Onboarding;
-    private SceneState sceneState = SceneState.Instruction;
     private SceneManagerScript sceneManager;
 
     private float delay = 1;
@@ -140,7 +144,7 @@ public class SceneStateManager : MonoBehaviour
                 break;
 
             case SceneState.Practice:
-                PracticeStart();
+                StartCoroutine(PracticeStart());
                 break;
             case SceneState.EndOfSong:
                 StartCoroutine(EndOfSongAnimation());
@@ -271,15 +275,19 @@ public class SceneStateManager : MonoBehaviour
             instructionObjects[0].transform.parent.GetComponent<Image>().CrossFadeAlpha(0f, 0.5f, false);
     }
 
-    void PracticeStart()
+    IEnumerator PracticeStart()
     {
         comboObject.SetActive(false);
         accuracyObject.SetActive(false);
 
-        SongManager.Instance.PauseSong();
+        yield return new WaitForSeconds(0);
 
         practiceButton.GetComponentInChildren<TMPro.TextMeshProUGUI>().SetText("Play Mode");
         StartCoroutine(AnimationUtilities.Instance.AnimateObjects(practiceObjects, 0.2f, AnimationUtilities.AnimationType.MoveY, 0f, 5f));
+
+        if (SongManager.Instance.GetSongPlayed())
+            SongManager.Instance.PauseSong();
+
     }
 
     // Countdown to Gameplay transition.

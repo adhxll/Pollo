@@ -7,7 +7,7 @@ public class AnimationUtilities : MonoBehaviour
 {
     public static AnimationUtilities Instance;
 
-    private void Start()
+    private void Awake()
     {
         Instance = this;
     }

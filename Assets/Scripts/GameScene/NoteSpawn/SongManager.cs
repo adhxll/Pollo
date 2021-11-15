@@ -83,8 +83,12 @@ public class SongManager : MonoBehaviour
     // Position Tracking
     public double GetDspTimeSong() { return Instance.dspTimeSong; }
 
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
+    {
+        
+    }
+
+    private void Start()
     {
         Initialize();
     }

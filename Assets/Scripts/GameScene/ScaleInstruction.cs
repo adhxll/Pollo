@@ -26,19 +26,26 @@ public class ScaleInstruction : MonoBehaviour
     private int[] majorRange = { 2, 2, 1, 2, 2, 2, 1 };
     private int startIndex = 0;
     
-
     private Color yellowColor = new Color32 (255, 200, 113, 255);
 
     // Start is called before the first frame update
     void Start()
     {
-        SetupKeySignature();
-        StartCoroutine(ScaleInstructionStart());
+        StartScale();
     }
 
     // Update is called once per frame
     void Update()
     {
+    }
+
+    void StartScale()
+    {
+        if (SceneStateManager.Instance.GetSceneState() == SceneStateManager.SceneState.Instruction)
+        {
+            SetupKeySignature();
+            StartCoroutine(ScaleInstructionStart());
+        }
     }
 
     IEnumerator ScaleInstructionStart()
