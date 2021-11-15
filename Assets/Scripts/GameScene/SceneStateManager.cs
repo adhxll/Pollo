@@ -58,7 +58,7 @@ public class SceneStateManager : MonoBehaviour
     private TMPro.TextMeshProUGUI countdown;
 
     //SceneState sceneState = SceneState.Onboarding;
-    private SceneState sceneState = SceneState.Countdown;
+    private SceneState sceneState = SceneState.Instruction;
     private SceneManagerScript sceneManager;
 
     private float delay = 1;
@@ -102,6 +102,12 @@ public class SceneStateManager : MonoBehaviour
         CheckSceneState();
     }
 
+    public void ChangeSceneState(string scene)
+    {
+        sceneState = (SceneState) System.Enum.Parse (typeof(SceneState), scene);
+        CheckSceneState();
+    }
+
     void CheckSceneState()
     {
         // Loop through the animated object list, and inactive them
@@ -111,14 +117,15 @@ public class SceneStateManager : MonoBehaviour
         switch (sceneState)
         {
             case SceneState.Onboarding:
+                SetActiveInactive(array, false);
                 StartOnboarding();
                 break;
             case SceneState.Instruction:
-                SetInactives(array);
+                SetActiveInactive(instructionObjects ,true);
                 InstructionStart();
                 break;
             case SceneState.Countdown:
-                SetInactives(array);
+                SetActiveInactive(array, false);
                 StartCoroutine(CountdownStart());
                 break;
             case SceneState.EndOfSong:
@@ -129,11 +136,11 @@ public class SceneStateManager : MonoBehaviour
 
     // Set all objects to inactive.
     // This is needed, to reset all objects on the scene before transition to the next scene state begin.
-    void SetInactives(GameObject[] objects)
+    void SetActiveInactive(GameObject[] objects, bool tf)
     {
         foreach (var obj in objects)
         {
-            obj.SetActive(false);
+            obj.SetActive(tf);
         }
     }
 
@@ -193,7 +200,7 @@ public class SceneStateManager : MonoBehaviour
         if (onboardingSteps == 3)
         {
             button.SetText("Next");
-            SetInactives(noteBar);
+            SetActiveInactive(noteBar, false);
             StartCoroutine(AnimateObjects(noteBar, 0.2f, AnimationType.MoveY, 0f, 5f));
         }
 
@@ -264,7 +271,7 @@ public class SceneStateManager : MonoBehaviour
     }
 
     // Animate group of objects based on the given parameter (duration & animationType)
-    IEnumerator AnimateObjects(GameObject[] objects, float duration, AnimationType type, float target, float from)
+    public IEnumerator AnimateObjects(GameObject[] objects, float duration, AnimationType type, float target, float from)
     {
         foreach(var obj in objects)
         {
@@ -324,12 +331,13 @@ public class SceneStateManager : MonoBehaviour
     }
 
     // Enumeration
-    enum AnimationType
+    public enum AnimationType
     {
         PunchScale,
         MoveY
     }
 
+    [SerializeField]
     public enum SceneState
     {
         Onboarding,
