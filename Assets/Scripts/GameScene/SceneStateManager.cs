@@ -129,6 +129,7 @@ public class SceneStateManager : MonoBehaviour
         switch (sceneState)
         {
             case SceneState.Onboarding:
+                SetActiveInactive(array, false);
                 SetActiveInactive(allParents, false);
                 StartOnboarding();
                 break;
