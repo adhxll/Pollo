@@ -40,6 +40,12 @@ public class ModalController : MonoBehaviour
         var controller = GameController.instance;
         controller.selectedLevel = selectedLevel;
     }
+
+    public void SetSceneToPlay(string scene)
+    {
+        GameController.instance.sceneState = (SceneStateManager.SceneState)System.Enum.Parse(typeof(SceneStateManager.SceneState), scene);
+    }
+
     public void CloseModal()
     {
         AnimationUtilities.AnimatePopUpDisappear(modal);

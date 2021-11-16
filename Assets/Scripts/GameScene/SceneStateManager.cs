@@ -101,6 +101,11 @@ public class SceneStateManager : MonoBehaviour
 
         allParents = new GameObject[2] { onboardingParent, pianoScaleParent };
 
+        var selectedLevel = GameController.instance.selectedLevel;
+
+        if (selectedLevel != 0)
+            sceneState = GameController.instance.sceneState;
+
     }
 
     public SceneState GetSceneState()
