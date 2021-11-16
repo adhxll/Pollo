@@ -208,6 +208,7 @@ public class SceneStateManager : MonoBehaviour
         }
         else
         {
+            PlayerPrefs.SetInt("IsFirstTime", 1);
             sceneManager.SceneInvoke("Homepage");
         }
     }
