@@ -28,14 +28,11 @@ public class SceneStateManager : MonoBehaviour
     [SerializeField]
     private GameObject[] practiceObjects = null;
 
-    [Header("Onboarding")]
     [SerializeField]
     private GameObject[] onboardingObjects = null;
 
     [SerializeField]
     private GameObject[] noteBar = null;
-
-    [Space]
 
     [Header("Button")]
     [SerializeField]
@@ -47,6 +44,7 @@ public class SceneStateManager : MonoBehaviour
     [SerializeField]
     private Button practiceButton = null;
 
+    [Header("Others")]
     [SerializeField]
     private GameObject overlay = null;
 
@@ -71,6 +69,7 @@ public class SceneStateManager : MonoBehaviour
     private float delay = 1;
     private int onboardingSteps = 0;
     private bool practice = false;
+    private bool instructionEnd = false;
 
     void Start()
     {
@@ -126,7 +125,6 @@ public class SceneStateManager : MonoBehaviour
         // Loop through the animated object list, and inactive them
         // Later, the inactived objects will show up based on the current scene state
         var array = instructionObjects.Concat(countdownObjects).Concat(gameplayObjects).Concat(onboardingObjects).ToArray();
-        SetActiveInactive(array, false);
 
         switch (sceneState)
         {
@@ -135,15 +133,17 @@ public class SceneStateManager : MonoBehaviour
                 StartOnboarding();
                 break;
             case SceneState.Instruction:
+                SetActiveInactive(array, false);
                 SetActiveInactive(allParents, false);
                 SetActiveInactive(instructionObjects ,true);
                 InstructionStart();
                 break;
             case SceneState.Countdown:
+                SetActiveInactive(array, false);
                 StartCoroutine(CountdownStart());
                 break;
-
             case SceneState.Practice:
+                SetActiveInactive(array, false);
                 StartCoroutine(PracticeStart());
                 break;
             case SceneState.EndOfSong:
@@ -271,12 +271,16 @@ public class SceneStateManager : MonoBehaviour
 
     public void InstructionEnd()
     {
-        if (instructionObjects.Length > 0)
+        if (instructionObjects.Length > 0 && instructionEnd == false)
             instructionObjects[0].transform.parent.GetComponent<Image>().CrossFadeAlpha(0f, 0.5f, false);
+
+        instructionEnd = true;
     }
 
     IEnumerator PracticeStart()
     {
+        InstructionEnd();
+
         comboObject.SetActive(false);
         accuracyObject.SetActive(false);
 
@@ -286,8 +290,14 @@ public class SceneStateManager : MonoBehaviour
         StartCoroutine(AnimationUtilities.Instance.AnimateObjects(practiceObjects, 0.2f, AnimationUtilities.AnimationType.MoveY, 0f, 5f));
 
         if (SongManager.Instance.GetSongPlayed())
+        {
             SongManager.Instance.PauseSong();
-
+        }
+        else
+        {
+            yield return new WaitForSeconds(delay);
+            SongManager.Instance.StartSong();
+        }
     }
 
     // Countdown to Gameplay transition.
@@ -295,6 +305,8 @@ public class SceneStateManager : MonoBehaviour
     // Basically telling the sequence of animation that need to be played in transition.
     IEnumerator CountdownStart()
     {
+        InstructionEnd();
+
         StartCoroutine(AnimationUtilities.Instance.AnimateObjects(countdownObjects, 0.1f, AnimationUtilities.AnimationType.MoveY, 0f, 5f));
 
         int count = 3;

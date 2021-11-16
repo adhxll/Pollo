@@ -6,9 +6,6 @@ using DG.Tweening;
 
 public class Lane : MonoBehaviour
 {
-    //public TMPro.TextMeshProUGUI accuracyScore;
-    //public TMPro.TextMeshProUGUI accuracyPercentage;
-
     public static Lane Instance;
 
     [SerializeField]
@@ -43,10 +40,9 @@ public class Lane : MonoBehaviour
     public int GetSpawnIndex() { return Instance.spawnIndex; }
     public int GetInputIndex() { return Instance.inputIndex; }
     public int GetBarIndex() { return Instance.barIndex; }
-    public int GetAverageCount() { return Instance.averageCount; } 
+    public int GetAverageCount() { return Instance.averageCount; }
 
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
         Instance = this;
     }

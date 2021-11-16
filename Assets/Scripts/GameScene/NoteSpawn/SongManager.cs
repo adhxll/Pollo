@@ -9,15 +9,14 @@ public class SongManager : MonoBehaviour
 {
     public static SongManager Instance;
 
-    // Selected Level ID, see level items & database for reference
-    private int levelID = 1;
-
-    // Level object, to load level item based on level ID
-    private Level selectedLevel;
+    [SerializeField]
+    private int levelID = 0;    // Selected Level ID, see level items & database for reference
+    private Level selectedLevel;    // Level object, to load level item based on level ID
 
     private AudioSource leadTrack;
     private AudioSource backingTrack;
 
+    [Space]
     [SerializeField]
     private PitchDetector detectedPitch = null;
 
@@ -26,8 +25,6 @@ public class SongManager : MonoBehaviour
 
     [SerializeField]
     private BarTimeline barTimeline = null;
-
-    [SerializeField]
     private static MIDI.MidiFile midiFile;
 
     [Space]
@@ -83,11 +80,6 @@ public class SongManager : MonoBehaviour
     // Position Tracking
     public double GetDspTimeSong() { return Instance.dspTimeSong; }
 
-    private void Awake()
-    {
-        
-    }
-
     private void Start()
     {
         Initialize();
@@ -129,18 +121,7 @@ public class SongManager : MonoBehaviour
         songPlayed = true;
         dspTimeSong = AudioSettings.dspTime;
 
-        switch (SceneStateManager.Instance.GetSceneState())
-        {
-            case SceneStateManager.SceneState.Instruction:
-                detectedPitch.GetComponent<PitchDetectionSystem>().StartPlaying(); // Play audio source if the current scene state is 'Instruction'
-                break;
-            case SceneStateManager.SceneState.Countdown:
-                detectedPitch.GetComponent<PitchDetectionSystem>().StartRecording(); // Play through microphone if the current scene state is 'Countdown/Gameplay'
-                break;
-            case SceneStateManager.SceneState.Onboarding:
-                detectedPitch.GetComponent<PitchDetectionSystem>().StartRecording(); // Play through microphone if the current scene state is 'Countdown/Gameplay'
-                break;
-        }
+        detectedPitch.GetComponent<PitchDetectionSystem>().StartRecording();
 
         PolloController.Instance.SetActive(true);
         Screen.sleepTimeout = SleepTimeout.NeverSleep;
