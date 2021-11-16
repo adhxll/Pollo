@@ -7,21 +7,24 @@ using System;
 
 public class ScoreDisplayScript : MonoBehaviour
 {
-    public int score;
+    [SerializeField]
+    private int score;
     private int totalNotes;
     private int totalCorrect;
-    public TMP_Text scoreMessageObject;
-    public TMP_Text scoreObject; // the Score game object on ResultPage scen
-    //public TextMeshPro scoreMessage; // scoreMessage is the success message
-    //public TextMeshPro scoreMessageShadow; // the shadow of scoreMessage, to be removed
-    public GameObject[] stars; // the yellow stars inside the Tag GameObject
-    public int star = 0;
-    private string[] successMessages = { "Bru..", "Good!", "Nice one!", "Awesome!!" };
+    [SerializeField]
+    private TMP_Text scoreMessageObject = null;
+    [SerializeField]
+    private TMP_Text scoreObject = null; // the Score game object on ResultPage scene
+    [SerializeField]
+    private GameObject[] stars = null; // the yellow stars inside the Tag GameObject
+    [SerializeField]
+    private int star = 0;
+    private string[] successMessages = { "Bru..", "You passed!(barely)", "Good!", "Awesome!!" };
 
 
     private void Awake()
     {
-        setSessionScores();
+        getSessionScores();
         SetScoreText();
         CalculateStar();
         SetStarIndicator();
@@ -30,21 +33,16 @@ public class ScoreDisplayScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        updateCoinAmount();
+        
     }
 
     // Update is called once per frame
     void Update()
     {
+        
     }
 
-    void updateCoinAmount()
-    {
-        // add money based on current score
-        GameController.instance.CoinAdd(score);
-    }
-
-    void setSessionScores()
+    void getSessionScores()
     {
         // The score would be taken from a playerpref called 'SessionScore' that was recorded from the GameScene
         // If an error occured and the playerpref does not exist, it will return 0
@@ -61,6 +59,8 @@ public class ScoreDisplayScript : MonoBehaviour
 
     void SetStarIndicator()
     {
+        
+        // Need to add animation
         if (star > 0) stars[0].GetComponent<Image>().enabled = true;
         if (star > 1) stars[1].GetComponent<Image>().enabled = true;
         if (star > 2) stars[2].GetComponent<Image>().enabled = true;

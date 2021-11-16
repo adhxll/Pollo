@@ -4,8 +4,16 @@ using UnityEngine;
 
 public class Bar : MonoBehaviour
 {
-    double timeInstantiated;
-    public double assignedTime;
+    [SerializeField]
+    private double timeInstantiated;
+    [SerializeField]
+    private double assignedTime;
+
+    //Getter Setter
+    public double GetTimeInstantiated() { return this.timeInstantiated; }    // Time telling when the object is instantiated
+    public void SetTimeInstantiated(double timeInstantiated) { this.timeInstantiated = timeInstantiated; }
+    public double GetAssignedTime() { return this.assignedTime; } // Time telling when the object should arrive at the hit area
+    public void SetAssignedTime(double assignedTime) { this.assignedTime = assignedTime; }
 
     // Start is called before the first frame update
     void Start()
@@ -17,7 +25,7 @@ public class Bar : MonoBehaviour
     void Update()
     {
         double timeSinceInstantiated = SongManager.GetAudioSourceTime() - timeInstantiated;
-        float t = (float)(timeSinceInstantiated / (SongManager.Instance.noteTime * 2));
+        float t = (float)(timeSinceInstantiated / (SongManager.Instance.GetNoteTime() * 2));
 
         if (t > 1)
         {
@@ -25,7 +33,7 @@ public class Bar : MonoBehaviour
         }
         else
         {
-            transform.localPosition = Vector3.Lerp(Vector3.right * SongManager.Instance.noteSpawnX, Vector3.right * SongManager.Instance.noteDespawnX, t);
+            transform.localPosition = Vector3.Lerp(Vector3.right * SongManager.Instance.GetNoteSpawnX(), Vector3.right * SongManager.Instance.GetNoteDespawnX(), t);
             GetComponent<SpriteRenderer>().enabled = true;
             GetComponent<SpriteRenderer>().maskInteraction = SpriteMaskInteraction.VisibleInsideMask;
         }
