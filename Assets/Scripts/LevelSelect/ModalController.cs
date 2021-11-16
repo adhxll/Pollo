@@ -23,6 +23,7 @@ public class ModalController : MonoBehaviour
         modal.GetComponent<StarCounter>().StarCount = levelData.starCount;
         this.scoreValue = levelData.highScore.ToString();
         this.levelValue = "Level " + levelData.getLevelCount();
+        SetLevelToPlay(int.Parse(levelData.getLevelCount())); 
         //TODO: - get level ID then set modal data menjadi level ID
 
         if (!modal.activeSelf)
@@ -33,6 +34,11 @@ public class ModalController : MonoBehaviour
             modal.SetActive(true);
             overlay.SetActive(true);
         }
+    }
+    public void SetLevelToPlay(int selectedLevel)
+    {
+        var controller = GameController.instance;
+        controller.selectedLevel = selectedLevel;
     }
     public void CloseModal()
     {

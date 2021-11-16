@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 71c1514a6bd24e1e882cebbe1904ce04, type: 3}
-  m_Name: Bahianita-Regular SDF
+  m_Name: Bahianita-Regular
   m_EditorClassIdentifier: 
-  hashCode: 911147031
+  hashCode: -1549186629
   material: {fileID: 2565517269947547108}
-  materialHashCode: 1227842135
+  materialHashCode: 1859265211
   m_Version: 1.1.0
   m_SourceFontFileGUID: a274194962dcb44218169b6c71245404
   m_SourceFontFile_EditorRef: {fileID: 12800000, guid: a274194962dcb44218169b6c71245404, type: 3}

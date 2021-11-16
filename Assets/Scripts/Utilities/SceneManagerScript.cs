@@ -6,8 +6,16 @@ using UnityEngine.Events;
 
 public class SceneManagerScript : MonoBehaviour
 {
-    private string sceneIdentifier; 
-   
+    private string sceneIdentifier;
+
+    private void Awake()
+    {
+        if (SceneManager.GetActiveScene().name == "Homepage" && PlayerPrefs.GetInt("IsFirstTime") == 0) {
+            sceneIdentifier = "GameScene";
+            SceneInvoke(sceneIdentifier); 
+           
+        }
+    }
     public void SceneInvoke(string sceneName) // invoke scene without delay
     {
         sceneIdentifier = sceneName;

@@ -20,6 +20,7 @@ public class LevelSelectionController : MonoBehaviour
             LevelData.Add(Levels[i].GetComponent<LevelItem>());
         }
     }
+   
     private void LoadLevelData()
     {
         //TODO: Load data from binary here
@@ -36,6 +37,7 @@ public class LevelSelectionController : MonoBehaviour
         data.isUnlocked = true; 
         return data;    
     }
+  
    
     
     
