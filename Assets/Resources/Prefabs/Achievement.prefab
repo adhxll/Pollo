@@ -131,8 +131,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Finito!
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: c02862dad477c4e2dab7a5c888930fd4, type: 2}
-  m_sharedMaterial: {fileID: 2565517269947547108, guid: c02862dad477c4e2dab7a5c888930fd4, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: bd2e018e31eeb804a9c96faf694f2c7e, type: 2}
+  m_sharedMaterial: {fileID: 2565517269947547108, guid: bd2e018e31eeb804a9c96faf694f2c7e, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -568,8 +568,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "Complete your\n first game"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: c02862dad477c4e2dab7a5c888930fd4, type: 2}
-  m_sharedMaterial: {fileID: 2565517269947547108, guid: c02862dad477c4e2dab7a5c888930fd4, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: bd2e018e31eeb804a9c96faf694f2c7e, type: 2}
+  m_sharedMaterial: {fileID: 2565517269947547108, guid: bd2e018e31eeb804a9c96faf694f2c7e, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
