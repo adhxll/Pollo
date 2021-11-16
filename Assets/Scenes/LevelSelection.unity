@@ -3366,7 +3366,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1549176434266764161, guid: c4ca4df083cd5f241a55fdf074dce1b0, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1549176434266764161, guid: c4ca4df083cd5f241a55fdf074dce1b0, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
@@ -3374,7 +3374,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1549176434266764161, guid: c4ca4df083cd5f241a55fdf074dce1b0, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
-      value: 5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1549176434266764161, guid: c4ca4df083cd5f241a55fdf074dce1b0, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Mode
@@ -3387,7 +3387,7 @@ PrefabInstance:
     - target: {fileID: 1549176434266764161, guid: c4ca4df083cd5f241a55fdf074dce1b0, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
-      objectReference: {fileID: 1373399220}
+      objectReference: {fileID: 1583187280}
     - target: {fileID: 1549176434266764161, guid: c4ca4df083cd5f241a55fdf074dce1b0, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Target
       value: 
@@ -3406,7 +3406,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1549176434266764161, guid: c4ca4df083cd5f241a55fdf074dce1b0, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
-      value: DelayedSceneInvoke
+      value: PlayButtonSound
       objectReference: {fileID: 0}
     - target: {fileID: 1549176434266764161, guid: c4ca4df083cd5f241a55fdf074dce1b0, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_MethodName
@@ -3418,7 +3418,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1549176434266764161, guid: c4ca4df083cd5f241a55fdf074dce1b0, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
-      value: SceneManagerScript, Assembly-CSharp
+      value: AudioController, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 1549176434266764161, guid: c4ca4df083cd5f241a55fdf074dce1b0, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_TargetAssemblyTypeName
@@ -3434,7 +3434,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1549176434266764161, guid: c4ca4df083cd5f241a55fdf074dce1b0, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_StringArgument
-      value: Settings
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 1549176434266764161, guid: c4ca4df083cd5f241a55fdf074dce1b0, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Arguments.m_StringArgument
