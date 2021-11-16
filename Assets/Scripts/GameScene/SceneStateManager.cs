@@ -12,7 +12,7 @@ public class SceneStateManager : MonoBehaviour
     public static SceneStateManager Instance;
 
     [SerializeField]
-    private SceneState sceneState = SceneState.Instruction;
+    private SceneState sceneState = SceneState.Countdown;
 
     [Space]
 
@@ -313,6 +313,7 @@ public class SceneStateManager : MonoBehaviour
         int count = 3;
         while (count > 0)
         {
+            AudioControllerScript.Instance.PlayCountdownSound();
             yield return new WaitForSeconds(delay);
             StartCoroutine(AnimationUtilities.Instance.AnimateObjects(countdownObjects, 0.2f, AnimationUtilities.AnimationType.PunchScale, 0f, 0f));
             countdown.SetText(count.ToString());
@@ -321,6 +322,7 @@ public class SceneStateManager : MonoBehaviour
 
         yield return new WaitForSeconds(delay);
 
+        AudioControllerScript.Instance.PlayCountdownSound();
         titleButton.SetActive(false);
         AnimationUtilities.Instance.PunchScale(countButton);
         countdown.SetText("Go!");
