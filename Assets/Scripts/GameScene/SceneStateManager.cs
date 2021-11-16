@@ -74,7 +74,6 @@ public class SceneStateManager : MonoBehaviour
 
     private float delay = 1;
     private int onboardingSteps = 0;
-    private bool practice = false;
     private bool instructionEnd = false;
 
     void Start()
@@ -107,8 +106,8 @@ public class SceneStateManager : MonoBehaviour
 
         allParents = new GameObject[2] { onboardingParent, pianoScaleParent };
 
-        if (PlayerPrefs.GetInt("IsFirstTime") == 1 && GameController.instance != null)
-            sceneState = GameController.instance.sceneState;
+        if (PlayerPrefs.GetInt("IsFirstTime") == 1 && GameController.Instance != null)
+            sceneState = GameController.Instance.sceneState;
 
     }
 
@@ -358,13 +357,14 @@ public class SceneStateManager : MonoBehaviour
 
     public void TogglePractice()
     {
-        if (!Instance.practice)
+        var practiceText = practiceButton.GetComponentInChildren<TMPro.TextMeshProUGUI>().text;
+        if (practiceText == "Practice Mode")
         {
-            Instance.practice = true;
             ChangeSceneState(SceneState.Practice);
         }
         else
         {
+            //sceneState = SceneState.Instruction;
             sceneManager.SceneInvoke("GameScene");
         } 
     }

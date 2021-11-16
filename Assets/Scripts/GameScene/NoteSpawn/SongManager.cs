@@ -89,8 +89,8 @@ public class SongManager : MonoBehaviour
     {
         Instance = this;
 
-        if (PlayerPrefs.GetInt("IsFirstTime") == 1 && GameController.instance != null)
-            levelID = GameController.instance.selectedLevel;
+        if (PlayerPrefs.GetInt("IsFirstTime") == 1 && GameController.Instance != null)
+            levelID = GameController.Instance.selectedLevel;
 
         selectedLevel = Database.GetLevelByID(levelID);
         midiFile = MIDI.CreateFromJSON(midiJSON.text);
@@ -232,7 +232,7 @@ public class SongManager : MonoBehaviour
         return false;
     }
 
-    // Reset all instance to its default state
+    // Reset all Instance to its default state
     public void ResetScene()
     {
         ScoreManager.Instace.Reset();

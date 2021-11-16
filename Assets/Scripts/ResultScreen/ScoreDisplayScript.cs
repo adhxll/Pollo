@@ -19,7 +19,7 @@ public class ScoreDisplayScript : MonoBehaviour
     private GameObject[] stars = null; // the yellow stars inside the Tag GameObject
     [SerializeField]
     private int star = 0;
-    private string[] successMessages = { "Bru..", "You passed!(barely)", "Good!", "Awesome!!" };
+    private string[] successMessages = { "Bru..", "Nice!", "Good!", "Awesome!!" };
 
 
     private void Awake()
@@ -33,7 +33,7 @@ public class ScoreDisplayScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        GameController.Instance.CoinAdd((int)(score/10f));
     }
 
     // Update is called once per frame

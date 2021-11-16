@@ -37,13 +37,13 @@ public class ModalController : MonoBehaviour
     }
     public void SetLevelToPlay(int selectedLevel)
     {
-        var controller = GameController.instance;
+        var controller = GameController.Instance;
         controller.selectedLevel = selectedLevel;
     }
 
     public void SetSceneToPlay(string scene)
     {
-        GameController.instance.sceneState = (SceneStateManager.SceneState)System.Enum.Parse(typeof(SceneStateManager.SceneState), scene);
+        GameController.Instance.sceneState = (SceneStateManager.SceneState)System.Enum.Parse(typeof(SceneStateManager.SceneState), scene);
     }
 
     public void CloseModal()

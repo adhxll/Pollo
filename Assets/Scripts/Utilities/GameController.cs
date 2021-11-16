@@ -10,7 +10,7 @@ using TMPro;
 // It stores the game's global variable such as game currency and player's current skin (future development)
 public class GameController : MonoBehaviour
 {
-    public static GameController instance;
+    public static GameController Instance;
     private int totalCoin;
     private int currentCharacter; // currentSkin is a variable that holds current characterId
     public GameObject[] coinAmount;
@@ -39,13 +39,13 @@ public class GameController : MonoBehaviour
     // Singleton pattern
     void StartSingleton()
     {
-        if (instance != null)
+        if (Instance != null)
         {
             Destroy(gameObject);
         }
         else
         {
-            instance = this;
+            Instance = this;
             DontDestroyOnLoad(gameObject);
         }
     }

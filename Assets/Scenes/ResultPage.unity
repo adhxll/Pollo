@@ -3124,7 +3124,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1549176434266764161, guid: c4ca4df083cd5f241a55fdf074dce1b0, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_StringArgument
-      value: Homepage
+      value: LevelSelection
       objectReference: {fileID: 0}
     - target: {fileID: 1549176434266764161, guid: c4ca4df083cd5f241a55fdf074dce1b0, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_Arguments.m_StringArgument
