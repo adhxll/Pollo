@@ -22,9 +22,21 @@ public class AchievementManager : MonoBehaviour
     
     }
 
+    public void PolloStyle()
+    {
+        PolloController.Instance.SetAnimation(10, 0);
+        PolloController.Instance.SetActive(true);
+    }
+
+   void Start()
+    {
+        Invoke("PolloStyle", 1f);
+    }
+
     void Awake()
     {
         ActivateAchievement();
+     
     }
 
 
