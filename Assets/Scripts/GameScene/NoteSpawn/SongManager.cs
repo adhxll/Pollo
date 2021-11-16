@@ -88,11 +88,12 @@ public class SongManager : MonoBehaviour
     void Initialize()
     {
         Instance = this;
+
+        if (PlayerPrefs.GetInt("IsFirstTime") == 1 && GameController.instance != null)
+            levelID = GameController.instance.selectedLevel;
+
         selectedLevel = Database.GetLevelByID(levelID);
         midiFile = MIDI.CreateFromJSON(midiJSON.text);
-
-        if (SceneStateManager.Instance.GetSceneState() != SceneStateManager.SceneState.Onboarding)
-            levelID = GameController.instance.selectedLevel;
 
         InitializeTrack();
         GetDataFromMidi();

@@ -46,6 +46,12 @@ public class SceneStateManager : MonoBehaviour
 
     [Header("Others")]
     [SerializeField]
+    private AudioClip metronome = null;
+
+    [SerializeField]
+    private AudioSource audioSource = null;
+
+    [SerializeField]
     private GameObject overlay = null;
 
     [SerializeField]
@@ -101,9 +107,7 @@ public class SceneStateManager : MonoBehaviour
 
         allParents = new GameObject[2] { onboardingParent, pianoScaleParent };
 
-        var selectedLevel = GameController.instance.selectedLevel;
-
-        if (selectedLevel != 0)
+        if (PlayerPrefs.GetInt("IsFirstTime") == 1 && GameController.instance != null)
             sceneState = GameController.instance.sceneState;
 
     }
@@ -315,12 +319,15 @@ public class SceneStateManager : MonoBehaviour
         InstructionEnd();
 
         StartCoroutine(AnimationUtilities.Instance.AnimateObjects(countdownObjects, 0.1f, AnimationUtilities.AnimationType.MoveY, 0f, 5f));
+        audioSource.clip = metronome;
 
         int count = 3;
         while (count > 0)
         {
             yield return new WaitForSeconds(delay);
+            audioSource.PlayScheduled(0.1f);
             StartCoroutine(AnimationUtilities.Instance.AnimateObjects(countdownObjects, 0.2f, AnimationUtilities.AnimationType.PunchScale, 0f, 0f));
+
             countdown.SetText(count.ToString());
             count --;
         }
@@ -329,6 +336,7 @@ public class SceneStateManager : MonoBehaviour
 
         titleButton.SetActive(false);
         AnimationUtilities.Instance.PunchScale(countButton);
+        audioSource.PlayScheduled(0.1f);
         countdown.SetText("Go!");
 
         yield return new WaitForSeconds(delay);

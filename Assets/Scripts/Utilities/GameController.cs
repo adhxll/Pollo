@@ -15,8 +15,8 @@ public class GameController : MonoBehaviour
     private int currentCharacter; // currentSkin is a variable that holds current characterId
     public GameObject[] coinAmount;
     public GameObject[] coinChangeIndicator;
-    public int selectedLevel;
-    public SceneStateManager.SceneState sceneState;
+    public int selectedLevel = 0;
+    public SceneStateManager.SceneState sceneState = SceneStateManager.SceneState.Onboarding;
     private enum PlayerDataKey
     {
         CoinAmount,

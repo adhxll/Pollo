@@ -15,4 +15,4 @@ MonoBehaviour:
   levelID: 1
   leadTrack: {fileID: 8300000, guid: 3db79bf1cec7b41af812837c8bc6662e, type: 3}
   backingTrack: {fileID: 8300000, guid: ddb9c2220834845b0922a5d8eca7c4ea, type: 3}
-  midiJson: {fileID: 4900000, guid: d5fd9567b17b047159a30de8a6868300, type: 3}
+  midiJson: {fileID: 4900000, guid: 2f87c0cfbd5f3439c81cfacdb2b6575f, type: 3}
