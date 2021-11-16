@@ -9,6 +9,7 @@ public class PolloController : MonoBehaviour
     [SerializeField]
     private Animator anim = null;
 
+  
     // Start is called before the first frame update
     void Start()
     {
@@ -31,4 +32,5 @@ public class PolloController : MonoBehaviour
     {
         anim.SetBool("gameActive", active);
     }
+
 }
