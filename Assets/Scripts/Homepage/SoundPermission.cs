@@ -16,7 +16,7 @@ public class SoundPermission : MonoBehaviour
         source.Play(); 
         Debug.Log(Microphone.IsRecording(Microphone.devices[0])); 
         PlayerPrefs.SetInt("HasPermission", 1); 
-         }
+        }
     }
 
 
