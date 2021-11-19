@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using System.IO;
 using UnityEngine.Networking;
 using System;
@@ -46,7 +47,15 @@ public class SongManager : MonoBehaviour
     [SerializeField]
     private float noteTapX = 0; // Note tap position in world space
 
-    private  float noteDespawnX { get { return noteTapX - (noteSpawnX - noteTapX); } }
+    [SerializeField]
+    private Slider slider = null;
+
+    [SerializeField]
+    private TMPro.TextMeshProUGUI sliderValue = null;
+
+    private float noteDelay = 0f;
+
+    private float noteDespawnX { get { return noteTapX - (noteSpawnX - noteTapX); } }
     private TextAsset midiJSON { get { return selectedLevel.GetMidiJson(); } }
     private static float midiBPM { get { return (float)60 / (float)midiFile.header.tempos[0].bpm; } }
 
@@ -71,6 +80,7 @@ public class SongManager : MonoBehaviour
     public float GetNoteTime() { return Instance.noteTime; }
     public float GetNoteSpawnX() { return Instance.noteSpawnX; }
     public float GetNoteTapX() { return Instance.noteTapX; }
+    public float GetNoteDelay() { return Instance.noteDelay;  }
 
     public float GetNoteDespawnX() { return Instance.noteDespawnX; }
     public TextAsset GetMidiJSON() { return Instance.midiJSON; }
@@ -89,12 +99,17 @@ public class SongManager : MonoBehaviour
     {
         Instance = this;
 
+        var delay = PlayerPrefs.GetFloat("NoteDelay");
+        noteDelay = delay;
+
         if (PlayerPrefs.GetInt("IsFirstTime") == 1 && GameController.Instance != null)
             levelID = GameController.Instance.selectedLevel;
 
         selectedLevel = Database.GetLevelByID(levelID);
         midiFile = MIDI.CreateFromJSON(midiJSON.text);
 
+        LoadDelay(delay);
+        SetDelay();
         InitializeTrack();
         GetDataFromMidi();
     }
@@ -198,6 +213,22 @@ public class SongManager : MonoBehaviour
     {
         leadTrack.time = time;
         backingTrack.time = time;
+    }
+
+    public void LoadDelay(float delay)
+    {
+        sliderValue.SetText(delay.ToString("0.00"));
+        slider.value = delay;
+    }
+
+    public void SetDelay()
+    {
+        slider.onValueChanged.AddListener((v) =>
+        {
+            noteDelay = v;
+            sliderValue.SetText(v.ToString("0.00"));
+            PlayerPrefs.SetFloat("NoteDelay", v);
+        });
     }
 
     // Get current playback position in metric times

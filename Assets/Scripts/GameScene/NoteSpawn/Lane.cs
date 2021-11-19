@@ -53,7 +53,7 @@ public class Lane : MonoBehaviour
     {
         foreach (var note in array)
         {
-            timeStamps.Add(note.time);
+            timeStamps.Add(note.time + SongManager.Instance.GetNoteDelay());
             noteDurations.Add((float)note.durationTicks / SongManager.Instance.GetMidiFile().header.ppq);
             midiNotes.Add(note.midi);
         }
