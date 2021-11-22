@@ -67,7 +67,7 @@ public class BarTimeline : MonoBehaviour
     {
         foreach (var note in array)
         {
-            timestamp.Add(note.time);
+            timestamp.Add(note.time + SongManager.Instance.GetNoteDelay());
         }
     }
 
