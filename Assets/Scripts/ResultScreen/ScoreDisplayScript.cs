@@ -7,16 +7,19 @@ using System;
 
 public class ScoreDisplayScript : MonoBehaviour
 {
-    public int score;
+    [SerializeField]
+    private int score;
     private int totalNotes;
     private int totalCorrect;
-    public TMP_Text scoreMessageObject;
-    public TMP_Text scoreObject; // the Score game object on ResultPage scen
-    //public TextMeshPro scoreMessage; // scoreMessage is the success message
-    //public TextMeshPro scoreMessageShadow; // the shadow of scoreMessage, to be removed
-    public GameObject[] stars; // the yellow stars inside the Tag GameObject
-    public int star = 0;
-    private string[] successMessages = { "Bru..", "You passed!(barely)", "Good!", "Awesome!!" };
+    [SerializeField]
+    private TMP_Text scoreMessageObject = null;
+    [SerializeField]
+    private TMP_Text scoreObject = null; // the Score game object on ResultPage scene
+    [SerializeField]
+    private GameObject[] stars = null; // the yellow stars inside the Tag GameObject
+    [SerializeField]
+    private int star = 0;
+    private string[] successMessages = { "Bru..", "Nice!", "Good!", "Awesome!!" };
 
 
     private void Awake()
@@ -30,7 +33,7 @@ public class ScoreDisplayScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        GameController.Instance.CoinAdd((int)(score/10f));
     }
 
     // Update is called once per frame
