@@ -49,13 +49,15 @@ public class ModalController : MonoBehaviour
     public void CloseModal()
     {
         AnimationUtilities.AnimatePopUpDisappear(modal);
-        Invoke(nameof(DeactivateModal), 0.2f);  //biar animasinya keplay dulu sebelom diclose
+        StartCoroutine(DeactivateModal(0.2f));   //biar animasinya keplay dulu sebelom diclose
     }
-    private void DeactivateModal()
+    private IEnumerator DeactivateModal(float countTime)
     {
+        yield return new WaitForSeconds(countTime); 
         modal.GetComponent<StarCounter>().EmptyStars();
         modal.SetActive(false);
         overlay.SetActive(false);
+        StopCoroutine(DeactivateModal(0.2f)); 
     }
 
 }
