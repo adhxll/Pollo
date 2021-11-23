@@ -6,6 +6,19 @@ using TMPro;
 
 public class AnimationUtilities : MonoBehaviour
 {
+    public enum AnimationType
+    {
+        PunchScale,
+        MoveY
+    }
+
+    public static AnimationUtilities Instance;
+
+    private void Awake()
+    {
+        Instance = this;
+    }
+
     //Taro gameobject yang mau dianimate sebagai parameter, trus jalanin. 
     //Pastiin kalo mau animate terus objectnya dihilangkan / mau pindah scene, jalanin func animate baru 
     //jalanin fungsi pindah/hilang pake invoke
@@ -50,6 +63,7 @@ public class AnimationUtilities : MonoBehaviour
         s.Insert(0, indicator.GetComponent<TMP_Text>().DOFade(0, 2f));
         s.Play();
     }
+
     public static void AnimateButtonJump(GameObject obj)
     {
         obj.transform.DOPunchPosition(new Vector3(0, 5f), 1f, 0, 1f).SetLoops(-1);
@@ -82,6 +96,33 @@ public class AnimationUtilities : MonoBehaviour
         }
     }
 
+    public IEnumerator AnimateObjects(List<GameObject> objects, float duration, AnimationType type, float target, float from)
+    {
+        foreach (var obj in objects)
+        {
+            // Set parent to active if it's inactive
+            if (obj.transform.parent != null && !obj.transform.parent.gameObject.activeSelf)
+            {
+                var parentObj = obj.transform.parent.gameObject;
+                parentObj.SetActive(true);
+            }
+
+            obj.SetActive(true);
+
+            switch (type)
+            {
+                case AnimationType.MoveY:
+                    MoveY(obj, target, from);
+                    break;
+                case AnimationType.PunchScale:
+                    PunchScale(obj);
+                    break;
+            }
+            yield return new WaitForSeconds(duration);
+
+        }
+    }
+
     public void AnimateHit(GameObject obj)
     {
         obj.transform.DOPunchScale(new Vector3(-0.1f, -0.1f, -0.1f), 0.2f, 1, 1);
@@ -106,18 +147,5 @@ public class AnimationUtilities : MonoBehaviour
 
         else
             obj.transform.DOMoveY(post.y + target, 0.75f).SetEase(Ease.InOutQuad).From(post.y + from);
-    }
-
-    // Enumeration
-    public enum AnimationType
-    {
-        PunchScale,
-        MoveY
-    }
-    public static AnimationUtilities Instance;
-
-    private void Awake()
-    {
-        Instance = this;
     }
 }

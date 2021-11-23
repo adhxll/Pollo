@@ -11,11 +11,11 @@ public class ScaleInstruction : MonoBehaviour
     [SerializeField]
     private AudioClip[] audioClips = null;
     [SerializeField]
-    private TextMeshProUGUI instructionText = null;
+    private GameObject[] pianoTiles = null;
     [SerializeField]
     private GameObject[] instructionBoard;
     [SerializeField]
-    private GameObject[] pianoTiles = null;
+    private TextMeshProUGUI instructionText = null;
 
     [SerializeField]
     private float playbackSpeed = 1.0f;

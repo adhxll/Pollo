@@ -64,11 +64,11 @@ public class Lane : MonoBehaviour
     {
         if (SongManager.Instance.GetSongPlayed())
         {
-            if (SongManager.GetCurrentBeat() >= barIndex)
+            if (SongManager.GetCurrentBeat() > barIndex)
             {
                 // Handle fast forward, if the clip is being fast forwarded, then barIndex will be equal to the integer value of current beat
                 // So it'll not be spawned multiple time (since the default increment is 1)
-                barIndex = (int)SongManager.GetCurrentBeat();
+                barIndex = (int)Mathf.Round(SongManager.GetCurrentBeat());
                 SpawnMusicBar();
             }
 
@@ -133,6 +133,7 @@ public class Lane : MonoBehaviour
         var bar = Instantiate(barPrefab, transform);
         bar.GetComponent<Bar>().SetAssignedTime(SongManager.GetAudioSourceTime());
         barIndex++;
+        Debug.Log($"Bar Spawn: {barIndex}, Beats: {SongManager.GetCurrentBeat()}");
     }
 
     private void Hit()

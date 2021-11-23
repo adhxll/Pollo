@@ -4,64 +4,40 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Audio;
+using UnityEngine.SceneManagement;
 using DG.Tweening;
 
 // TODO: - RENAME DI DEVELOPMENT
 public class SceneStateManager : MonoBehaviour
 {
+    public enum SceneState
+    {
+        Onboarding,
+        Instruction,
+        Practice,
+        Countdown,
+        Pause,
+        EndOfSong
+    }
+
     public static SceneStateManager Instance;
 
-    [SerializeField]
-    private SceneState sceneState = SceneState.Instruction;
-
+    [SerializeField] private SceneState sceneState = SceneState.Instruction;
     [Space]
-
-    [SerializeField]
-    private GameObject[] instructionObjects = null;
-
-    [SerializeField]
-    private GameObject[] countdownObjects = null;
-
-    [SerializeField]
-    private GameObject[] gameplayObjects = null;
-
-    [SerializeField]
-    private GameObject[] practiceObjects = null;
-
-    [SerializeField]
-    private GameObject[] onboardingObjects = null;
-
-    [SerializeField]
-    private GameObject[] noteBar = null;
+    [SerializeField] private GameObject[] countdownObjects = null;
+    [SerializeField] private GameObject[] gameplayObjects = null;
+    [SerializeField] private GameObject[] practiceObjects = null;
+    [SerializeField] private GameObject[] onboardingObjects = null;
+    [SerializeField] private GameObject[] noteBar = null;
 
     [Header("Button")]
-    [SerializeField]
-    private Button actionButton = null;
-
-    [SerializeField]
-    private Button repeatButton = null;
-
-    [SerializeField]
-    private Button practiceButton = null;
+    [SerializeField] private Button actionButton = null;
+    [SerializeField] private Button repeatButton = null;
+    [SerializeField] private Button practiceButton = null;
 
     [Header("Others")]
-    [SerializeField]
-    private AudioClip metronome = null;
-
-    [SerializeField]
-    private AudioSource audioSource = null;
-
-    [SerializeField]
-    private GameObject overlay = null;
-
-    [SerializeField]
-    private AudioMixer audioMixer = null;
-
-    [SerializeField]
-    private GameObject comboObject = null;
-
-    [SerializeField]
-    private GameObject accuracyObject = null;
+    [SerializeField] private GameObject comboObject = null;
+    [SerializeField] private GameObject accuracyObject = null;
 
     private GameObject[] allParents = null;
 
@@ -70,30 +46,28 @@ public class SceneStateManager : MonoBehaviour
     private TMPro.TextMeshProUGUI title;
     private TMPro.TextMeshProUGUI countdown;
 
-    private SceneManagerScript sceneManager;
-
     private float delay = 1;
     private int onboardingSteps = 0;
-    private bool instructionEnd = false;
+    private bool isOnboardingGameStarted = false;
 
-    void Start()
+    private void Awake()
     {
         Instance = this;
+    }
+
+    private void Start()
+    {
         Initialize();
         CheckSceneState();
     }
 
     void Update()
     {
-        if (sceneState == SceneState.Onboarding && SongManager.Instance.IsAudioFinished() && onboardingSteps == 8)
-        {
-            SetOnboarding();
-        }
+        CheckOnboarding();
     }
 
     void Initialize()
     {
-        sceneManager = GetComponent<SceneManagerScript>();
         // Initialize title & countdown object
         // Title is static, countdown is dynamic
         titleButton = countdownObjects[1];
@@ -102,24 +76,27 @@ public class SceneStateManager : MonoBehaviour
         countdown = countdownObjects[0].GetComponentInChildren<TMPro.TextMeshProUGUI>();
 
         var onboardingParent = onboardingObjects[0].transform.parent.gameObject;
-        var pianoScaleParent = instructionObjects[0].transform.parent.gameObject;
 
-        allParents = new GameObject[2] { onboardingParent, pianoScaleParent };
+        allParents = new GameObject[1] { onboardingParent };
 
         if (PlayerPrefs.GetInt("IsFirstTime") == 1 && GameController.Instance != null)
             sceneState = GameController.Instance.sceneState;
 
     }
 
+    #region General Function
+
     public SceneState GetSceneState()
     {
         return sceneState;
     }
 
-    public void ChangeSceneState(SceneState scene)
+    public void ChangeSceneState(SceneState scene, bool reload = true)
     {
         sceneState = scene;
-        CheckSceneState();
+
+        if (reload)
+            CheckSceneState();
     }
 
     public void ChangeSceneState(string scene)
@@ -132,7 +109,7 @@ public class SceneStateManager : MonoBehaviour
     {
         // Loop through the animated object list, and inactive them
         // Later, the inactived objects will show up based on the current scene state
-        var array = instructionObjects.Concat(countdownObjects).Concat(gameplayObjects).Concat(onboardingObjects).ToArray();
+        var array = countdownObjects.Concat(gameplayObjects).Concat(onboardingObjects).ToArray();
 
         switch (sceneState)
         {
@@ -144,7 +121,6 @@ public class SceneStateManager : MonoBehaviour
             case SceneState.Instruction:
                 SetActiveInactive(array, false);
                 SetActiveInactive(allParents, false);
-                SetActiveInactive(instructionObjects ,true);
                 InstructionStart();
                 break;
             case SceneState.Countdown:
@@ -171,26 +147,9 @@ public class SceneStateManager : MonoBehaviour
         }
     }
 
-    // At the moment, we use dspTime to control spawned notes and notes position.
-    // Hence, all we need to do to pause/resume the game is just pausing/resuming the song.
-    // Since we use audio playback reference to spawn our game object.
-    public void PauseGame()
-    {
-        sceneState = SceneState.Pause;
-        overlay.SetActive(true);
+    #endregion
 
-        SongManager.Instance.PauseSong();
-    }
-
-    public void ResumeGame()
-    {
-        sceneState = SceneState.Countdown;
-        overlay.SetActive(false);
-        var pauseDelay = 3;
-        StartCoroutine(FadeMixerGroup.StartFade(audioMixer, "backsoundVolume", pauseDelay, FadeMixerGroup.Fade.In));
-
-        SongManager.Instance.ResumeSong();
-    }
+    #region Onboarding
 
     private void StartOnboarding()
     {
@@ -213,11 +172,9 @@ public class SceneStateManager : MonoBehaviour
 
             onboardingSteps++;
             SetOnboardingObjects();
-        }
-        else
-        {
+        } else {
             PlayerPrefs.SetInt("IsFirstTime", 1);
-            sceneManager.SceneInvoke("Homepage");
+            SceneManagerScript.Instance.SceneInvoke(SceneManagerScript.SceneName.Homepage);
         }
     }
 
@@ -257,6 +214,7 @@ public class SceneStateManager : MonoBehaviour
         if (onboardingSteps == 8)
         {
             SongManager.Instance.StartSong();
+            isOnboardingGameStarted = true;
             actionButton.interactable = false;
             repeatButton.gameObject.SetActive(true);
             AnimationUtilities.Instance.MoveY(repeatButton.gameObject, 0.1f, 0f, true);
@@ -274,23 +232,24 @@ public class SceneStateManager : MonoBehaviour
 
     }
 
-    void InstructionStart()
+    // Check whether onboarding gameplay is finished
+    void CheckOnboarding()
     {
-        StartCoroutine(AnimationUtilities.Instance.AnimateObjects(instructionObjects, 0.1f, AnimationUtilities.AnimationType.MoveY, 0f, 10f));
+        if (sceneState == SceneState.Onboarding && SongManager.Instance.IsAudioFinished() && isOnboardingGameStarted)
+        {
+            SetOnboarding();
+        }
     }
 
-    public void InstructionEnd()
-    {
-        if (instructionObjects.Length > 0 && instructionEnd == false)
-            instructionObjects[0].transform.parent.GetComponent<Image>().CrossFadeAlpha(0f, 0.5f, false);
+    #endregion
 
-        instructionEnd = true;
+    void InstructionStart()
+    {
+        SceneManagerScript.Instance.SceneInvoke(SceneManagerScript.SceneName.GSPianoScale, true);
     }
 
     IEnumerator PracticeStart()
     {
-        InstructionEnd();
-
         comboObject.SetActive(false);
         accuracyObject.SetActive(false);
 
@@ -302,9 +261,7 @@ public class SceneStateManager : MonoBehaviour
         if (SongManager.Instance.GetSongPlayed())
         {
             SongManager.Instance.PauseSong();
-        }
-        else
-        {
+        } else {
             yield return new WaitForSeconds(delay);
             SongManager.Instance.StartSong();
         }
@@ -315,16 +272,13 @@ public class SceneStateManager : MonoBehaviour
     // Basically telling the sequence of animation that need to be played in transition.
     IEnumerator CountdownStart()
     {
-        InstructionEnd();
-
         StartCoroutine(AnimationUtilities.Instance.AnimateObjects(countdownObjects, 0.1f, AnimationUtilities.AnimationType.MoveY, 0f, 5f));
-        audioSource.clip = metronome;
 
         int count = 3;
         while (count > 0)
         {
             yield return new WaitForSeconds(delay);
-            audioSource.PlayScheduled(0.1f);
+            AudioController.Instance.PlayCountDown();
             StartCoroutine(AnimationUtilities.Instance.AnimateObjects(countdownObjects, 0.2f, AnimationUtilities.AnimationType.PunchScale, 0f, 0f));
 
             countdown.SetText(count.ToString());
@@ -335,7 +289,7 @@ public class SceneStateManager : MonoBehaviour
 
         titleButton.SetActive(false);
         AnimationUtilities.Instance.PunchScale(countButton);
-        audioSource.PlayScheduled(0.1f);
+        AudioController.Instance.PlayCountDown();
         countdown.SetText("Go!");
 
         yield return new WaitForSeconds(delay);
@@ -352,7 +306,7 @@ public class SceneStateManager : MonoBehaviour
     public IEnumerator EndOfSongAnimation()
     {
         yield return StartCoroutine(AnimationUtilities.Instance.AnimateObjects(gameplayObjects, 0.1f, AnimationUtilities.AnimationType.MoveY, 5f, 0f));
-        sceneManager.SceneInvoke("ResultPage");
+        SceneManagerScript.Instance.SceneInvoke(SceneManagerScript.SceneName.ResultPage);
     }
 
     public void TogglePractice()
@@ -361,22 +315,9 @@ public class SceneStateManager : MonoBehaviour
         if (practiceText == "Practice Mode")
         {
             ChangeSceneState(SceneState.Practice);
-        }
-        else
-        {
-            //sceneState = SceneState.Instruction;
-            sceneManager.SceneInvoke("GameScene");
+        } else {
+            SceneManagerScript.Instance.SceneInvoke(SceneManagerScript.SceneName.GameScene);
         } 
-    }
-
-    public enum SceneState
-    {
-        Onboarding,
-        Instruction,
-        Practice,
-        Countdown,
-        Pause,
-        EndOfSong
     }
 }
 
