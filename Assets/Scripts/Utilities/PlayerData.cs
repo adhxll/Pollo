@@ -7,7 +7,6 @@ public class PlayerData
 {
     public List<LevelItemContainer> levelData = new List<LevelItemContainer>();
     
-    // Start is called before the first frame update
     public PlayerData(LevelDatabase database)
     {
         //populate levels with empty values

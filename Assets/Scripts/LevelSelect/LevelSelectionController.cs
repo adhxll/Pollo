@@ -28,7 +28,7 @@ public class LevelSelectionController : MonoBehaviour
         GameObject lvl; 
         for (int i = 0; i < levels.Length; i++) {
             lvl = levels[i];
-            lvl.GetComponent<LevelItem>().data = GameController.Instance.playerData.levelData[i]; 
+            lvl.GetComponent<LevelItem>().data = DataController.Instance.playerData.levelData[i]; 
         }
     }
      LevelItemContainer GenerateDummy(int idCount) {

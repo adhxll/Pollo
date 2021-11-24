@@ -17,8 +17,7 @@ public class GameController : MonoBehaviour
     public GameObject[] coinChangeIndicator;
     public int selectedLevel = 0;
     public SceneStateManager.SceneState sceneState = SceneStateManager.SceneState.Onboarding;
-    public LevelDatabase levelDatabase;
-    public PlayerData playerData; 
+   
     private enum PlayerDataKey
     {
         CoinAmount,
@@ -35,10 +34,7 @@ public class GameController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if (SaveSystem.LoadPlayerData() != null) playerData = SaveSystem.LoadPlayerData();
-        else {
-        playerData = new PlayerData(levelDatabase);
-        }
+      
     }
 
     // Singleton pattern

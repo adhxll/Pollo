@@ -6,15 +6,14 @@ using System.Runtime.Serialization.Formatters.Binary;
 
 public class SaveSystem : MonoBehaviour
 {
-    //CALL THIS FUNCTION UNTUK SAVE DATA LEVEL
+    //CALL THIS FUNCTION UNTUK SAVE DATA PLAYER
     public static void SavePlayerData()
     {
-     
         //determine path to save
         string path = Application.dataPath + "/poloData.json";
 
         //TODO: -Get PlayerData from GameController
-        PlayerData data = GameController.Instance.playerData;
+        PlayerData data = DataController.Instance.playerData;
 
         //serialize into binary using formatter
         string dataString = JsonUtility.ToJson(data);
@@ -25,7 +24,7 @@ public class SaveSystem : MonoBehaviour
         
     }
 
-    //CALL THIS FUNCTION UNTUK LOAD LEVEL DATA
+    //CALL THIS FUNCTION UNTUK LOAD PLAYER DATA
     public static PlayerData LoadPlayerData()
     {
         //determine filepath
@@ -37,13 +36,7 @@ public class SaveSystem : MonoBehaviour
             //set player data from JSON
             string JsonString = File.ReadAllText(path);
             PlayerData data = JsonUtility.FromJson<PlayerData>(JsonString);  
-            
-            Debug.Log("Save file found and loaded.");
-            int i = 0;
-            foreach(LevelItemContainer level in data.levelData){
-                i++; 
-            }
-            Debug.Log("Level Count : " + i); 
+
             //return the data
             return data;
         }
@@ -52,11 +45,8 @@ public class SaveSystem : MonoBehaviour
             Debug.Log($"Data not found");
             return null;
 
-
-
-
         }
     }
-    // Start is called before the first frame update
+
 
 }
