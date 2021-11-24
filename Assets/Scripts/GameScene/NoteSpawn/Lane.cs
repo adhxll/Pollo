@@ -68,7 +68,7 @@ public class Lane : MonoBehaviour
             {
                 // Handle fast forward, if the clip is being fast forwarded, then barIndex will be equal to the integer value of current beat
                 // So it'll not be spawned multiple time (since the default increment is 1)
-                barIndex = (int)Mathf.Round(SongManager.GetCurrentBeat());
+                barIndex = (int)Math.Round(SongManager.GetCurrentBeat());
                 SpawnMusicBar();
             }
 

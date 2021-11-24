@@ -316,6 +316,7 @@ public class SceneStateManager : MonoBehaviour
         {
             ChangeSceneState(SceneState.Practice);
         } else {
+            GameController.Instance.sceneState = SceneState.Instruction;
             SceneManagerScript.Instance.SceneInvoke(SceneManagerScript.SceneName.GameScene);
         } 
     }
