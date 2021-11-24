@@ -17,6 +17,8 @@ public class GameController : MonoBehaviour
     public GameObject[] coinChangeIndicator;
     public int selectedLevel = 0;
     public SceneStateManager.SceneState sceneState = SceneStateManager.SceneState.Onboarding;
+    public LevelDatabase levelDatabase;
+    public PlayerData playerData; 
     private enum PlayerDataKey
     {
         CoinAmount,
@@ -33,7 +35,10 @@ public class GameController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        if (SaveSystem.LoadPlayerData() != null) playerData = SaveSystem.LoadPlayerData();
+        else {
+        playerData = new PlayerData(levelDatabase);
+        }
     }
 
     // Singleton pattern
@@ -61,7 +66,7 @@ public class GameController : MonoBehaviour
         // Both currentSkin and totalCoin default value is 0
         this.currentCharacter = PlayerPrefs.GetInt(PlayerDataKey.Character.ToString(), 0);
         this.totalCoin = PlayerPrefs.GetInt(PlayerDataKey.CoinAmount.ToString(), 0);
-
+        
         ShowCoinAmount();
     }
 

@@ -22,8 +22,8 @@ public class ModalController : MonoBehaviour
         var levelData = sourceLevel.GetComponent<LevelItem>().data;
         modal.GetComponent<StarCounter>().StarCount = levelData.starCount;
         this.scoreValue = levelData.highScore.ToString();
-        this.levelValue = "Level " + levelData.getLevelCount();
-        SetLevelToPlay(int.Parse(levelData.getLevelCount())); 
+        this.levelValue = "Level " + levelData.levelID; 
+        SetLevelToPlay(levelData.levelID); 
         //TODO: - get level ID then set modal data menjadi level ID
 
         if (!modal.activeSelf)

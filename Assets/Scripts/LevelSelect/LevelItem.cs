@@ -16,7 +16,7 @@ public class LevelItem : MonoBehaviour
     void Start()
     {
         //setup the data into container
-        LevelCountText.GetComponent<TMPro.TextMeshPro>().text = data.getLevelCount();
+        LevelCountText.GetComponent<TMPro.TextMeshPro>().text = data.levelID.ToString(); 
         StarContainer.GetComponent<StarCounter>().StarCount = data.starCount;
         StarContainer.GetComponent<StarCounter>().FillStars();
         if (data.isUnlocked) LockUnlockCircle.GetComponent<SpriteRenderer>().sprite = UnlockedCircleSprite; 

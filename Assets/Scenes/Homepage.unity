@@ -912,6 +912,9 @@ MonoBehaviour:
   coinChangeIndicator: []
   selectedLevel: 0
   sceneState: 0
+  levelDatabase: {fileID: 11400000, guid: adb498633390b49fb816da2e47d8d3c8, type: 2}
+  playerData:
+    levelData: []
 --- !u!4 &786046415
 Transform:
   m_ObjectHideFlags: 0
@@ -2228,6 +2231,7 @@ MonoBehaviour:
   audioSource: {fileID: 1979482415}
   buttonSound: {fileID: 8300000, guid: 537dcbedb86130e479af8f5eafda6924, type: 3}
   countdownSound: {fileID: 0}
+  coinAddedSound: {fileID: 0}
 --- !u!82 &1979482415
 AudioSource:
   m_ObjectHideFlags: 0
