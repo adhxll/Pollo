@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System; 
 using UnityEngine;
 using UnityEngine.UI; 
 public class StarCounter : MonoBehaviour
@@ -23,7 +24,7 @@ public class StarCounter : MonoBehaviour
                 star.sprite = FilledStarSprite;
             }
                 }
-        catch (MissingComponentException) {
+        catch (Exception) {
             for (int i = 0; i < StarCount; i++)
             {
                 var star = StarSlots[i].GetComponent<Image>();
@@ -44,7 +45,7 @@ public class StarCounter : MonoBehaviour
                 star.sprite = EmptyStarSprite; 
             }
         }
-        catch (MissingComponentException)
+        catch (Exception)
         {
             for (int i = 0; i < StarSlots.Length; i++)
             {

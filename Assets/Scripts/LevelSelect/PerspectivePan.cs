@@ -7,13 +7,18 @@ public class PerspectivePan : MonoBehaviour
 {
     public Camera cam;
     private Vector3 touchStart; //Vector for storing user input touch
-    private float minX, minY, maxX, maxY;
+    private float minX, minY, maxX, maxY, camMinX, camMinY, camMaxX, camMaxY, camHeight, camWidth;
     public GameObject GameObjectWithMaxBounds; //max bounds panning tergantung object, contoh: background
     private SpriteRenderer mapRenderer;
 
     void Awake()
     {
         SetupPanningObjects();
+    }
+    private void Start()
+    {
+        //inspector akan override function ini kalo ditaro di awake
+        SetupCameraPosition(); 
     }
 
 
@@ -27,12 +32,26 @@ public class PerspectivePan : MonoBehaviour
         mapRenderer = GameObjectWithMaxBounds.GetComponent<SpriteRenderer>();
 
         cam = Camera.main;
+        camHeight = cam.orthographicSize;
+        camWidth = cam.orthographicSize * cam.aspect;
 
         //bikin max min values berdasarkan gameobject
         minX = mapRenderer.transform.position.x - mapRenderer.bounds.size.x / 2f;
         maxX = mapRenderer.transform.position.x + mapRenderer.bounds.size.x / 2f;
         minY = mapRenderer.transform.position.y - mapRenderer.bounds.size.y / 2f;
         maxY = mapRenderer.transform.position.y + mapRenderer.bounds.size.y / 2f;
+
+        camMinX = minX + camWidth;
+        camMaxX = maxX - camWidth;
+        camMinY = minY + camHeight;
+        camMaxY = maxY - camHeight;
+
+    }
+
+    private void SetupCameraPosition() {
+        //biar cameranya gak menjorok ke tengah
+        cam.transform.position = new Vector3(camMinX, 0, -1);
+        Debug.Log("Camera position: " + cam.transform.position);
     }
     private void PanCamera() {
         if (Input.GetMouseButtonDown(0)) touchStart = cam.ScreenToWorldPoint(Input.mousePosition);
@@ -46,14 +65,8 @@ public class PerspectivePan : MonoBehaviour
     private Vector3 ClampCamera(Vector3 targetPosition) { 
 
         //"jepit" camera move bounds biar ga out of bounds pas geser2 camera
-        float camHeight = cam.orthographicSize;
-        float camWidth = cam.orthographicSize * cam.aspect;
-        float camMinX = minX + camWidth;
-        float camMaxX = maxX - camWidth;
-        float camMinY = minY + camHeight;
-        float camMaxY = maxY - camHeight;
         float newX = Mathf.Clamp(targetPosition.x, camMinX, camMaxX);
-        float newY = Mathf.Clamp(targetPosition.y, camMinY, camMaxY);
+        float newY = Mathf.Clamp(targetPosition.y, 0, 0);
 
         return new Vector3(newX, newY, targetPosition.z); 
     }
