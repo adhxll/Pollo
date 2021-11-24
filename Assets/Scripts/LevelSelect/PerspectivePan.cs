@@ -66,7 +66,7 @@ public class PerspectivePan : MonoBehaviour
 
         //"jepit" camera move bounds biar ga out of bounds pas geser2 camera
         float newX = Mathf.Clamp(targetPosition.x, camMinX, camMaxX);
-        float newY = Mathf.Clamp(targetPosition.y, camMinY, camMaxY);
+        float newY = Mathf.Clamp(targetPosition.y, 0, 0);
 
         return new Vector3(newX, newY, targetPosition.z); 
     }
