@@ -6,14 +6,12 @@ using System.Linq;
 
 public class BarTimeline : MonoBehaviour
 {
-    [SerializeField]
-    private GameObject barBackground = null;
-
-    [SerializeField]
-    private GameObject barIndicator = null;
-
-    [SerializeField]
-    private GameObject barPrefab = null;
+    [SerializeField] private GameObject barBackground = null;
+    [SerializeField] private GameObject barIndicator = null;
+    [SerializeField] private GameObject barPrefab = null;
+    [Space]
+    [SerializeField] private Button previousButton = null;
+    [SerializeField] private Button nextButton = null;
 
     private List<GameObject> barList = new List<GameObject>();
     private List<double> timestamp = new List<double>();
@@ -45,9 +43,9 @@ public class BarTimeline : MonoBehaviour
         }
     }
 
-    // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
+        CheckButton();
     }
 
     // Update is called once per frame
@@ -142,6 +140,18 @@ public class BarTimeline : MonoBehaviour
         }
     }
 
+    void CheckButton()
+    {
+        previousButton.interactable = true;
+        nextButton.interactable = true;
+
+        if (currentSection == 0)
+            previousButton.interactable = false;
+
+        if (currentSection == timestamp.Count - 1)
+            nextButton.interactable = false;
+    }
+
     public void RepeatSection()
     {
         ResetLane();
@@ -150,7 +160,7 @@ public class BarTimeline : MonoBehaviour
 
     public void NextSection()
     {
-        if (currentSection < timestamp.Count)
+        if (currentSection < timestamp.Count - 1)
             currentSection++;
 
         ResetLane();
@@ -168,6 +178,8 @@ public class BarTimeline : MonoBehaviour
 
     void SetTimestampStyle()
     {
+        CheckButton();
+
         for (int i = 0; i < timestamp.Count; i++)
         {
             barList[i].GetComponent<Image>().color = Color.white;

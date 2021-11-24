@@ -10,9 +10,6 @@ public class PitchDetectionSystem : MonoBehaviour
     private PitchDetector pitchDetector;
     private AudioSource audioSource;
 
-    [SerializeField]
-    private Dropdown dropdown = null;
-
     private int sampleCount = 2048;
     private int audioSamplerate;
     private float[] spectrum;
@@ -43,8 +40,6 @@ public class PitchDetectionSystem : MonoBehaviour
 
     void Initialize()
     {
-        PopulateList();
-
         pitchDetector = GetComponent<PitchDetector>();
         audioSamplerate = AudioSettings.outputSampleRate;
 
@@ -75,7 +70,6 @@ public class PitchDetectionSystem : MonoBehaviour
             case PitchAlgo.FFT:
                 pitchValue = PitchTracker.FromFFT(spectrum, audioSamplerate);
                 break;
-
         }
 
         PitchUtilities.PitchToMidiNote(pitchValue, out int midiNote, out int midiCents);
@@ -113,19 +107,5 @@ public class PitchDetectionSystem : MonoBehaviour
             while (!(Microphone.GetPosition(microphone) > 0)) { }
             audioSource.Play();
         }
-    }
-
-    void PopulateList()
-    {
-        string[] enumNames = Enum.GetNames(typeof(PitchAlgo));
-        List<string> names = new List<string>(enumNames);
-        dropdown.AddOptions(names);
-        dropdown.value = (int)algo;
-    }
-
-    public void DropdownValueChanged(int index)
-    {
-        dropdown.value = index;
-        PlayerPrefs.SetInt("pitchAlgo", index);
     }
 }

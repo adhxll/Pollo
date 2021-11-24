@@ -1,67 +1,42 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
-using System.IO;
-using UnityEngine.Networking;
-using System;
+using UnityEngine.Audio;
 
 public class SongManager : MonoBehaviour
 {
     public static SongManager Instance;
 
-    [SerializeField]
-    private int levelID = 0;    // Selected Level ID, see level items & database for reference
-    private Level selectedLevel;    // Level object, to load level item based on level ID
+    [SerializeField] private int levelID = 0;    // Selected Level ID, see level items & database for reference
+    private Level selectedLevel;                // Level object, to load level item based on level ID
 
     private AudioSource leadTrack;
     private AudioSource backingTrack;
 
     [Space]
-    [SerializeField]
-    private PitchDetector detectedPitch = null;
+    [SerializeField] private PitchDetector detectedPitch = null;
+    [SerializeField] private Lane lanes = null;
+    [SerializeField] private BarTimeline barTimeline = null;
+    [SerializeField] private AudioMixer audioMixer = null;
 
-    [SerializeField]
-    private Lane lanes = null;
-
-    [SerializeField]
-    private BarTimeline barTimeline = null;
     private static MIDI.MidiFile midiFile;
 
     [Space]
-    [SerializeField]
-    private float songDelayInSeconds = 3;
+    [SerializeField] private float songDelayInSeconds = 3;
+    [SerializeField] private double marginOfError = 0.3f;           // In seconds
+    [SerializeField] private int inputDelayInMilliseconds = 250;
+    [SerializeField] private float noteTime = 3;                    // Time needed for the note spawn location to the tap location
+    [SerializeField] private float noteSpawnX = 16;                 // Note spawn position in world space
+    [SerializeField] private float noteTapX = 0;                    // Note tap position in world space
 
-    [SerializeField]
-    private double marginOfError = 0.3f;    // In seconds
-
-    [SerializeField]
-    private int inputDelayInMilliseconds = 250;
-
-    [SerializeField]
-    private float noteTime = 3;  // Time needed for the note spawn location to the tap location
-
-    [SerializeField]
-    private float noteSpawnX = 16;    // Note spawn position in world space
-
-    [SerializeField]
-    private float noteTapX = 0; // Note tap position in world space
-
-    [SerializeField]
-    private Slider slider = null;
-
-    [SerializeField]
-    private TMPro.TextMeshProUGUI sliderValue = null;
-
-    private float noteDelay = 0f;
-
+    private float noteDelay { get { return PlayerPrefs.GetFloat("NoteDelay"); } }
     private float noteDespawnX { get { return noteTapX - (noteSpawnX - noteTapX); } }
     private TextAsset midiJSON { get { return selectedLevel.GetMidiJson(); } }
     private static float midiBPM { get { return (float)60 / (float)midiFile.header.tempos[0].bpm; } }
 
-    private bool songPlayed = false;
     // Position Tracking
     private double dspTimeSong;
+    private bool songPlayed = false;
 
     //Getter Setter
     public int GetLevelID() { return Instance.levelID; }
@@ -90,6 +65,11 @@ public class SongManager : MonoBehaviour
     // Position Tracking
     public double GetDspTimeSong() { return Instance.dspTimeSong; }
 
+    private void Awake()
+    {
+        Instance = this;
+    }
+
     private void Start()
     {
         Initialize();
@@ -97,19 +77,12 @@ public class SongManager : MonoBehaviour
 
     void Initialize()
     {
-        Instance = this;
-
-        var delay = PlayerPrefs.GetFloat("NoteDelay");
-        noteDelay = delay;
-
         if (PlayerPrefs.GetInt("IsFirstTime") == 1 && GameController.Instance != null)
             levelID = GameController.Instance.selectedLevel;
 
         selectedLevel = Database.GetLevelByID(levelID);
         midiFile = MIDI.CreateFromJSON(midiJSON.text);
 
-        LoadDelay(delay);
-        SetDelay();
         InitializeTrack();
         GetDataFromMidi();
     }
@@ -203,32 +176,23 @@ public class SongManager : MonoBehaviour
         backingTrack.Pause();
     }
 
-    public void ResumeSong()
+    public void ResumeSong(float delay = 0)
     {
+        leadTrack.time -= delay;
+        backingTrack.time -= delay;
+
         leadTrack.UnPause();
         backingTrack.UnPause();
+
+        // Audio fade in, if delay > 0
+        if (delay > 0)
+            StartCoroutine(FadeMixerGroup.StartFade(audioMixer, "backsoundVolume", delay, FadeMixerGroup.Fade.In));
     }
 
     public void SetAudioPosition(float time)
     {
         leadTrack.time = time;
         backingTrack.time = time;
-    }
-
-    public void LoadDelay(float delay)
-    {
-        sliderValue.SetText(delay.ToString("0.00"));
-        slider.value = delay;
-    }
-
-    public void SetDelay()
-    {
-        slider.onValueChanged.AddListener((v) =>
-        {
-            noteDelay = v;
-            sliderValue.SetText(v.ToString("0.00"));
-            PlayerPrefs.SetFloat("NoteDelay", v);
-        });
     }
 
     // Get current playback position in metric times
