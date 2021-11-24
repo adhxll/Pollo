@@ -17,7 +17,8 @@ public class GSUIManager : MonoBehaviour
 
     [Space]
     [SerializeField] private Dropdown dropdown = null;
-    [SerializeField] private Slider slider = null;
+    [SerializeField] private Slider delaySlider = null;
+    [SerializeField] private Slider pitchSwitch = null;
     [SerializeField] private TMPro.TextMeshProUGUI sliderValue = null;
 
     private void Awake()
@@ -37,7 +38,7 @@ public class GSUIManager : MonoBehaviour
             LoadList();
 
         // Check Slider
-        if (slider != null)
+        if (delaySlider != null)
         {
             LoadDelay();
             SetDelay();
@@ -119,12 +120,12 @@ public class GSUIManager : MonoBehaviour
     {
         var delay = SongManager.Instance.GetNoteDelay();
         sliderValue.SetText(delay.ToString("0.00"));
-        slider.value = delay;
+        delaySlider.value = delay;
     }
 
     public void SetDelay()
     {
-        slider.onValueChanged.AddListener((v) =>
+        delaySlider.onValueChanged.AddListener((v) =>
         {
             sliderValue.SetText(v.ToString("0.00"));
             PlayerPrefs.SetFloat("NoteDelay", v);
@@ -138,5 +139,15 @@ public class GSUIManager : MonoBehaviour
         AudioController.Instance.PlayButtonSound();
         SceneStateManager.Instance.ChangeSceneState(SceneStateManager.SceneState.Countdown);
         SceneManagerScript.Instance.SceneUnload(SceneManagerScript.SceneName.GSPianoScale);
+    }
+
+    // Forced Pitch - Switch
+    public void SetForcedPitch()
+    {
+        pitchSwitch.onValueChanged.AddListener((v) =>
+        {
+            int value = (int)pitchSwitch.value;
+            PlayerPrefs.SetInt("isForcedPitch", value);
+        });
     }
 }
