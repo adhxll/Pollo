@@ -8,28 +8,19 @@ public class Lane : MonoBehaviour
 {
     public static Lane Instance;
 
-    [SerializeField]
-    private GameObject notePrefab = null;
+    [SerializeField] private GameObject notePrefab = null;
+    [SerializeField] private GameObject barPrefab = null;
+    [SerializeField] private List<Note> notes = new List<Note>();
 
-    [SerializeField]
-    private GameObject barPrefab = null;
-
-    [SerializeField]
-    private List<Note> notes = new List<Note>();
-
-    [HideInInspector]
-    private List<double> timeStamps = new List<double>();    // A list that store each notes timestamp (telling the exact time when its need to be spawned)
-
-    [HideInInspector]
-    private List<float> noteDurations = new List<float>();   // A list that store each notes ticks duration
-
-    [HideInInspector]
-    private List<int> midiNotes = new List<int>();   // A list that store what MIDI notes need to be played at the given note
+    private List<double> timeStamps = new List<double>();   // A list that store each notes timestamp (telling the exact time when its need to be spawned)
+    private List<float> noteDurations = new List<float>();  // A list that store each notes ticks duration
+    private List<int> midiNotes = new List<int>();          // A list that store what MIDI notes need to be played at the given note
 
     private int spawnIndex = 0;
     private int inputIndex = 0;
     private int barIndex = 0;
-    private int averageCount = 0; // Variable to count in exact midi note to prevent Hit() function called accidentally
+    private int averageCount = 0;                           // Variable to count in exact midi note to prevent Hit() function called accidentally
+    private int isForcedPitch { get { return PlayerPrefs.GetInt("isForcedPitch"); } }
 
     public GameObject GetNotePrefab() { return Instance.notePrefab; }
     public GameObject GetBarPrefab() { return Instance.barPrefab; }
@@ -53,7 +44,7 @@ public class Lane : MonoBehaviour
     {
         foreach (var note in array)
         {
-            timeStamps.Add(note.time);
+            timeStamps.Add(note.time + SongManager.Instance.GetNoteDelay());
             noteDurations.Add((float)note.durationTicks / SongManager.Instance.GetMidiFile().header.ppq);
             midiNotes.Add(note.midi);
         }
@@ -64,11 +55,11 @@ public class Lane : MonoBehaviour
     {
         if (SongManager.Instance.GetSongPlayed())
         {
-            if (SongManager.GetCurrentBeat() >= barIndex)
+            if (SongManager.GetCurrentBeat() > barIndex)
             {
                 // Handle fast forward, if the clip is being fast forwarded, then barIndex will be equal to the integer value of current beat
                 // So it'll not be spawned multiple time (since the default increment is 1)
-                barIndex = (int)SongManager.GetCurrentBeat();
+                barIndex = (int)Math.Round(SongManager.GetCurrentBeat());
                 SpawnMusicBar();
             }
 
@@ -85,9 +76,10 @@ public class Lane : MonoBehaviour
                 double marginOfError = SongManager.Instance.GetMarginOfError();
                 double audioTime = SongManager.GetAudioSourceTime() - (SongManager.Instance.GetInputDelayInMilliseconds() / 1000.0);
 
-                if (SceneStateManager.Instance.GetSceneState() == SceneStateManager.SceneState.Onboarding)
+                if (SceneStateManager.Instance.GetSceneState() == SceneStateManager.SceneState.Onboarding ||
+                    SceneStateManager.Instance.GetSceneState() == SceneStateManager.SceneState.Practice && isForcedPitch == 1)
                 {
-                    if (inputIndex < notes.Count && notes[inputIndex].transform.localPosition.x < -0.5f)
+                    if (inputIndex < notes.Count && notes[inputIndex].transform.localPosition.x < -0.25f)
                     {
                         SongManager.Instance.PauseSong();
 

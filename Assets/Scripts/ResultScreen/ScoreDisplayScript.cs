@@ -7,10 +7,10 @@ using System;
 
 public class ScoreDisplayScript : MonoBehaviour
 {
-    [SerializeField]
     private int score;
     private int totalNotes;
     private int totalCorrect;
+    private int accuracy;
     [SerializeField]
     private TMP_Text scoreMessageObject = null;
     [SerializeField]
@@ -49,12 +49,13 @@ public class ScoreDisplayScript : MonoBehaviour
         score = PlayerPrefs.GetInt("SessionScore", 0);
         totalNotes = PlayerPrefs.GetInt("SessionTotalNotes", 1);
         totalCorrect = PlayerPrefs.GetInt("SessionCorrectNotes", 0);
+        accuracy = PlayerPrefs.GetInt("SessionAccuracy", 0);
     }
 
     void SetScoreText()
     {
         // going to animate this one
-        scoreObject.text = score.ToString();
+        scoreObject.text = accuracy.ToString()+"%";
     }
 
     void SetStarIndicator()
@@ -75,19 +76,10 @@ public class ScoreDisplayScript : MonoBehaviour
 
     void CalculateStar()
     {
-        // for pitch detection tolerance
-        double firstThreshold = totalNotes * 0.85;
-        firstThreshold = Math.Round(firstThreshold);
-
-        double halfThreshold = totalNotes / 2;
-        halfThreshold = Math.Round(halfThreshold);
-
-        double thirdThreshold = totalNotes / 3;
-        thirdThreshold = Math.Round(thirdThreshold);
-
-        if (totalCorrect >= firstThreshold) star = 3;
-        else if (score > totalCorrect*100 && totalCorrect >= halfThreshold) star = 2;
-        else if (totalCorrect >= thirdThreshold) star = 1;
+        // havent decide on what happens if the accuracy is 100
+        if (accuracy >= 90) star = 3;
+        else if (accuracy >= 60) star = 2;
+        else if (accuracy >= 30) star = 1;
         else star = 0;
 
     }

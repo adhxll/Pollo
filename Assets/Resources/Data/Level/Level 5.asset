@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 908ed50590fe7497d8da985bce5c62e3, type: 3}
+  m_Name: Level 5
+  m_EditorClassIdentifier: 
+  levelID: 5
+  leadTrack: {fileID: 8300000, guid: bf337e74c0dd6f242a2679c15e7c2535, type: 3}
+  backingTrack: {fileID: 8300000, guid: fa7422f0b123ae94fbf856ff56eb30a1, type: 3}
+  midiJson: {fileID: 4900000, guid: 2f87c0cfbd5f3439c81cfacdb2b6575f, type: 3}

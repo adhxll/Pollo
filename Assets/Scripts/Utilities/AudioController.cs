@@ -12,6 +12,8 @@ public class AudioController : MonoBehaviour
     private AudioClip buttonSound;
     [SerializeField]
     private AudioClip countdownSound;
+    [SerializeField]
+    private AudioClip coinAddedSound;
 
     private void Awake()
     {
@@ -27,6 +29,11 @@ public class AudioController : MonoBehaviour
     public void PlayCountDown()
     {
         audioSource.clip = countdownSound;
+        audioSource.Play();
+    }
+    public void PlayCoinAddSound()
+    {
+        audioSource.clip = coinAddedSound;
         audioSource.Play();
     }
 

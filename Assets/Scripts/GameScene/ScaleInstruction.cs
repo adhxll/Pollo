@@ -6,21 +6,13 @@ using TMPro;
 
 public class ScaleInstruction : MonoBehaviour
 {
-    [SerializeField]
-    private AudioSource audioSource = null;
-    [SerializeField]
-    private AudioClip[] audioClips = null;
-    [SerializeField]
-    private TextMeshProUGUI instructionText = null;
-    [SerializeField]
-    private GameObject[] instructionBoard;
-    [SerializeField]
-    private GameObject[] pianoTiles = null;
+    [SerializeField] private AudioSource audioSource = null;
+    [SerializeField] private AudioClip[] audioClips = null;
+    [SerializeField] private GameObject[] pianoTiles = null;
+    [SerializeField] private TextMeshProUGUI instructionText = null;
 
-    [SerializeField]
-    private float playbackSpeed = 1.0f;
-    [SerializeField]
-    private string keySignature = "C";
+    [SerializeField] private float playbackSpeed = 1.0f;
+    [SerializeField] private string keySignature = "C";
 
     //A major range scale multiplied by 2
     private int[] majorRange = { 2, 2, 1, 2, 2, 2, 1 };
@@ -84,9 +76,4 @@ public class ScaleInstruction : MonoBehaviour
             else startIndex++;
         }
     }
-
-    public void AudioSourceStop(){
-        Destroy(gameObject);
-    }
-
 }
