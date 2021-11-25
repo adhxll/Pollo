@@ -356,6 +356,7 @@ MonoBehaviour:
   audioSource: {fileID: 76487597}
   buttonSound: {fileID: 8300000, guid: 537dcbedb86130e479af8f5eafda6924, type: 3}
   countdownSound: {fileID: 8300000, guid: 863eebb6376e3452f919edda005cdd69, type: 3}
+  coinAddedSound: {fileID: 0}
 --- !u!82 &76487597
 AudioSource:
   m_ObjectHideFlags: 0
