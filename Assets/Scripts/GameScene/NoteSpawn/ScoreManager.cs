@@ -32,6 +32,7 @@ public class ScoreManager : MonoBehaviour
 
     static float correctNotes = 0;
     static float totalNotes = 0;
+    static int accuracy = 0;
 
     static int comboScore = 0;
     static int wrongScore = 0;
@@ -139,7 +140,8 @@ public class ScoreManager : MonoBehaviour
         if (correctNotes == 0 && totalNotes == 0)
             accuracyText.text = "0";
         else
-            accuracyText.text = (correctNotes / totalNotes * 100).ToString("0");
+            accuracy = (int)(correctNotes / totalNotes * 100);
+            accuracyText.text = accuracy.ToString("0");
 
         // Track how long the badge has shown
         timeSinceShowed = AudioSettings.dspTime - timer;
@@ -152,11 +154,13 @@ public class ScoreManager : MonoBehaviour
         }
     }
 
+
     // Temporary function to pass the session's data
     private void OnDestroy()
     {
         PlayerPrefs.SetInt("SessionScore", totalScore);
         PlayerPrefs.SetInt("SessionTotalNotes", (int)totalNotes);
-        PlayerPrefs.SetInt("SessionCorrectNotes", (int)correctNotes);
+        PlayerPrefs.SetInt("SessionCorrectNotes", (int)correctNotes); 
+        PlayerPrefs.SetInt("SessionAccuracy", accuracy);
     }
 }
