@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 908ed50590fe7497d8da985bce5c62e3, type: 3}
   m_Name: Level 1
   m_EditorClassIdentifier: 
-  levelID: 0
-  leadTrack: {fileID: 0}
-  backingTrack: {fileID: 0}
-  midiJson: {fileID: 0}
+  levelID: 1
+  leadTrack: {fileID: 8300000, guid: 925433cf0ca5a4b7ab075c6bc16f2dec, type: 3}
+  backingTrack: {fileID: 8300000, guid: e714eddbb59e941ffa31fef1769da1d7, type: 3}
+  midiJson: {fileID: 4900000, guid: d9b45fd3afcb140038a4841d2aa4e3be, type: 3}

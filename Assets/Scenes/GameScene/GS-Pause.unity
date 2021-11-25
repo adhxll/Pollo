@@ -2291,10 +2291,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   background: {fileID: 1338109182}
-  dropdown: {fileID: 51218446}
-  slider: {fileID: 457945459}
-  sliderValue: {fileID: 2077940988}
   animateBackground: 1
+  dropdown: {fileID: 51218446}
+  delaySlider: {fileID: 457945459}
+  pitchSwitch: {fileID: 0}
+  sliderValue: {fileID: 2077940988}
 --- !u!4 &1801421000
 Transform:
   m_ObjectHideFlags: 0
