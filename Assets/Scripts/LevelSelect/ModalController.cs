@@ -35,7 +35,7 @@ public class ModalController : MonoBehaviour
             overlay.SetActive(true);
         }
     }
-    public void SetLevelToPlay(int selectedLevel)
+    private void SetLevelToPlay(int selectedLevel)
     {
         var controller = GameController.Instance;
         controller.selectedLevel = selectedLevel;

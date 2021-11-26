@@ -9,17 +9,29 @@ public class PlayerData
     
     public PlayerData(LevelDatabase database)
     {
+        //populate onboarding and first level
+        LevelItemContainer level = new LevelItemContainer();
+        level.levelID = 0;
+        level.starCount = 0;
+        levelData.Add(level);
+
+        level = new LevelItemContainer();
+        level.levelID = 1;
+        level.isUnlocked = true;
+        levelData.Add(level); 
+
         //populate levels with empty values
-        for (int i = 0; i < database.allLevels.Count; i++)
+        for (int i = 2; i < database.allLevels.Count; i++)
         {
-            LevelItemContainer level = new LevelItemContainer();
-            level.levelID = i + 1; 
-            level.starCount = Random.Range(0, 4);
-            levelData.Add(level);
+            LevelItemContainer newLevel = new LevelItemContainer();
+            newLevel.levelID = i;
+            newLevel.starCount = 0; 
+            levelData.Add(newLevel);
             Debug.Log("Container ID : " + i + " Star Count : " + levelData[i].starCount);
         }
        
     }
+   
 
    
 
