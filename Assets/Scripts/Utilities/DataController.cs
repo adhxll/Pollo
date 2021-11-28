@@ -8,7 +8,7 @@ public class DataController : MonoBehaviour
     public LevelDatabase levelDatabase;
     //TODO: Add databases for Achievements and Skins
     public PlayerData playerData;
-    List<LevelItemContainer> levels; 
+    Dictionary<string, LevelItemContainer> levels; 
     private void Awake()
     {
         StartSingleton(); 
@@ -38,39 +38,66 @@ public class DataController : MonoBehaviour
         }
         else
         {
-            playerData = new PlayerData(levelDatabase);
+            GenerateInitialvalue(); 
         }
     }
     void CheckForNewLevel()
     { //check if newly developed level has been added
         List<Level> levels = levelDatabase.allLevels;
-        List<LevelItemContainer>  playerDataLevels = playerData.levelData;
+        Dictionary<string, LevelItemContainer>  playerDataLevels = playerData.levelData;
         if (levels.Count > playerDataLevels.Count) { 
-            for (int i = playerDataLevels.Count-1 ; i < levels.Count-1; i++) { 
-                LevelItemContainer previousLvl = playerDataLevels[i];
-                playerData.levelData.Add(new LevelItemContainer { levelID = previousLvl.levelID + 1});
+            for (int i = playerDataLevels.Count-1 ; i < levels.Count-1; i++) {
+                string dictKey = levels[i].GetStageID() + "-" + levels[i].GetLevelID();
+                playerData.levelData.Add(dictKey, new LevelItemContainer { 
+                    levelID = levels[i].GetStageID(), 
+                    stageID = levels[i].GetLevelID()
+                }); 
             }
         }
 
     }
-    void UpdateLevelData(int levelID, int starCount, int score) {
+    void UpdateLevelData(int stageID, int levelID, int starCount, int score) {
         //updates level data within playerData instance in singleton
-        levels = playerData.levelData; 
-        for (int i = 1; i < levels.Count; i++) {
-            if (levels[i].levelID == levelID) {
-                levels[i].score = score;
-                if (levels[i].highScore < score) levels[i].highScore = score;
-                if (levels[i].starCount < starCount) levels[i].starCount = starCount;
-                // Enable this on certain conditions, e.g. getting certain score and etc. 
-                // UnlockNextLevel(levelID); 
-            }
-        }
+        levels = playerData.levelData;
+        string dictKey = stageID + "-" + levelID; 
+        levels[dictKey].score = score;
+        if (levels[dictKey].highScore < score) levels[dictKey].highScore = score;
+        if (levels[dictKey].starCount < starCount) levels[dictKey].starCount = starCount;
+        // Enable this on certain conditions, e.g. getting certain score and etc. 
+        // UnlockNextLevel(levelID);
+        
     }
-    void UnlockNextLevel(int initialLevelID) {
+    void UnlockNextLevel(int currentStageID, int currentLevelID) {
         //unlocks the next level
-        for (int i = 1; i < levels.Count; i++) {
-            if(levels[i].levelID == initialLevelID && i != levels.Count - 1) 
-                levels[i + 1].isUnlocked = true;
+        string dictKey = currentStageID + "-" + currentLevelID+1;
+        levels[dictKey].isUnlocked = true; 
+       
+    }
+    public void GenerateInitialvalue()
+    {
+        //populate onboarding and first level
+        LevelItemContainer level = new LevelItemContainer();
+        string dictKey = level.stageID + "-" + level.levelID;
+        playerData.levelData.Add(dictKey, level);
+
+        level = new LevelItemContainer();
+        level.levelID = 1;
+        dictKey = level.stageID + "-" + level.levelID;
+        level.isUnlocked = true;
+        playerData.levelData.Add(dictKey, level);
+
+        //populate levels with empty values
+        for (int i = 2; i < levelDatabase.allLevels.Count; i++)
+        {
+            LevelItemContainer newLevel = new LevelItemContainer();
+            newLevel.levelID = i;
+            newLevel.stageID = levelDatabase.allLevels[i].GetStageID();
+            newLevel.starCount = Random.Range(0, 4); 
+            dictKey = newLevel.stageID + "-" + newLevel.levelID;
+            playerData.levelData.Add(dictKey, newLevel);
+            Debug.Log("Container ID : " + dictKey + " Star Count : " + playerData.levelData[dictKey].starCount);
         }
+
     }
 }
+

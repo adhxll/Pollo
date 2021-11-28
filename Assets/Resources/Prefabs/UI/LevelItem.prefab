@@ -96,13 +96,13 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 0}
-          m_TargetAssemblyTypeName: AnimationUtilities, Assembly-CSharp
-          m_MethodName: AnimateButtonPush
-          m_Mode: 2
+        - m_Target: {fileID: 3810099294207680418}
+          m_TargetAssemblyTypeName: LevelItem, Assembly-CSharp
+          m_MethodName: Push
+          m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
             m_IntArgument: 0
             m_FloatArgument: 0
             m_StringArgument: 
@@ -120,11 +120,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ab9ffc12d0a99243b49e4fc82901be9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  data: {fileID: 0}
+  data:
+    levelID: 0
+    stageID: 0
+    isUnlocked: 0
+    levelScore: 0
+    starCount: 0
+    score: 0
+    highScore: 0
+    maxScore: 0
+  level: {fileID: 2504493785340266632}
   LevelCountText: {fileID: 7509754647007974667}
   StarContainer: {fileID: 1149134762082396481}
   LockUnlockCircle: {fileID: 2504493785883356013}
   UnlockedCircleSprite: {fileID: 21300000, guid: 51935e5b607d54256a552983b713726c, type: 3}
+  levelSO: {fileID: 0}
 --- !u!1 &2504493785883356013
 GameObject:
   m_ObjectHideFlags: 0

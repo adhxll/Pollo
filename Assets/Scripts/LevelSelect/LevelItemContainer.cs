@@ -6,10 +6,9 @@ using UnityEngine;
 public class LevelItemContainer
 {
     //LevelItemContainer itu data yang disimpen di dalem levelItem 
-
-    //TODO: - Reformat level data
+    public int levelID = 0;
+    public int stageID = 0; 
     public bool isUnlocked = false;
-    public int levelID = 0; //level number
     public int levelScore = 0;
     public int starCount = 0;
     public int score = 0;

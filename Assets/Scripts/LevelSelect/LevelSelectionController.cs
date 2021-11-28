@@ -4,40 +4,12 @@ using UnityEngine;
 using UnityEngine.UI; 
 public class LevelSelectionController : MonoBehaviour
 {
-    public GameObject[] levels;
-    public List<LevelItem> LevelData = new List<LevelItem>();
+    public static LevelSelectionController Instance; 
     public Canvas levelCanvas;
-    private bool modalShown; 
-    void Awake()
+    private bool modalShown;
+    private void Awake()
     {
-        SetupScene(); 
-        LoadLevelData();
-    }
-    private void SetupScene() {
-        Camera cam = Camera.main;
-
-        for (int i = 0; i < levels.Length; i++)
-        {
-            LevelData.Add(levels[i].GetComponent<LevelItem>());
-        }
-    }
-   
-    private void LoadLevelData()
-    {
-        //TODO: Load data from binary here
-        GameObject lvl; 
-        for (int i = 0; i < levels.Length; i++) {
-            lvl = levels[i];
-            lvl.GetComponent<LevelItem>().data = DataController.Instance.playerData.levelData[i+1]; 
-        }
-    }
-     LevelItemContainer GenerateDummy(int idCount) {
-        //generate dummy, for testing only
-        LevelItemContainer data = new LevelItemContainer();
-        data.levelID = idCount + 1; 
-        data.starCount = 0; 
-        data.isUnlocked = true; 
-        return data;    
+        StartCustomSingleton(); 
     }
     public void ModifyLevelInput() { //disables level button input when modal is shown
         if (!modalShown) 
@@ -54,15 +26,10 @@ public class LevelSelectionController : MonoBehaviour
     public void SaveGame() {
         SaveSystem.SavePlayerData(); 
     }
-   
-  
-   
-    
-    
-    
-  
-
-
-
-
+    private void StartCustomSingleton() {
+        // used to keep this script as a static singleton, but only within the level selection scene
+        // needed for supporting multiple island prefabs, see LevelItem for example
+        if (Instance != null) Destroy(gameObject);
+        else Instance = this;
+    }
 }

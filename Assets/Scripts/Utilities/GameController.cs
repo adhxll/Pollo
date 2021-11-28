@@ -16,6 +16,7 @@ public class GameController : MonoBehaviour
     public GameObject[] coinAmount;
     public GameObject[] coinChangeIndicator;
     public int selectedLevel = 0;
+    public int currentStage = 0; 
     public SceneStateManager.SceneState sceneState = SceneStateManager.SceneState.Onboarding;
    
     private enum PlayerDataKey

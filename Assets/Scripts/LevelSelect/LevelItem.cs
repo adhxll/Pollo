@@ -7,7 +7,6 @@ public class LevelItem : MonoBehaviour
 {
     //data to fill the level item
     public LevelItemContainer data;
-
     //containers for showing the data
     public TMPro.TextMeshPro LevelCountText; 
     public GameObject StarContainer;
@@ -28,6 +27,9 @@ public class LevelItem : MonoBehaviour
             }
         }
     }
-    
-
+    public void Push() {
+        AnimationUtilities.AnimateButtonPush(gameObject);
+        ModalController.Instance.ShowLevelModal(gameObject);
+        LevelSelectionController.Instance.ModifyLevelInput(); 
+    }
 }
