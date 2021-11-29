@@ -27,8 +27,10 @@ public class ScoreManager : MonoBehaviour
     [SerializeField]
     private GameObject hitBadge = null;
 
+    
+    static public string missMessage = "";
     private string[] hitMessage = { "Perfect", "Eggcellent", "Awesome", "Great", "Good" };
-    private string[] missMessage = { "Miss", "Oopsy", "Aw...", "Sad Trombone", "Uh-oh"};
+    //private string[] missMessage = { "Miss", "Oopsy", "Aw...", "Sad Trombone", "Uh-oh"};
 
     static float correctNotes = 0;
     static float totalNotes = 0;
@@ -87,7 +89,7 @@ public class ScoreManager : MonoBehaviour
     {
         System.Random rnd = new System.Random();
         int hitIndex = rnd.Next(0, hitMessage.Length - 1);
-        int missIndex = rnd.Next(0, missMessage.Length - 1);
+        //int missIndex = rnd.Next(0, missMessage.Length - 1);
         var messageText = hitBadge.GetComponentInChildren<TMPro.TextMeshProUGUI>();
 
         // Determine badge style based on hit or miss
@@ -99,7 +101,7 @@ public class ScoreManager : MonoBehaviour
 
         else
         {
-            messageText.SetText(missMessage[missIndex]);
+            messageText.SetText(missMessage);
             hitBadge.GetComponent<Image>().color = new Color32(247, 86, 82, 255);
         }
         
