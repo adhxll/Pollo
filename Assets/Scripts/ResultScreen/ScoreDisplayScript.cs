@@ -16,6 +16,8 @@ public class ScoreDisplayScript : MonoBehaviour
     [SerializeField]
     private TMP_Text scoreObject = null; // the Score game object on ResultPage scene
     [SerializeField]
+    private TMP_Text accuracyObject = null; // the Score game object on ResultPage scene
+    [SerializeField]
     private GameObject[] stars = null; // the yellow stars inside the Tag GameObject
     [SerializeField]
     private int star = 0;
@@ -26,6 +28,7 @@ public class ScoreDisplayScript : MonoBehaviour
     {
         getSessionScores();
         SetScoreText();
+        SetAccuracyText();
         CalculateStar();
         SetStarIndicator();
         SetSuccessMessage();
@@ -55,12 +58,17 @@ public class ScoreDisplayScript : MonoBehaviour
     void SetScoreText()
     {
         // going to animate this one
-        scoreObject.text = accuracy.ToString()+"%";
+        scoreObject.text = score.ToString();
+    }
+
+    void SetAccuracyText()
+    {
+        // going to animate this one
+        accuracyObject.text = accuracy.ToString() + "%";
     }
 
     void SetStarIndicator()
     {
-        
         // Need to add animation
         if (star > 0) stars[0].GetComponent<Image>().enabled = true;
         if (star > 1) stars[1].GetComponent<Image>().enabled = true;
