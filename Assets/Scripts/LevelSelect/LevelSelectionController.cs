@@ -7,6 +7,9 @@ public class LevelSelectionController : MonoBehaviour
     public static LevelSelectionController Instance; 
     public Canvas levelCanvas;
     private bool modalShown;
+    public GameObject PrevStageBtn;
+    public GameObject NextStageBtn;
+    public bool enablePrevStageBtn, enableNextStageBtn;
     private void Awake()
     {
         StartCustomSingleton(); 
@@ -31,5 +34,29 @@ public class LevelSelectionController : MonoBehaviour
         // needed for supporting multiple island prefabs, see LevelItem for example
         if (Instance != null) Destroy(gameObject);
         else Instance = this;
+    }
+    public void ModifyNextStageButton() {
+        if (!enableNextStageBtn)
+        {
+            enableNextStageBtn = true;
+            NextStageBtn.GetComponent<Image>().color = new Color(1, 1, 1, 1);
+        }
+        else {
+            enableNextStageBtn = false;
+            NextStageBtn.GetComponent<Image>().color = new Color(1, 1, 1, 0.5f);
+        }
+    }
+    public void ModifyPrevStageButton()
+    {
+        if (!enablePrevStageBtn)
+        {
+            enablePrevStageBtn = true;
+            PrevStageBtn.GetComponent<Image>().color = new Color(1, 1, 1, 1);
+        }
+        else
+        {
+            enablePrevStageBtn = false;
+            PrevStageBtn.GetComponent<Image>().color = new Color(1, 1, 1, 0.5f);
+        }
     }
 }

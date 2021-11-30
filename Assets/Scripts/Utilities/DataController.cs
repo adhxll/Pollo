@@ -47,7 +47,7 @@ public class DataController : MonoBehaviour
         Dictionary<string, LevelItemContainer>  playerDataLevels = playerData.levelData;
         if (levels.Count > playerDataLevels.Count) { 
             for (int i = playerDataLevels.Count-1 ; i < levels.Count-1; i++) {
-                string dictKey = levels[i].GetStageID() + "-" + levels[i].GetLevelID();
+                string dictKey = DataController.Instance.FormatKey(levels[i].GetStageID(), levels[i].GetLevelID()); 
                 playerData.levelData.Add(dictKey, new LevelItemContainer { 
                     levelID = levels[i].GetStageID(), 
                     stageID = levels[i].GetLevelID()
@@ -59,7 +59,7 @@ public class DataController : MonoBehaviour
     void UpdateLevelData(int stageID, int levelID, int starCount, int score) {
         //updates level data within playerData instance in singleton
         levels = playerData.levelData;
-        string dictKey = stageID + "-" + levelID; 
+        string dictKey = DataController.Instance.FormatKey(stageID, levelID); 
         levels[dictKey].score = score;
         if (levels[dictKey].highScore < score) levels[dictKey].highScore = score;
         if (levels[dictKey].starCount < starCount) levels[dictKey].starCount = starCount;
@@ -69,7 +69,8 @@ public class DataController : MonoBehaviour
     }
     void UnlockNextLevel(int currentStageID, int currentLevelID) {
         //unlocks the next level
-        string dictKey = currentStageID + "-" + currentLevelID+1;
+        //TODO: Validation for final level
+        string dictKey = DataController.Instance.FormatKey(currentStageID, currentLevelID + 1); 
         levels[dictKey].isUnlocked = true; 
        
     }
@@ -77,7 +78,7 @@ public class DataController : MonoBehaviour
     {
         //populate onboarding and first level
         LevelItemContainer level = new LevelItemContainer();
-        string dictKey = level.stageID + "-" + level.levelID;
+        string dictKey = DataController.Instance.FormatKey(level.stageID, level.levelID); 
         playerData.levelData.Add(dictKey, level);
 
         level = new LevelItemContainer();
@@ -92,12 +93,17 @@ public class DataController : MonoBehaviour
             LevelItemContainer newLevel = new LevelItemContainer();
             newLevel.levelID = i;
             newLevel.stageID = levelDatabase.allLevels[i].GetStageID();
-            newLevel.starCount = Random.Range(0, 4); 
-            dictKey = newLevel.stageID + "-" + newLevel.levelID;
+            newLevel.starCount = Random.Range(0, 4);
+            dictKey = DataController.Instance.FormatKey(newLevel.stageID, newLevel.levelID); 
             playerData.levelData.Add(dictKey, newLevel);
             Debug.Log("Container ID : " + dictKey + " Star Count : " + playerData.levelData[dictKey].starCount);
         }
 
+    }
+    public string FormatKey(int stageID, int levelID) {
+        //formats a dictionary key to use in dictionary
+        string key = stageID + "-" + levelID;
+        return key; 
     }
 }
 

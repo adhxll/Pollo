@@ -47,7 +47,8 @@ public class SaveSystem : MonoBehaviour
             Dictionary<string, LevelItemContainer> dict = new Dictionary<string, LevelItemContainer>(); 
             PlayerData data = JsonUtility.FromJson<PlayerData>(JsonString);
             foreach (LevelItemContainer level in data.levelList) {
-                string dictKey = level.stageID + "-" + level.levelID; 
+
+                string dictKey = DataController.Instance.FormatKey(level.stageID, level.levelID); 
                 dict.Add(dictKey, level); 
             }
             data.levelData = dict; 
