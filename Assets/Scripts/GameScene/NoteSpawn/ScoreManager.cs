@@ -124,6 +124,7 @@ public class ScoreManager : MonoBehaviour
         timeSinceShowed = 0;
         timer = 0;
 
+        accuracy = 0;
         correctNotes = 0;
         totalNotes = 0;
         comboScore = 0;
