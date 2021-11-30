@@ -9,7 +9,7 @@ public class LevelSelectionController : MonoBehaviour
     private bool modalShown;
     public GameObject PrevStageBtn;
     public GameObject NextStageBtn;
-    public bool enablePrevStageBtn, enableNextStageBtn;
+    
     private void Awake()
     {
         StartCustomSingleton(); 
@@ -35,28 +35,47 @@ public class LevelSelectionController : MonoBehaviour
         if (Instance != null) Destroy(gameObject);
         else Instance = this;
     }
-    public void ModifyNextStageButton() {
-        if (!enableNextStageBtn)
+    public void ModifyChangeStageBtn(int position, int stageCount) {
+        //0 = last, 1 = mid, 2 = last
+        int number = position - stageCount; 
+        switch (number) {
+            case -1: //final
+                ModifyNextStageButton(false);
+                ModifyPrevStageButton(true); 
+                break;
+            case var value when value == (0-stageCount)://first
+                ModifyPrevStageButton(false);
+                ModifyNextStageButton(true); 
+                break;  
+            default: // middle
+                ModifyNextStageButton(true);
+                ModifyPrevStageButton(true);
+                break; 
+        }
+    }
+    private void ModifyNextStageButton( bool enableNextStageBtn) {
+        if (enableNextStageBtn)
         {
             enableNextStageBtn = true;
-            NextStageBtn.GetComponent<Image>().color = new Color(1, 1, 1, 1);
+            NextStageBtn.SetActive(true);
         }
         else {
             enableNextStageBtn = false;
-            NextStageBtn.GetComponent<Image>().color = new Color(1, 1, 1, 0.5f);
+            NextStageBtn.SetActive(false); 
         }
     }
-    public void ModifyPrevStageButton()
+    private void ModifyPrevStageButton(bool enablePrevStageBtn)
     {
-        if (!enablePrevStageBtn)
+        if (enablePrevStageBtn)
         {
             enablePrevStageBtn = true;
-            PrevStageBtn.GetComponent<Image>().color = new Color(1, 1, 1, 1);
+            PrevStageBtn.SetActive(true); 
         }
         else
         {
             enablePrevStageBtn = false;
-            PrevStageBtn.GetComponent<Image>().color = new Color(1, 1, 1, 0.5f);
+            PrevStageBtn.SetActive(false); 
         }
     }
+
 }

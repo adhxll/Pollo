@@ -8,8 +8,10 @@ public class ModalController : MonoBehaviour
     public GameObject modal;
     public TMPro.TextMeshProUGUI levelText;
     public TMPro.TextMeshProUGUI scoreText;
+    public TMPro.TextMeshProUGUI accuracyText; 
     public string levelValue;
     public string scoreValue;
+    public string accuracyValue; 
     public GameObject overlay;
     private void Awake()
     {
@@ -19,6 +21,7 @@ public class ModalController : MonoBehaviour
     {
         levelText.text = levelValue;
         scoreText.text = scoreValue;
+        accuracyText.text = accuracyValue; 
     }
     public void ShowLevelModal(GameObject sourceLevel)
     {
@@ -26,6 +29,7 @@ public class ModalController : MonoBehaviour
         var levelData = sourceLevel.GetComponent<LevelItem>().data;
         modal.GetComponent<StarCounter>().StarCount = levelData.starCount;
         Instance.scoreValue = levelData.highScore.ToString();
+        Instance.accuracyValue = levelData.accuracy.ToString(); 
         Instance.levelValue = "Level " + levelData.levelID; 
         SetLevelToPlay(levelData.levelID);
 

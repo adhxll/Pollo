@@ -6,61 +6,78 @@ using UnityEngine.UI;
 public class StageConstructor : MonoBehaviour
 { // used to select a stage from the stages and instantiate it onto the level
     public GameObject stagePrefab;
-    public List<GameObject> stagePrefabList; 
+    public static StageConstructor Instance; 
     int selectedStageID; //change this to change stage
     public Stages stages;
     public Vector3 defaultCameraPosition;
     //dump positions for islands to go out of camera render space
-    public Vector3 dumpPositionPrev = new Vector3(-100, 0, 0);
+    public Vector3 dumpPositionPrev = new Vector3(-50, 0, 0);
     public Vector3 dumpPositionNext = new Vector3(100, 0, 0);
+    private Vector3 defaultIslandPosition = new Vector3(0, 0, 0); 
     private void Start()
     {
-        InstantiateStage(); 
+        InstantiateStage();
+        StartCustomSingleton(); 
     }
-    //TODO: - function to change stage ID based on selected stage on GameController
+
+    private void StartCustomSingleton()
+    {
+        // used to keep this script as a static singleton, but only within the level selection scene
+        // needed for supporting multiple island prefabs, see LevelItem for example
+        if (Instance != null) Destroy(gameObject);
+        else Instance = this;
+    }
     private void InstantiateStage() {
         
         defaultCameraPosition = Camera.main.transform.position;
         selectedStageID = 0;
-        LevelSelectionController.Instance.PrevStageBtn.GetComponent<Image>().color = new Color(1, 1, 1, 0.5f);  
+        LevelSelectionController.Instance.ModifyChangeStageBtn(selectedStageID, stages.stagesList.Count);  
+        stagePrefab = Instantiate(stages.stagesList[0], new Vector3(0, 0, 0),
+            Quaternion.identity, gameObject.transform.parent);
+        //set scale here because one change applies to all
+        stagePrefab.transform.localScale = new Vector3(0.8f, 0.8f, 1); 
         
-        Vector3 stagePosition = new Vector3(0, 0, 0); 
-        SpriteRenderer stageRenderer = new SpriteRenderer();
-       
-        //only for 1st stage
-        stagePrefab = Instantiate(stages.stagesList[0], new Vector3(0, 0, 0), Quaternion.identity, gameObject.transform.parent);
-        stagePrefabList.Add(stagePrefab);
-        for (int i = 1; i < stages.stagesList.Count; i++) {
-            stageRenderer = stagePrefab.GetComponent<SpriteRenderer>();
-            //instantiate prefab right next to previous prefab (not going to be rendered by camera)
-            stagePrefab = Instantiate(stages.stagesList[i], dumpPositionNext, Quaternion.identity, gameObject.transform.parent);
-            stagePrefabList.Add(stagePrefab);
-
-        }
-    
     }
     public void ChangeStageNext() {
-        if (selectedStageID != stagePrefabList.Count - 1)
+        if (selectedStageID != stages.stagesList.Count-1)
         {
-            selectedStageID++;
-            //move previous stage into dump position and move current into view
-            stagePrefabList[selectedStageID - 1].GetComponent<Transform>().position = dumpPositionPrev;
-            stagePrefabList[selectedStageID].GetComponent<Transform>().position = new Vector3(0, 0, 0);
-            Camera.main.transform.position = defaultCameraPosition;
+            StartCoroutine(ChangeIsland(0.3f, true));
         } 
-        
-
     }
     public void ChangeStagePrev()
     {
         if (selectedStageID != 0)
         {
-            selectedStageID--;
-            //move previous stage into dump position and move current into view
-            stagePrefabList[selectedStageID + 1].GetComponent<Transform>().position = dumpPositionNext;
-            stagePrefabList[selectedStageID].GetComponent<Transform>().position = new Vector3(0, 0, 0);
+            StartCoroutine(ChangeIsland(0.3f, false));
             Camera.main.transform.position = defaultCameraPosition;
         }
     }
+    private IEnumerator ChangeIsland(float countTime, bool toNext)
+    { // used as a coroutine to animate the movement of islands. 
+        Vector3 destination = new Vector3(0, 0, 0);
+        Vector3 start =  new Vector3(0, 0, 0); ;
+        if (toNext)
+        {
+            selectedStageID++;
+            destination = dumpPositionPrev;
+            start = dumpPositionNext;
+        }
+        else {
+            selectedStageID--;
+            destination = dumpPositionNext;
+            start = dumpPositionPrev; 
+        }
+        //Move the camera to default place and island to dump position
+        AnimationUtilities.Instance.MoveX(stagePrefab, destination.x, stagePrefab.transform.position.x);
+        AnimationUtilities.Instance.MoveCameraX(Camera.main, defaultCameraPosition.x, Camera.main.transform.position.x);
+        yield return new WaitForSeconds(countTime);
 
+        //destroy the island after delay then instantiate a new one and move it into place
+        Destroy(stagePrefab);
+        stagePrefab = Instantiate(stages.stagesList[selectedStageID], defaultIslandPosition, Quaternion.identity, gameObject.transform.parent);
+        AnimationUtilities.Instance.MoveX(stagePrefab, defaultIslandPosition.x, start.x);
+        LevelSelectionController.Instance.ModifyChangeStageBtn(selectedStageID, stages.stagesList.Count); // change the buttons in levelselectoin
+        StopCoroutine(ChangeIsland(0.2f, true));
+    }
+   
 }
