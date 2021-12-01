@@ -1902,6 +1902,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Settings Button
       objectReference: {fileID: 0}
+    - target: {fileID: 1549176434266764163, guid: c4ca4df083cd5f241a55fdf074dce1b0, type: 3}
+      propertyPath: m_TagString
+      value: SettingsButton
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c4ca4df083cd5f241a55fdf074dce1b0, type: 3}
 --- !u!1 &1232496048
@@ -2469,7 +2473,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8cbb72ee36e804823a562530eabdba23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  score: 90
   scoreMessageObject: {fileID: 1232496052}
   scoreObject: {fileID: 1149807220}
   stars:

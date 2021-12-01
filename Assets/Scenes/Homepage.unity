@@ -262,6 +262,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SettingsButton
       objectReference: {fileID: 0}
+    - target: {fileID: 1549176434266764163, guid: c4ca4df083cd5f241a55fdf074dce1b0, type: 3}
+      propertyPath: m_TagString
+      value: SettingsButton
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c4ca4df083cd5f241a55fdf074dce1b0, type: 3}
 --- !u!1 &519420028
@@ -2228,6 +2232,7 @@ MonoBehaviour:
   audioSource: {fileID: 1979482415}
   buttonSound: {fileID: 8300000, guid: 537dcbedb86130e479af8f5eafda6924, type: 3}
   countdownSound: {fileID: 0}
+  coinAddedSound: {fileID: 0}
 --- !u!82 &1979482415
 AudioSource:
   m_ObjectHideFlags: 0
