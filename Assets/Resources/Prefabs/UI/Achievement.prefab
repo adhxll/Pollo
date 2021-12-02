@@ -460,7 +460,9 @@ MonoBehaviour:
   Text: {fileID: 5006480137425694727}
   TextDescription: {fileID: 6245452647739680309}
   IconColoured: {fileID: 0}
-  isUnlocked: 0
+  achievementData:
+    achievementId: 0
+    isUnlocked: 0
 --- !u!114 &6427096745115470056
 MonoBehaviour:
   m_ObjectHideFlags: 0
