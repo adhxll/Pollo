@@ -21,22 +21,23 @@ public class ScoreDisplayScript : MonoBehaviour
     private GameObject[] stars = null; // the yellow stars inside the Tag GameObject
     [SerializeField]
     private int star = 0;
-    private string[] successMessages = { "Bru..", "Nice!", "Good!", "Awesome!!" };
+    private string[] successMessages = { "Try again!", "Nice!", "Good!", "Awesome!!" };
 
 
     private void Awake()
     {
-        getSessionScores();
+        GetSessionScores();
         SetScoreText();
         SetAccuracyText();
         CalculateStar();
         SetStarIndicator();
         SetSuccessMessage();
+        SaveLevelData();
     }
     // Start is called before the first frame update
     void Start()
     {
-        GameController.Instance.CoinAdd((int)(score/10f));
+        AddMoney();
     }
 
     // Update is called once per frame
@@ -45,10 +46,26 @@ public class ScoreDisplayScript : MonoBehaviour
         
     }
 
-    void getSessionScores()
+    // Function to add the level data
+    // Currently empty
+    // You can get score, stars and accuracy in this class
+    void SaveLevelData()
+    {
+
+    }
+
+    void AddMoney()
+    {
+        if (score > 10)
+        {
+            GameController.Instance.CoinAdd((int)(score / 10f));
+        }
+    }
+
+    void GetSessionScores()
     {
         // The score would be taken from a playerpref called 'SessionScore' that was recorded from the GameScene
-        // If an error occured and the playerpref does not exist, it will return 0
+        // If an error occured and the playerpref does not exist, it will return a default value (0 or 1, depending on each variable)
         score = PlayerPrefs.GetInt("SessionScore", 0);
         totalNotes = PlayerPrefs.GetInt("SessionTotalNotes", 1);
         totalCorrect = PlayerPrefs.GetInt("SessionCorrectNotes", 0);
