@@ -19,6 +19,7 @@ public class GSUIManager : MonoBehaviour
     [SerializeField] private Dropdown dropdown = null;
     [SerializeField] private Slider delaySlider = null;
     [SerializeField] private Slider pitchSwitch = null;
+    [SerializeField] private Slider repeatSwitch = null;
     [SerializeField] private TMPro.TextMeshProUGUI sliderValue = null;
 
     private void Awake()
@@ -148,6 +149,16 @@ public class GSUIManager : MonoBehaviour
         {
             int value = (int)pitchSwitch.value;
             PlayerPrefs.SetInt("isForcedPitch", value);
+        });
+    }
+
+    // Repeat Section - Switch
+    public void SetRepeatSection()
+    {
+        repeatSwitch.onValueChanged.AddListener((v) =>
+        {
+            int value = (int)repeatSwitch.value;
+            PlayerPrefs.SetInt("isRepeatSection", value);
         });
     }
 }

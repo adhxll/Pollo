@@ -17,6 +17,7 @@ public class BarTimeline : MonoBehaviour
     private List<double> timestamp = new List<double>();
 
     int currentSection = 0;
+    bool repeatSection = false;
 
     RectTransform barSprite
     {
@@ -57,6 +58,7 @@ public class BarTimeline : MonoBehaviour
         // Update sprite width based on current audio progress
         barSprite.sizeDelta = new Vector2(progressWidth, height);
 
+        CheckRepeatSection();
         SectionManager();
     }
 
@@ -134,8 +136,15 @@ public class BarTimeline : MonoBehaviour
         {
             if (SongManager.GetAudioSourceTime() >= timestamp[currentSection + 1])
             {
-                currentSection++;
-                SetTimestampStyle();
+                if (repeatSection)
+                {
+                    RepeatSection();
+                }
+                else
+                {
+                    currentSection++;
+                    SetTimestampStyle();
+                }
             }
         }
     }
@@ -174,6 +183,16 @@ public class BarTimeline : MonoBehaviour
 
         ResetLane();
         Lane.Instance.ClearRest();
+    }
+
+    void CheckRepeatSection()
+    {
+        var isRepeat = PlayerPrefs.GetInt("isRepeatSection");
+
+        if (isRepeat > 0)
+            repeatSection = true;
+        else
+            repeatSection = false;
     }
 
     void SetTimestampStyle()

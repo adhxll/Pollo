@@ -222,6 +222,7 @@ public class SceneStateManager : MonoBehaviour
 
         if (onboardingSteps == 9)
         {
+            isOnboardingGameStarted = false;
             actionButton.interactable = true;
             repeatButton.gameObject.SetActive(false);
             StartCoroutine(AnimationUtilities.Instance.AnimateObjects(noteBar, 0.2f, AnimationUtilities.AnimationType.MoveY, 5f, 0f));

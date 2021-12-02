@@ -125,11 +125,13 @@ public class AnimationUtilities : MonoBehaviour
 
     public void AnimateHit(GameObject obj)
     {
+        obj.transform.DORewind();
         obj.transform.DOPunchScale(new Vector3(-0.1f, -0.1f, -0.1f), 0.2f, 1, 1);
     }
 
     public void PunchScale(GameObject obj)
     {
+        obj.transform.DORewind();
         obj.transform.DOPunchScale(new Vector3(0.25f, 0.25f, 0.25f), 0.2f, 1, 1);
     }
 
