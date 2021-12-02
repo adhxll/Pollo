@@ -42,6 +42,7 @@ public class StageConstructor : MonoBehaviour
         if (selectedStageID != stages.stagesList.Count-1)
         {
             StartCoroutine(ChangeIsland(0.3f, true));
+            GameController.Instance.currentStage = selectedStageID;
         } 
     }
     public void ChangeStagePrev()
@@ -50,6 +51,7 @@ public class StageConstructor : MonoBehaviour
         {
             StartCoroutine(ChangeIsland(0.3f, false));
             Camera.main.transform.position = defaultCameraPosition;
+            GameController.Instance.currentStage = selectedStageID;
         }
     }
     private IEnumerator ChangeIsland(float countTime, bool toNext)

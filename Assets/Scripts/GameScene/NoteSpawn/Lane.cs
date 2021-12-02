@@ -173,8 +173,8 @@ public class Lane : MonoBehaviour
     private int ComparePitch()
     {
         double currentPitch = midiNotes[inputIndex];
-        double lowBound = currentPitch - 12;
-        double highBound = currentPitch + 12;
+        double lowBound = currentPitch - 5;
+        double highBound = currentPitch + 5;
         double recordedPitch = SongManager.Instance.GetDetectedPitch().GetMidiNote();
         //Debug.Log("curr = " + recordedPitch + " low = " + lowBound + " high = " + highBound);
         if (recordedPitch >= lowBound && recordedPitch <= highBound)
@@ -184,7 +184,7 @@ public class Lane : MonoBehaviour
         else if (recordedPitch < lowBound)
         {
             ScoreManager.missMessage = "Too Low";
-            return (int)(recordedPitch - lowBound); // if it's lower than tthe target pitch, it will return a negative value
+            return (int)(recordedPitch - lowBound); // if it's lower than the target pitch, it will return a negative value
         }
         else
         {

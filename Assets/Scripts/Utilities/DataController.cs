@@ -49,12 +49,11 @@ public class DataController : MonoBehaviour
             for (int i = playerDataLevels.Count-1 ; i < levels.Count-1; i++) {
                 string dictKey = DataController.Instance.FormatKey(levels[i].GetStageID(), levels[i].GetLevelID()); 
                 playerData.levelData.Add(dictKey, new LevelItemContainer { 
-                    levelID = levels[i].GetStageID(), 
-                    stageID = levels[i].GetLevelID()
+                    levelID = levels[i].GetLevelID(), 
+                    stageID = levels[i].GetStageID()
                 }); 
             }
         }
-
     }
     public void UpdateLevelData(int stageID, int levelID, int starCount, int score, int accuracy) {
         // TODO: Error handling for if it accessed stageID and levelID that does not exist yet

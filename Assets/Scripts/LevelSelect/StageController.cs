@@ -19,7 +19,7 @@ public class StageController : MonoBehaviour
         { 
             lvl = levels[i];
             //TODO: Change stageID dari 0 menjadi stageID yang diatas setelah bikin stage2
-            string dictKey = DataController.Instance.FormatKey(0, (i + 1));
+            string dictKey = DataController.Instance.FormatKey(stageID, (i + 1));
             lvl.GetComponent<LevelItem>().data = DataController.Instance.playerData.levelData[dictKey];
         }
     }

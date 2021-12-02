@@ -22,7 +22,7 @@ public class LevelItem : MonoBehaviour
         if (data.isUnlocked) LockUnlockCircle.GetComponent<SpriteRenderer>().sprite = UnlockedCircleSprite;
         var levelList = DataController.Instance.levelDatabase.allLevels; 
         for (int i = 1; i < levelList.Count; i++) { //start from after onboarding
-            if (levelList[i].GetLevelID() == data.levelID) {
+            if (levelList[i].GetLevelID() == data.levelID && levelList[i].GetStageID() == GameController.Instance.currentStage) {
                 levelSO = levelList[i];
             }
         }
