@@ -11,6 +11,7 @@ public class LevelSelectionController : MonoBehaviour
     {
         SetupScene(); 
         LoadLevelData();
+       
     }
     private void SetupScene() {
         Camera cam = Camera.main;
