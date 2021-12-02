@@ -1814,7 +1814,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ea78a8d816f541b58059313d44fce1c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  volumeSlider: {fileID: 1259547551035253367}
+  musicSlider: {fileID: 1259547551035253367}
   soundEffectsSlider: {fileID: 1259547552574203715}
   languageDropdown: {fileID: 0}
   notificationToggle: {fileID: 1259547553020544700}

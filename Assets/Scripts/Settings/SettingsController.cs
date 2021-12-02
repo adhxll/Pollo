@@ -38,6 +38,7 @@ public class SettingsController : MonoBehaviour
     private void Awake()
     {
         Instance = this;
+        
     }
 
     // Start is called before the first frame update
@@ -127,6 +128,7 @@ public class SettingsController : MonoBehaviour
     // a function you call when a setting button is clicked
     public static void InvokeSettings()
     {
+        PerspectivePan.SetPanning();
         SceneManager.LoadScene("Settings", LoadSceneMode.Additive);
     }
 
@@ -134,6 +136,7 @@ public class SettingsController : MonoBehaviour
     // in this case there's two buttons, the close and save button
     public void CloseSettings()
     {
+        PerspectivePan.SetPanning();
         ResetMixer();
         SceneManager.UnloadSceneAsync("Settings");
 
