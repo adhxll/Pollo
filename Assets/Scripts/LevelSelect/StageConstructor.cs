@@ -9,6 +9,8 @@ public class StageConstructor : MonoBehaviour
     public static StageConstructor Instance; 
     int selectedStageID; //change this to change stage
     public Stages stages;
+    public string stageName = ""; 
+    public TMPro.TextMeshProUGUI stageNameText;
     public Vector3 defaultCameraPosition;
     //dump positions for islands to go out of camera render space
     public Vector3 dumpPositionPrev = new Vector3(-50, 0, 0);
@@ -35,13 +37,17 @@ public class StageConstructor : MonoBehaviour
         stagePrefab = Instantiate(stages.stagesList[0], new Vector3(0, 0, 0),
             Quaternion.identity, gameObject.transform.parent);
         //set scale here because one change applies to all
-        stagePrefab.transform.localScale = new Vector3(0.8f, 0.8f, 1); 
-        
+        stagePrefab.transform.localScale = new Vector3(0.8f, 0.8f, 1);
+        ChangeStageName(stagePrefab.GetComponent<StageController>().stageName);
+
+
     }
     public void ChangeStageNext() {
         if (selectedStageID != stages.stagesList.Count-1)
         {
             StartCoroutine(ChangeIsland(0.3f, true));
+            GameController.Instance.currentStage = selectedStageID;
+            
         } 
     }
     public void ChangeStagePrev()
@@ -50,6 +56,8 @@ public class StageConstructor : MonoBehaviour
         {
             StartCoroutine(ChangeIsland(0.3f, false));
             Camera.main.transform.position = defaultCameraPosition;
+            GameController.Instance.currentStage = selectedStageID;
+           
         }
     }
     private IEnumerator ChangeIsland(float countTime, bool toNext)
@@ -77,7 +85,11 @@ public class StageConstructor : MonoBehaviour
         stagePrefab = Instantiate(stages.stagesList[selectedStageID], defaultIslandPosition, Quaternion.identity, gameObject.transform.parent);
         AnimationUtilities.Instance.MoveX(stagePrefab, defaultIslandPosition.x, start.x);
         LevelSelectionController.Instance.ModifyChangeStageBtn(selectedStageID, stages.stagesList.Count); // change the buttons in levelselectoin
+        ChangeStageName(stagePrefab.GetComponent<StageController>().stageName);
         StopCoroutine(ChangeIsland(0.2f, true));
+    }
+    private void ChangeStageName(string StageName) {
+        stageNameText.text = StageName; 
     }
    
 }

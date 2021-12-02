@@ -22,8 +22,8 @@ public class Database : MonoBehaviour
         }
     }
 
-    public static Level GetLevelByID(int ID)
+    public static Level GetLevelAndStage(int stageID, int levelID)
     {
-        return Instance.levels.allLevels.FirstOrDefault(i => i.GetLevelID() == ID);
+        return Instance.levels.allLevels.FirstOrDefault(i => i.GetLevelID() == levelID && i.GetStageID() == stageID);
     }
 }

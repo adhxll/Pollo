@@ -638,6 +638,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9129451407787977809}
   - component: {fileID: 5438419088853519367}
+  - component: {fileID: 7602464434441242242}
   m_Layer: 5
   m_Name: Stage 1
   m_TagString: Untagged
@@ -711,6 +712,27 @@ SpriteRenderer:
   m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &7602464434441242242
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6069259503505148269}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3d3df28fd424df439185b9a2fbd4cbe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  levels:
+  - {fileID: 8573701988739276292}
+  - {fileID: 8573701990057046200}
+  - {fileID: 8573701990094695864}
+  - {fileID: 8573701990281845472}
+  - {fileID: 8573701988873661874}
+  LevelData: []
+  stageID: 0
+  stageName: Bossa Island
 --- !u!1 &6069259503764323258
 GameObject:
   m_ObjectHideFlags: 0
@@ -967,7 +989,6 @@ GameObject:
   m_Component:
   - component: {fileID: 6069259504065748228}
   - component: {fileID: 6069259504065748229}
-  - component: {fileID: 6069259504065748347}
   m_Layer: 0
   m_Name: Island
   m_TagString: Untagged
@@ -1042,25 +1063,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &6069259504065748347
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6069259504065748231}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e3d3df28fd424df439185b9a2fbd4cbe, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  levels:
-  - {fileID: 8573701988739276292}
-  - {fileID: 8573701990057046200}
-  - {fileID: 8573701990094695864}
-  - {fileID: 8573701990281845472}
-  - {fileID: 8573701988873661874}
-  LevelData: []
 --- !u!1 &6069259504379697083
 GameObject:
   m_ObjectHideFlags: 0
@@ -2031,16 +2033,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 666bafd6481653a439334199e56982ec, type: 3}
---- !u!224 &8573701988739276295 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 2504493785340266635, guid: 666bafd6481653a439334199e56982ec, type: 3}
-  m_PrefabInstance: {fileID: 6069259503063013004}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &8573701988739276292 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2504493785340266632, guid: 666bafd6481653a439334199e56982ec, type: 3}
-  m_PrefabInstance: {fileID: 6069259503063013004}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &6979003013055318318 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3810099294207680418, guid: 666bafd6481653a439334199e56982ec, type: 3}
@@ -2052,6 +2044,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ab9ffc12d0a99243b49e4fc82901be9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!224 &8573701988739276295 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 2504493785340266635, guid: 666bafd6481653a439334199e56982ec, type: 3}
+  m_PrefabInstance: {fileID: 6069259503063013004}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &8573701988739276292 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2504493785340266632, guid: 666bafd6481653a439334199e56982ec, type: 3}
+  m_PrefabInstance: {fileID: 6069259503063013004}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &6069259503806298160
 PrefabInstance:
   m_ObjectHideFlags: 0
