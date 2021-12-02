@@ -2004,6 +2004,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stagePrefab: {fileID: 0}
   stages: {fileID: 11400000, guid: ac08d9c9da7ac22458234b5c5b35c827, type: 2}
+  stageNameText: {fileID: 1206442237}
   defaultCameraPosition: {x: 0, y: 0, z: 0}
   dumpPositionPrev: {x: -100, y: 0, z: 0}
   dumpPositionNext: {x: 100, y: 0, z: 0}

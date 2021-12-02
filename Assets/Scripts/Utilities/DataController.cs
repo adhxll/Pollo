@@ -43,15 +43,17 @@ public class DataController : MonoBehaviour
     }
     public void CheckForNewLevel()
     { //check if newly developed level has been added
+        Debug.Log("Checking for new Level"); 
         List<Level> levels = levelDatabase.allLevels;
         Dictionary<string, LevelItemContainer>  playerDataLevels = playerData.levelData;
         if (levels.Count > playerDataLevels.Count) { 
-            for (int i = playerDataLevels.Count-1 ; i < levels.Count-1; i++) {
+            for (int i = playerDataLevels.Count ; i < levels.Count-1; i++) {
                 string dictKey = DataController.Instance.FormatKey(levels[i].GetStageID(), levels[i].GetLevelID()); 
                 playerData.levelData.Add(dictKey, new LevelItemContainer { 
                     levelID = levels[i].GetLevelID(), 
                     stageID = levels[i].GetStageID()
-                }); 
+                });
+                Debug.Log("Added level with key: " + dictKey); 
             }
         }
     }
@@ -92,9 +94,8 @@ public class DataController : MonoBehaviour
         for (int i = 2; i < levelDatabase.allLevels.Count; i++)
         {
             LevelItemContainer newLevel = new LevelItemContainer();
-            newLevel.levelID = i;
+            newLevel.levelID = levelDatabase.allLevels[i].GetLevelID();
             newLevel.stageID = levelDatabase.allLevels[i].GetStageID();
-            newLevel.starCount = Random.Range(0, 4);
             dictKey = DataController.Instance.FormatKey(newLevel.stageID, newLevel.levelID); 
             playerData.levelData.Add(dictKey, newLevel);
             Debug.Log("Container ID : " + dictKey + " Star Count : " + playerData.levelData[dictKey].starCount);
