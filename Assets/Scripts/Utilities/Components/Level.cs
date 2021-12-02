@@ -6,6 +6,8 @@ public class Level : ScriptableObject
     [SerializeField]
     private int levelID = 0;
     [SerializeField]
+    private int stageID = 0; 
+    [SerializeField]
     private AudioClip leadTrack = null;
     [SerializeField]
     private AudioClip backingTrack = null;
@@ -13,6 +15,7 @@ public class Level : ScriptableObject
     private TextAsset midiJson = null;
 
     public int GetLevelID() { return this.levelID; }
+    public int GetStageID() { return this.stageID; }
     public AudioClip GetLeadTrack() { return this.leadTrack; }
     public AudioClip GetBackingTrack() { return this.backingTrack; }
     public TextAsset GetMidiJson() { return this.midiJson; }
