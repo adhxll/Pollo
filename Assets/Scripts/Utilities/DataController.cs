@@ -41,7 +41,7 @@ public class DataController : MonoBehaviour
             GenerateInitialvalue(); 
         }
     }
-    void CheckForNewLevel()
+    public void CheckForNewLevel()
     { //check if newly developed level has been added
         List<Level> levels = levelDatabase.allLevels;
         Dictionary<string, LevelItemContainer>  playerDataLevels = playerData.levelData;
@@ -56,18 +56,20 @@ public class DataController : MonoBehaviour
         }
 
     }
-    void UpdateLevelData(int stageID, int levelID, int starCount, int score) {
+    public void UpdateLevelData(int stageID, int levelID, int starCount, int score, int accuracy) {
+        // TODO: Error handling for if it accessed stageID and levelID that does not exist yet
         //updates level data within playerData instance in singleton
         levels = playerData.levelData;
         string dictKey = DataController.Instance.FormatKey(stageID, levelID); 
         levels[dictKey].score = score;
         if (levels[dictKey].highScore < score) levels[dictKey].highScore = score;
         if (levels[dictKey].starCount < starCount) levels[dictKey].starCount = starCount;
+        if (levels[dictKey].accuracy < accuracy) levels[dictKey].accuracy = accuracy;
         // Enable this on certain conditions, e.g. getting certain score and etc. 
         // UnlockNextLevel(levelID);
         
     }
-    void UnlockNextLevel(int currentStageID, int currentLevelID) {
+    public void UnlockNextLevel(int currentStageID, int currentLevelID) {
         //unlocks the next level
         //TODO: Validation for final level
         string dictKey = DataController.Instance.FormatKey(currentStageID, currentLevelID + 1); 

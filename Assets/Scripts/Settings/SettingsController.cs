@@ -12,7 +12,7 @@ using TMPro;
 // made it public so any class can use it becauese it will be referenced by other class
 enum SettingsList
 {
-    Volume,
+    Music,
     SoundEffects,
     Language,
     Notification,
@@ -22,7 +22,7 @@ enum SettingsList
 public class SettingsController : MonoBehaviour
 {
     [SerializeField]
-    private Slider volumeSlider;
+    private Slider musicSlider;
     [SerializeField]
     private Slider soundEffectsSlider;
     [SerializeField]
@@ -54,7 +54,7 @@ public class SettingsController : MonoBehaviour
     // initialize the value on display based on previously saved values on playerprefs
     private void Initialize()
     {
-        SetVolumeValue(PlayerPrefs.GetFloat(SettingsList.Volume.ToString(),0));
+        SetVolumeValue(PlayerPrefs.GetFloat(SettingsList.Music.ToString(),0));
         SetSoundEffectsValue(PlayerPrefs.GetFloat(SettingsList.SoundEffects.ToString(), 0));
         //SetLanguageValue();
         //SetNotificationValue((PlayerPrefs.GetInt(SettingsList.Notification.ToString(), 1) == 1)? true : false);
@@ -62,7 +62,7 @@ public class SettingsController : MonoBehaviour
 
     private float GetVolumeValue()
     {
-        return volumeSlider.value;
+        return musicSlider.value;
     }
 
     private float GetSoundEffectsValue()
@@ -83,8 +83,8 @@ public class SettingsController : MonoBehaviour
     // connect this to slider
     public void SetVolumeValue(float newValue)
     {
-        volumeSlider.value = newValue;
-        mixer.SetFloat("mainVolume", newValue);
+        musicSlider.value = newValue;
+        mixer.SetFloat("musicVolume", newValue);
         
     }
 
@@ -112,13 +112,13 @@ public class SettingsController : MonoBehaviour
     {
         // Reset the mixer
         mixer.SetFloat("soundEffects", PlayerPrefs.GetFloat(SettingsList.SoundEffects.ToString()));
-        mixer.SetFloat("mainVolume", PlayerPrefs.GetFloat(SettingsList.Volume.ToString()));
+        mixer.SetFloat("musicVolume", PlayerPrefs.GetFloat(SettingsList.Music.ToString()));
     }
 
     // only calls this function when the button 'Save' is pressed
     public void SaveAllSettings()
     {
-        PlayerPrefs.SetFloat(SettingsList.Volume.ToString(), GetVolumeValue());
+        PlayerPrefs.SetFloat(SettingsList.Music.ToString(), GetVolumeValue());
         PlayerPrefs.SetFloat(SettingsList.SoundEffects.ToString(), GetSoundEffectsValue());
         //PlayerPrefs.SetInt(SettingsList.Language.ToString(), GetLanguageValue());
         //PlayerPrefs.SetInt(SettingsList.Notification.ToString(), GetNotificationValue());
