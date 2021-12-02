@@ -10,7 +10,7 @@ public class PerspectivePan : MonoBehaviour
     private float minX, minY, maxX, maxY, camMinX, camMinY, camMaxX, camMaxY, camHeight, camWidth;
     public GameObject GameObjectWithMaxBounds; //max bounds panning tergantung object, contoh: background
     private SpriteRenderer mapRenderer;
-
+    private static bool enablePan = false; 
     void Awake()
     {
         SetupPanningObjects();
@@ -46,6 +46,8 @@ public class PerspectivePan : MonoBehaviour
         camMinY = minY + camHeight;
         camMaxY = maxY - camHeight;
 
+        enablePan = true; 
+
     }
 
     private void SetupCameraPosition() {
@@ -54,11 +56,14 @@ public class PerspectivePan : MonoBehaviour
         Debug.Log("Camera position: " + cam.transform.position);
     }
     private void PanCamera() {
-        if (Input.GetMouseButtonDown(0)) touchStart = cam.ScreenToWorldPoint(Input.mousePosition);
+        if (enablePan) {
+            if (Input.GetMouseButtonDown(0)) touchStart = cam.ScreenToWorldPoint(Input.mousePosition);
 
-        if (Input.GetMouseButton(0)) {
-            Vector3 difference = touchStart - cam.ScreenToWorldPoint(Input.mousePosition);
-            cam.transform.position =  ClampCamera(cam.transform.position + difference); 
+            if (Input.GetMouseButton(0))
+            {
+                Vector3 difference = touchStart - cam.ScreenToWorldPoint(Input.mousePosition);
+                cam.transform.position = ClampCamera(cam.transform.position + difference);
+            }
         }
     }
 
@@ -69,6 +74,11 @@ public class PerspectivePan : MonoBehaviour
         float newY = Mathf.Clamp(targetPosition.y, 0, 0);
 
         return new Vector3(newX, newY, targetPosition.z); 
+    }
+    public static void SetPanning()
+    {//Use this to disable/enable the panning
+        if (enablePan) PerspectivePan.enablePan = false;
+        else PerspectivePan.enablePan = true;
     }
 }
 
