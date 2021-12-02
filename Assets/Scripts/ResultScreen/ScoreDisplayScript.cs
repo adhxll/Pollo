@@ -51,6 +51,7 @@ public class ScoreDisplayScript : MonoBehaviour
     // You can get score, stars and accuracy in this class
     void SaveLevelData()
     {
+        DataController.Instance.UpdateLevelData(GameController.Instance.currentStage,GameController.Instance.selectedLevel, star, score, accuracy);
 
     }
 
