@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 // enum to define keys for using playerprefs
 
@@ -18,7 +20,7 @@ public class GameController : MonoBehaviour
     public int selectedLevel = 0;
     public int currentStage = 0; 
     public SceneStateManager.SceneState sceneState = SceneStateManager.SceneState.Onboarding;
-   
+
     private enum PlayerDataKey
     {
         CoinAmount,
@@ -30,6 +32,7 @@ public class GameController : MonoBehaviour
     {
         StartSingleton();
         InitializeVariable();
+        SceneManager.activeSceneChanged += ChangedActiveScene; // subscribe to an event that alerts us whenever the scene has changed
     }
 
     // Start is called before the first frame update
@@ -54,7 +57,8 @@ public class GameController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        ShowCoinAmount();
+        // going to delete this later when we figure out the gamescene state
+        SettingsController.SetSettingsButton(); // search for any GameObject that has  the tag 'SettingsButton'
     }
 
     // Initialize values from PlayerPrefs
@@ -85,6 +89,7 @@ public class GameController : MonoBehaviour
     // - int amount => an integer that represents the amount increased or decreased
     private void AnimateCoinChange(string sign, int amount)
     {
+        ShowCoinAmount();
         coinChangeIndicator = GameObject.FindGameObjectsWithTag("CoinChangeIndicator");
         foreach (GameObject c in coinChangeIndicator)
         {
@@ -127,4 +132,18 @@ public class GameController : MonoBehaviour
         return this.totalCoin;
     }
 
+    // a function that detects when the scene has changed
+    // but it doesn't detect when an additive scene is loaded, so it's kinda useless :/
+    private void ChangedActiveScene(Scene current, Scene next)
+    {
+        string currentName = current.name;
+
+        if (currentName == null)
+        {
+            // Scene1 has been removed
+            currentName = "Replaced";
+        }
+        SettingsController.SetSettingsButton(); // when the scene changes, search for any GameObject that has  the tag 'SettingsButton'
+        Debug.Log("Scenes: " + currentName + ", " + next.name);
+    }
 }
