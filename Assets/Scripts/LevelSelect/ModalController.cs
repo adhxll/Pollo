@@ -35,6 +35,7 @@ public class ModalController : MonoBehaviour
 
         if (!modal.activeSelf)
         {
+            PerspectivePan.SetPanning(); 
             modal.GetComponent<StarCounter>().FillStars();
             Instance.SetValues();
             AnimationUtilities.AnimatePopUp(modal);
@@ -55,6 +56,7 @@ public class ModalController : MonoBehaviour
     public void CloseModal()
     {
         AnimationUtilities.AnimatePopUpDisappear(modal);
+        PerspectivePan.SetPanning(); 
         StartCoroutine(DeactivateModal(0.2f));   //biar animasinya keplay dulu sebelom diclose
     }
     private IEnumerator DeactivateModal(float countTime)
