@@ -1,18 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-public class Stages : MonoBehaviour
+[CreateAssetMenu(fileName = "New Stage Database", menuName = "Assets/Database/Stage Database")]
+//used to store the stage prefabs (islands) in the game using a scriptableobject that can be referenced anywhere
+public class Stages : ScriptableObject
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public List<GameObject> stagesList; 
 }

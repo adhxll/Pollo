@@ -7,20 +7,31 @@ public class LevelItem : MonoBehaviour
 {
     //data to fill the level item
     public LevelItemContainer data;
-
     //containers for showing the data
     public TMPro.TextMeshPro LevelCountText; 
     public GameObject StarContainer;
     public GameObject LockUnlockCircle;
-    public Sprite UnlockedCircleSprite; 
+    public Sprite UnlockedCircleSprite;
+    public Level levelSO; 
     void Start()
     {
         //setup the data into container
-        LevelCountText.GetComponent<TMPro.TextMeshPro>().text = data.getLevelCount();
+        LevelCountText.GetComponent<TMPro.TextMeshPro>().text = data.levelID.ToString(); 
         StarContainer.GetComponent<StarCounter>().StarCount = data.starCount;
         StarContainer.GetComponent<StarCounter>().FillStars();
-        if (data.isUnlocked) LockUnlockCircle.GetComponent<SpriteRenderer>().sprite = UnlockedCircleSprite; 
+        if (data.isUnlocked) LockUnlockCircle.GetComponent<SpriteRenderer>().sprite = UnlockedCircleSprite;
+        var levelList = DataController.Instance.levelDatabase.allLevels; 
+        for (int i = 1; i < levelList.Count; i++) { //start from after onboarding
+            if (levelList[i].GetLevelID() == data.levelID && levelList[i].GetStageID() == GameController.Instance.currentStage) {
+                
+                levelSO = levelList[i];
+                Debug.Log("levelSO stage and level: " + levelSO.GetStageID() + " " + levelSO.GetLevelID());
+            }
+        }
     }
-    
-
+    public void Push() {
+        AnimationUtilities.AnimateButtonPush(gameObject);
+        ModalController.Instance.ShowLevelModal(gameObject);
+        LevelSelectionController.Instance.ModifyLevelInput(); 
+    }
 }

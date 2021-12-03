@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 398693feae072c54a9e6d5f47e6dc62f, type: 3}
+  m_Name: Perfecto
+  m_EditorClassIdentifier: 
+  IconColoured: {fileID: 21300000, guid: 46f3ce2ebeff3504e94710f366ccefe4, type: 3}
+  iconGrey: {fileID: 21300000, guid: 07b5fc5ad93ea4b4181ba2e685ccd0c9, type: 3}
+  text: Perfecto
+  textDesc: Not missing a single note in a level
+  textBackg:
+    serializedVersion: 2
+    rgba: 16777215
+  achievementId: 2

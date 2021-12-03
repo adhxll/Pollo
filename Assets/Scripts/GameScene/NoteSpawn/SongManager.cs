@@ -7,7 +7,8 @@ public class SongManager : MonoBehaviour
 {
     public static SongManager Instance;
 
-    [SerializeField] private int levelID = 0;    // Selected Level ID, see level items & database for reference
+    [SerializeField] private int levelID = 0; // Selected Level ID, see level items & database for reference
+    [SerializeField] private int stageID = 0; 
     private Level selectedLevel;                // Level object, to load level item based on level ID
 
     private AudioSource leadTrack;
@@ -77,10 +78,12 @@ public class SongManager : MonoBehaviour
 
     void Initialize()
     {
-        if (PlayerPrefs.GetInt("IsFirstTime") == 1 && GameController.Instance != null)
+        if (PlayerPrefs.GetInt("IsFirstTime") == 1 && GameController.Instance != null) {
             levelID = GameController.Instance.selectedLevel;
+            stageID = GameController.Instance.currentStage; 
+           }
 
-        selectedLevel = Database.GetLevelByID(levelID);
+        selectedLevel = Database.GetLevelAndStage(stageID, levelID);
         midiFile = MIDI.CreateFromJSON(midiJSON.text);
 
         InitializeTrack();

@@ -125,11 +125,13 @@ public class AnimationUtilities : MonoBehaviour
 
     public void AnimateHit(GameObject obj)
     {
+        obj.transform.DORewind();
         obj.transform.DOPunchScale(new Vector3(-0.1f, -0.1f, -0.1f), 0.2f, 1, 1);
     }
 
     public void PunchScale(GameObject obj)
     {
+        obj.transform.DORewind();
         obj.transform.DOPunchScale(new Vector3(0.25f, 0.25f, 0.25f), 0.2f, 1, 1);
     }
 
@@ -147,5 +149,25 @@ public class AnimationUtilities : MonoBehaviour
 
         else
             obj.transform.DOMoveY(post.y + target, 0.75f).SetEase(Ease.InOutQuad).From(post.y + from);
+    }
+    public void MoveX(GameObject obj, float target, float from, bool loop = false)
+    {
+        var post = obj.transform.position;
+        obj.SetActive(true);
+        if (loop)
+            obj.transform.DOMoveX(post.x + target, 0.75f).SetEase(Ease.InOutQuad).From(post.x + from).SetLoops(-1, LoopType.Yoyo);
+
+        else
+            obj.transform.DOMoveX(post.x + target, 0.75f).SetEase(Ease.InOutQuad).From(post.x + from);
+    }
+    public void MoveCameraX(Camera obj, float target, float from, bool loop = false)
+    {// used to move the camera along the x axis with duration 0.75 seconds
+        var post = obj.transform.position;
+        //obj.SetActive(true);
+        if (loop)
+            obj.transform.DOMoveX(target, 0.75f).SetEase(Ease.InOutQuad).From(from).SetLoops(-1, LoopType.Yoyo);
+
+        else
+            obj.transform.DOMoveX(target, 0.75f).SetEase(Ease.InOutQuad).From(from);
     }
 }
