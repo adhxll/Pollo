@@ -34,10 +34,19 @@ public class SettingsController : MonoBehaviour
     [SerializeField] private Toggle notificationToggle; // draft
 
     [Space]
+    [SerializeField] private TextMeshProUGUI pitchValue;
     [SerializeField] private AudioMixer mixer;
     [SerializeField] private TextMeshProUGUI toggleText;
 
     public static SettingsController Instance;
+
+    private float GetVolumeValue() { return musicSlider.value; }
+    private float GetSoundEffectsValue() { return soundEffectsSlider.value; }
+    private int GetLanguageValue() { return languageDropdown.value; }
+    private int GetNotificationValue() { return notificationToggle.isOn ? 1 : 0; }
+    private float GetDelayValue() { return delaySlider.value; }
+    private int GetAlgorithmValue() { return pitchAlgoDropdown.value; }
+
 
     private void Awake()
     {
@@ -66,13 +75,6 @@ public class SettingsController : MonoBehaviour
         InitializeAlgorithmDropdown();
         SetDelayValue(PlayerPrefs.GetFloat(SettingsList.Delay.ToString(), 0));
     }
-
-    private float GetVolumeValue() { return musicSlider.value; }
-    private float GetSoundEffectsValue() { return soundEffectsSlider.value; }
-    private int GetLanguageValue() { return languageDropdown.value; }
-    private int GetNotificationValue() { return notificationToggle.isOn ? 1 : 0; }
-    private float GetDelayValue() { return delaySlider.value; }
-    private int GetAlgorithmValue() { return pitchAlgoDropdown.value; }
 
     // connect this to slider
     public void SetVolumeValue(float newValue)
@@ -117,6 +119,7 @@ public class SettingsController : MonoBehaviour
     public void SetDelayValue(float newValue)
     { 
         delaySlider.value = newValue;
+        pitchValue.text = newValue.ToString("0.00");
     }
 
     private void ResetMixer()
