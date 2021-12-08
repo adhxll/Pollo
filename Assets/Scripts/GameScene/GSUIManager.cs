@@ -16,11 +16,11 @@ public class GSUIManager : MonoBehaviour
     private List<GameObject> objects = new List<GameObject>();
 
     [Space]
-    [SerializeField] private Dropdown dropdown = null;
-    [SerializeField] private Slider delaySlider = null;
+    //[SerializeField] private Dropdown dropdown = null;
+    //[SerializeField] private Slider delaySlider = null;
     [SerializeField] private Slider pitchSwitch = null;
     [SerializeField] private Slider repeatSwitch = null;
-    [SerializeField] private TMPro.TextMeshProUGUI sliderValue = null;
+    //[SerializeField] private TMPro.TextMeshProUGUI sliderValue = null;
 
     private void Awake()
     {
@@ -34,17 +34,6 @@ public class GSUIManager : MonoBehaviour
 
     void Initialize()
     {
-        // Check Dropdown
-        if (dropdown != null)
-            LoadList();
-
-        // Check Slider
-        if (delaySlider != null)
-        {
-            LoadDelay();
-            SetDelay();
-        }
-
         // Check & Animate Background
         if (background != null)
             AnimateStart();
@@ -99,38 +88,6 @@ public class GSUIManager : MonoBehaviour
     {
         AudioController.Instance.PlayButtonSound();
         SceneManagerScript.Instance.SceneInvoke(SceneManagerScript.SceneName.LevelSelection);
-    }
-
-    // Pause Menu - Dropdown
-    void LoadList()
-    {
-        string[] enumNames = Enum.GetNames(typeof(PitchAlgo));
-        List<string> names = new List<string>(enumNames);
-        dropdown.AddOptions(names);
-        dropdown.value = PlayerPrefs.GetInt("pitchAlgo");
-    }
-
-    public void DropdownValueChanged(int index)
-    {
-        dropdown.value = index;
-        PlayerPrefs.SetInt("pitchAlgo", index);
-    }
-
-    // Pause Menu - Slider
-    public void LoadDelay()
-    {
-        var delay = SongManager.Instance.GetNoteDelay();
-        sliderValue.SetText(delay.ToString("0.00"));
-        delaySlider.value = delay;
-    }
-
-    public void SetDelay()
-    {
-        delaySlider.onValueChanged.AddListener((v) =>
-        {
-            sliderValue.SetText(v.ToString("0.00"));
-            PlayerPrefs.SetFloat("NoteDelay", v);
-        });
     }
 
     #endregion

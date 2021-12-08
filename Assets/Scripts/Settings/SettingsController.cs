@@ -5,6 +5,8 @@ using UnityEngine.UI;
 using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
 using TMPro;
+using System;
+using Pitch.Algorithm;
 
 
 // List of settings variable that can be manipulated
@@ -16,29 +18,31 @@ enum SettingsList
     SoundEffects,
     Language,
     Notification,
+    Delay,
+    Algorithm,
 };
 
 // class for settings manipulation
 public class SettingsController : MonoBehaviour
 {
-    [SerializeField]
-    private Slider musicSlider;
-    [SerializeField]
-    private Slider soundEffectsSlider;
-    [SerializeField]
-    private Dropdown languageDropdown;
-    [SerializeField]
-    private Toggle notificationToggle;
-    [SerializeField]
-    private AudioMixer mixer;
-    [SerializeField]
-    private TextMeshProUGUI toggleText;
+    [Header("Settings Component")]
+    [SerializeField] private Slider musicSlider;
+    [SerializeField] private Slider soundEffectsSlider;
+    [SerializeField] private TMP_Dropdown pitchAlgoDropdown;
+    [SerializeField] private Slider delaySlider;
+    [SerializeField] private TMP_Dropdown languageDropdown; // draft
+    [SerializeField] private Toggle notificationToggle; // draft
+
+    [Space]
+    [SerializeField] private AudioMixer mixer;
+    [SerializeField] private TextMeshProUGUI toggleText;
+
     public static SettingsController Instance;
 
     private void Awake()
     {
         Instance = this;
-        
+
     }
 
     // Start is called before the first frame update
@@ -55,38 +59,26 @@ public class SettingsController : MonoBehaviour
     // initialize the value on display based on previously saved values on playerprefs
     private void Initialize()
     {
-        SetVolumeValue(PlayerPrefs.GetFloat(SettingsList.Music.ToString(),0));
+        SetVolumeValue(PlayerPrefs.GetFloat(SettingsList.Music.ToString(), 0));
         SetSoundEffectsValue(PlayerPrefs.GetFloat(SettingsList.SoundEffects.ToString(), 0));
         //SetLanguageValue();
         //SetNotificationValue((PlayerPrefs.GetInt(SettingsList.Notification.ToString(), 1) == 1)? true : false);
+        InitializeAlgorithmDropdown();
+        SetDelayValue(PlayerPrefs.GetFloat(SettingsList.Delay.ToString(), 0));
     }
 
-    private float GetVolumeValue()
-    {
-        return musicSlider.value;
-    }
-
-    private float GetSoundEffectsValue()
-    {
-        return soundEffectsSlider.value;
-    }
-
-    private int GetLanguageValue()
-    {
-        return languageDropdown.value;
-    }
-
-    private int GetNotificationValue()
-    {
-        return notificationToggle.isOn? 1: 0;
-    }
+    private float GetVolumeValue() { return musicSlider.value; }
+    private float GetSoundEffectsValue() { return soundEffectsSlider.value; }
+    private int GetLanguageValue() { return languageDropdown.value; }
+    private int GetNotificationValue() { return notificationToggle.isOn ? 1 : 0; }
+    private float GetDelayValue() { return delaySlider.value; }
+    private int GetAlgorithmValue() { return pitchAlgoDropdown.value; }
 
     // connect this to slider
     public void SetVolumeValue(float newValue)
     {
         musicSlider.value = newValue;
-        mixer.SetFloat("musicVolume", newValue);
-        
+        mixer.SetFloat("mainVolume", newValue);
     }
 
     // connect this to slider
@@ -103,17 +95,35 @@ public class SettingsController : MonoBehaviour
 
     public void SetNotificationValue(bool isToggled) // 1 = True, 0 = False
     {
-        //notificationToggle
         notificationToggle.isOn = isToggled;
-        toggleText.text = isToggled?"ON":"OFF";
+        toggleText.text = isToggled ? "ON" : "OFF";
 
+    }
+
+    void InitializeAlgorithmDropdown()
+    {
+        string[] enumNames = Enum.GetNames(typeof(PitchAlgo));
+        List<string> names = new List<string>(enumNames);
+        pitchAlgoDropdown.AddOptions(names);
+        SetAlgorithmValue(PlayerPrefs.GetInt(SettingsList.Algorithm.ToString(), 0));
+    }
+
+    public void SetAlgorithmValue(int index)
+    {
+        pitchAlgoDropdown.value = index;
+        pitchAlgoDropdown.captionText.text = Enum.GetName(typeof(PitchAlgo), index);
+    }
+
+    public void SetDelayValue(float newValue)
+    { 
+        delaySlider.value = newValue;
     }
 
     private void ResetMixer()
     {
         // Reset the mixer
         mixer.SetFloat("soundEffects", PlayerPrefs.GetFloat(SettingsList.SoundEffects.ToString()));
-        mixer.SetFloat("musicVolume", PlayerPrefs.GetFloat(SettingsList.Music.ToString()));
+        mixer.SetFloat("maiVolume", PlayerPrefs.GetFloat(SettingsList.Music.ToString()));
     }
 
     // only calls this function when the button 'Save' is pressed
@@ -123,12 +133,14 @@ public class SettingsController : MonoBehaviour
         PlayerPrefs.SetFloat(SettingsList.SoundEffects.ToString(), GetSoundEffectsValue());
         //PlayerPrefs.SetInt(SettingsList.Language.ToString(), GetLanguageValue());
         //PlayerPrefs.SetInt(SettingsList.Notification.ToString(), GetNotificationValue());
+        PlayerPrefs.SetFloat(SettingsList.Delay.ToString(), GetDelayValue());
+        PlayerPrefs.SetInt(SettingsList.Algorithm.ToString(), GetAlgorithmValue());
     }
 
     // a function you call when a setting button is clicked
     public static void InvokeSettings()
     {
-        PerspectivePan.SetPanning();
+        PerspectivePan.SetPanning(); // So that when the user interacts with slider on level Selection page, the panning would be disable
         SceneManager.LoadScene("Settings", LoadSceneMode.Additive);
     }
 
@@ -154,5 +166,6 @@ public class SettingsController : MonoBehaviour
             i++;
         }
     }
+
 
 }
