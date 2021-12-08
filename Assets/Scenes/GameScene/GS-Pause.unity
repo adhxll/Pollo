@@ -453,6 +453,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Setting Button
       objectReference: {fileID: 0}
+    - target: {fileID: 1549176434266764163, guid: c4ca4df083cd5f241a55fdf074dce1b0, type: 3}
+      propertyPath: m_TagString
+      value: SettingsButton
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c4ca4df083cd5f241a55fdf074dce1b0, type: 3}
 --- !u!1 &301144072
@@ -1872,8 +1876,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: PAUSED
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 2d8d3814b906447e8b116108c1a11e58, type: 2}
-  m_sharedMaterial: {fileID: 2565517269947547108, guid: 2d8d3814b906447e8b116108c1a11e58, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 6d9bd39973ddf45648d0ca9331187412, type: 2}
+  m_sharedMaterial: {fileID: 2565517269947547108, guid: 6d9bd39973ddf45648d0ca9331187412, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2295,6 +2299,7 @@ MonoBehaviour:
   dropdown: {fileID: 51218446}
   delaySlider: {fileID: 457945459}
   pitchSwitch: {fileID: 0}
+  repeatSwitch: {fileID: 0}
   sliderValue: {fileID: 2077940988}
 --- !u!4 &1801421000
 Transform:

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using DG.Tweening;
+using TMPro;
 
 public class Lane : MonoBehaviour
 {
@@ -89,24 +90,34 @@ public class Lane : MonoBehaviour
                         }
                     }
                 }
-
-                if (CheckPitch() && Math.Abs(audioTime - timeStamp) < marginOfError)
+                // if you want to use the function in real time, use this
+                //ComparePitch();
+                if (CheckPitch())
                 {
-                    averageCount++;
-                    if (averageCount >= 3)
+                    if (Math.Abs(audioTime - timeStamp) < marginOfError)
                     {
-                        Hit();
-                        averageCount = 0;
+                        averageCount++;
+                        if (averageCount >= 3)
+                        {
+                            Hit();
+                            averageCount = 0;
+                        }
                     }
                 }
-
+                else
+                {
+                    
+                }
                 // If the note that should be played [inputIndex] is exceeding the timeStamp + marginOfError value
                 // Then the note will be considered miss, and the next note will be the [inputIndex]
                 if (timeStamp + marginOfError <= audioTime)
                 {
+                    ComparePitch();
                     Miss();
                     averageCount = 0;
                 }
+
+                //Debug.Log("" + ComparePitch());
             }
         }
     }
@@ -156,6 +167,30 @@ public class Lane : MonoBehaviour
             return true;
 
         return false;
+    }
+
+    // a function to compare pitch, will return the difference between target pitch and the recorded pitch
+    private int ComparePitch()
+    {
+        double currentPitch = midiNotes[inputIndex];
+        double lowBound = currentPitch - 5;
+        double highBound = currentPitch + 5;
+        double recordedPitch = SongManager.Instance.GetDetectedPitch().GetMidiNote();
+        //Debug.Log("curr = " + recordedPitch + " low = " + lowBound + " high = " + highBound);
+        if (recordedPitch >= lowBound && recordedPitch <= highBound)
+        {
+            return 0; //if it's the right pitch
+        }
+        else if (recordedPitch < lowBound)
+        {
+            ScoreManager.missMessage = "Too Low";
+            return (int)(recordedPitch - lowBound); // if it's lower than the target pitch, it will return a negative value
+        }
+        else
+        {
+            ScoreManager.missMessage = "Too High";
+            return (int)(recordedPitch - highBound); // if it's higher than the target pitch, it will return a non-zero positive value
+        }
     }
 
     // Destroy all spawned child objects in lane
