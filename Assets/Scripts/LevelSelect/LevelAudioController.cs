@@ -10,13 +10,19 @@ public class LevelAudioController : MonoBehaviour
     private AudioSource audioSource;
     [SerializeField]
     private float transitionDuration;
+    private int currentIndex = 0;
 
     private float maxVolume = 1f;
     private float minVolume = 0f;
 
-    public void ChangeAudioBackground(){
-        if(audioSource.clip == audioClip[0]) StartCoroutine(ChangeClip(audioClip[1]));
-        else StartCoroutine(ChangeClip(audioClip[0]));
+    public void ChangeAudioBackgroundForward(){
+        StartCoroutine(ChangeClip(audioClip[currentIndex+1]));
+        currentIndex += 1;
+    }
+
+    public void ChangeAudioBackgroundBackward(){
+        StartCoroutine(ChangeClip(audioClip[currentIndex-1]));
+        currentIndex -= 1;
     }
 
     private IEnumerator ChangeClip(AudioClip _audioClip){
@@ -33,6 +39,11 @@ public class LevelAudioController : MonoBehaviour
             yield return null;
         }
     }
+
+    void Start(){
+        Destroy(GameObject.FindGameObjectWithTag("MainThemeSong"));
+    }
+    
 }
 
 

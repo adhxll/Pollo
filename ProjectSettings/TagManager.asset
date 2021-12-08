@@ -11,6 +11,7 @@ TagManager:
   - SettingsButton
   - CoinAmount
   - CoinChangeIndicator
+  - MainThemeSong
   layers:
   - Default
   - TransparentFX
