@@ -1090,6 +1090,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 1549176434266764163, guid: c4ca4df083cd5f241a55fdf074dce1b0, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c4ca4df083cd5f241a55fdf074dce1b0, type: 3}
 --- !u!1 &720753013
@@ -2004,6 +2008,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stagePrefab: {fileID: 0}
   stages: {fileID: 11400000, guid: ac08d9c9da7ac22458234b5c5b35c827, type: 2}
+  stageName: 
   stageNameText: {fileID: 1206442237}
   defaultCameraPosition: {x: 0, y: 0, z: 0}
   dumpPositionPrev: {x: -100, y: 0, z: 0}

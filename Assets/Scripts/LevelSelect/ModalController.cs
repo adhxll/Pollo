@@ -29,7 +29,7 @@ public class ModalController : MonoBehaviour
         var levelData = sourceLevel.GetComponent<LevelItem>().data;
         modal.GetComponent<StarCounter>().StarCount = levelData.starCount;
         Instance.scoreValue = levelData.highScore.ToString();
-        Instance.accuracyValue = levelData.accuracy.ToString(); 
+        Instance.accuracyValue = levelData.accuracy.ToString() + "%"; 
         Instance.levelValue = "Level " + levelData.levelID; 
         SetLevelToPlay(levelData.levelID);
 
