@@ -20,7 +20,7 @@ public class WavesAnimation : MonoBehaviour
         Invoke("AnimateWaves", 1f);
     }
 
-    void AnimateWaves()
+    private void AnimateWaves()
     {
         foreach (Transform obj in gameObject.transform)
         {
@@ -34,5 +34,10 @@ public class WavesAnimation : MonoBehaviour
                     break;
             }
         }
+    }
+
+    private void OnDestroy()
+    {
+        DOTween.Kill(1);
     }
 }

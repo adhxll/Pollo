@@ -176,16 +176,16 @@ public class AnimationUtilities : MonoBehaviour
     // Animate waves sideways (left & right)
     public void WavesLinearAnimation(Transform obj)
     {
-        obj.DOPunchScale(new Vector3(0.2f, 0f, 0f), 2f, 1, 1).SetLoops(-1, LoopType.Restart);
-        obj.DOLocalMoveX(0.5f, 2f, false).SetLoops(-1, LoopType.Yoyo).SetEase(Ease.InOutSine).SetRelative();
+        obj.DOPunchScale(new Vector3(0.2f, 0f, 0f), 2f, 1, 1).SetLoops(-1, LoopType.Restart).SetId(1);
+        obj.DOLocalMoveX(0.5f, 2f, false).SetLoops(-1, LoopType.Yoyo).SetEase(Ease.InOutSine).SetRelative().SetId(1);
     }
 
     // Animates waves diagonally
     public void WavesCornerAnimation(Transform obj)
     {
         var sprite = obj.GetComponent<SpriteRenderer>();
-        sprite.DOFade(0.5f, 1f).SetLoops(-1, LoopType.Yoyo);
-        obj.DOPunchScale(new Vector3(0.2f, 0f, 0f), 2f, 1, 1).SetLoops(-1, LoopType.Restart);
-        obj.DOLocalMove(new Vector3(-0.2f, -0.2f, 0), 2f, false).SetLoops(-1, LoopType.Yoyo).SetEase(Ease.InOutSine).SetRelative();
+        sprite.DOFade(0.5f, 1f).SetLoops(-1, LoopType.Yoyo).SetId(1);
+        obj.DOPunchScale(new Vector3(0.2f, 0f, 0f), 2f, 1, 1).SetLoops(-1, LoopType.Restart).SetId(1);
+        obj.DOLocalMove(new Vector3(-0.2f, -0.2f, 0), 2f, false).SetLoops(-1, LoopType.Yoyo).SetEase(Ease.InOutSine).SetRelative().SetId(1);
     }
 }
