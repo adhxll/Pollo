@@ -37,7 +37,7 @@ public class StageConstructor : MonoBehaviour
         stagePrefab = Instantiate(stages.stagesList[0], new Vector3(0, 0, 0),
             Quaternion.identity, gameObject.transform.parent);
         //set scale here because one change applies to all
-        stagePrefab.transform.localScale = new Vector3(0.8f, 0.8f, 1);
+        stagePrefab.transform.localScale = new Vector3(40f, 40f, 1); //awaiting for ayas change,
         ChangeStageName(stagePrefab.GetComponent<StageController>().stageName);
 
 
@@ -83,6 +83,7 @@ public class StageConstructor : MonoBehaviour
         //destroy the island after delay then instantiate a new one and move it into place
         Destroy(stagePrefab);
         stagePrefab = Instantiate(stages.stagesList[selectedStageID], defaultIslandPosition, Quaternion.identity, gameObject.transform.parent);
+        stagePrefab.transform.localScale = new Vector3(40f, 40f, 1); 
         AnimationUtilities.Instance.MoveX(stagePrefab, defaultIslandPosition.x, start.x);
         LevelSelectionController.Instance.ModifyChangeStageBtn(selectedStageID, stages.stagesList.Count); // change the buttons in levelselectoin
         ChangeStageName(stagePrefab.GetComponent<StageController>().stageName);
