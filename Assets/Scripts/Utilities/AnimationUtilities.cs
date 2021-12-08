@@ -150,6 +150,7 @@ public class AnimationUtilities : MonoBehaviour
         else
             obj.transform.DOMoveY(post.y + target, 0.75f).SetEase(Ease.InOutQuad).From(post.y + from);
     }
+
     public void MoveX(GameObject obj, float target, float from, bool loop = false)
     {
         var post = obj.transform.position;
@@ -160,6 +161,7 @@ public class AnimationUtilities : MonoBehaviour
         else
             obj.transform.DOMoveX(post.x + target, 0.75f).SetEase(Ease.InOutQuad).From(post.x + from);
     }
+
     public void MoveCameraX(Camera obj, float target, float from, bool loop = false)
     {// used to move the camera along the x axis with duration 0.75 seconds
         var post = obj.transform.position;
@@ -169,5 +171,21 @@ public class AnimationUtilities : MonoBehaviour
 
         else
             obj.transform.DOMoveX(target, 0.75f).SetEase(Ease.InOutQuad).From(from);
+    }
+
+    // Animate waves sideways (left & right)
+    public void WavesLinearAnimation(Transform obj)
+    {
+        obj.DOPunchScale(new Vector3(0.2f, 0f, 0f), 2f, 1, 1).SetLoops(-1, LoopType.Restart);
+        obj.DOLocalMoveX(0.5f, 2f, false).SetLoops(-1, LoopType.Yoyo).SetEase(Ease.InOutSine).SetRelative();
+    }
+
+    // Animates waves diagonally
+    public void WavesCornerAnimation(Transform obj)
+    {
+        var sprite = obj.GetComponent<SpriteRenderer>();
+        sprite.DOFade(0.5f, 1f).SetLoops(-1, LoopType.Yoyo);
+        obj.DOPunchScale(new Vector3(0.2f, 0f, 0f), 2f, 1, 1).SetLoops(-1, LoopType.Restart);
+        obj.DOLocalMove(new Vector3(-0.2f, -0.2f, 0), 2f, false).SetLoops(-1, LoopType.Yoyo).SetEase(Ease.InOutSine).SetRelative();
     }
 }
