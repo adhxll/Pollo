@@ -34,13 +34,13 @@ public class SettingsController : MonoBehaviour
     [SerializeField] private Toggle notificationToggle; // draft
 
     [Space]
+    [Header("Misc")]
     [SerializeField] private TextMeshProUGUI pitchValue;
-    [SerializeField] private AudioMixer mixer;
     [SerializeField] private TextMeshProUGUI toggleText;
 
     public static SettingsController Instance;
 
-    private float GetVolumeValue() { return musicSlider.value; }
+    private float GetMusicValue() { return musicSlider.value; }
     private float GetSoundEffectsValue() { return soundEffectsSlider.value; }
     private int GetLanguageValue() { return languageDropdown.value; }
     private int GetNotificationValue() { return notificationToggle.isOn ? 1 : 0; }
@@ -65,10 +65,12 @@ public class SettingsController : MonoBehaviour
     {
     }
 
+    #region ================ SETTINGS COMPONENT MANIPULATION ================
+
     // initialize the value on display based on previously saved values on playerprefs
     private void Initialize()
     {
-        SetVolumeValue(PlayerPrefs.GetFloat(SettingsList.Music.ToString(), 0));
+        SetMusicValue(PlayerPrefs.GetFloat(SettingsList.Music.ToString(), 0));
         SetSoundEffectsValue(PlayerPrefs.GetFloat(SettingsList.SoundEffects.ToString(), 0));
         //SetLanguageValue();
         //SetNotificationValue((PlayerPrefs.GetInt(SettingsList.Notification.ToString(), 1) == 1)? true : false);
@@ -76,18 +78,24 @@ public class SettingsController : MonoBehaviour
         SetDelayValue(PlayerPrefs.GetFloat(SettingsList.Delay.ToString(), 0));
     }
 
+    // The audio volume grows in logarithmic, so we need this function to translate some values to log
+    private float GetDecibelLogValue(float value)
+    {
+        return Mathf.Log10(value) * 20;
+    }
+
     // connect this to slider
-    public void SetVolumeValue(float newValue)
+    public void SetMusicValue(float newValue)
     {
         musicSlider.value = newValue;
-        mixer.SetFloat("mainVolume", newValue);
+        GameController.Instance.masterMixer.SetFloat("musicVolume", GetDecibelLogValue(newValue));
     }
 
     // connect this to slider
     public void SetSoundEffectsValue(float newValue)
     {
         soundEffectsSlider.value = newValue;
-        mixer.SetFloat("soundEffects", newValue);
+        GameController.Instance.masterMixer.SetFloat("soundEffects", GetDecibelLogValue(newValue));
     }
 
     public void SetLanguageValue()
@@ -122,17 +130,12 @@ public class SettingsController : MonoBehaviour
         pitchValue.text = newValue.ToString("0.00");
     }
 
-    private void ResetMixer()
-    {
-        // Reset the mixer
-        mixer.SetFloat("soundEffects", PlayerPrefs.GetFloat(SettingsList.SoundEffects.ToString()));
-        mixer.SetFloat("maiVolume", PlayerPrefs.GetFloat(SettingsList.Music.ToString()));
-    }
+    #endregion ================ SETTINGS COMPONENT MANIPULATION ================
 
     // only calls this function when the button 'Save' is pressed
     public void SaveAllSettings()
     {
-        PlayerPrefs.SetFloat(SettingsList.Music.ToString(), GetVolumeValue());
+        PlayerPrefs.SetFloat(SettingsList.Music.ToString(),GetMusicValue());
         PlayerPrefs.SetFloat(SettingsList.SoundEffects.ToString(), GetSoundEffectsValue());
         //PlayerPrefs.SetInt(SettingsList.Language.ToString(), GetLanguageValue());
         //PlayerPrefs.SetInt(SettingsList.Notification.ToString(), GetNotificationValue());
@@ -152,11 +155,12 @@ public class SettingsController : MonoBehaviour
     public void CloseSettings()
     {
         PerspectivePan.SetPanning();
-        ResetMixer();
+        GameController.Instance.ResetMixer();
         SceneManager.UnloadSceneAsync("Settings");
 
     }
 
+    // function to set settings button to any object that has SettingsButton tag
     public static void SetSettingsButton()
     {
         GameObject[] temp = GameObject.FindGameObjectsWithTag("SettingsButton");
