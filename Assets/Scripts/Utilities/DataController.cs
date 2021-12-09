@@ -6,6 +6,7 @@ public class DataController : MonoBehaviour
 {
     public static DataController Instance;
     public LevelDatabase levelDatabase;
+    public Stages stageDatabase; 
     //TODO: Add databases for Achievements and Skins
     public PlayerData playerData;
     Dictionary<string, LevelItemContainer> levels; 
@@ -72,8 +73,13 @@ public class DataController : MonoBehaviour
     }
     public void UnlockNextLevel(int currentStageID, int currentLevelID) {
         //unlocks the next level
-        //TODO: Validation for final level
-        string dictKey = DataController.Instance.FormatKey(currentStageID, currentLevelID + 1); 
+        string dictKey = "";
+        if (currentLevelID == stageDatabase.stagesList[0].GetComponent<StageController>().levels.Count - 1
+            && currentStageID != stageDatabase.stagesList.Count-1)//validation for final level and final stage 
+            dictKey = DataController.Instance.FormatKey(currentStageID + 1, 1); // unlocks next level of next stage
+        else if (currentStageID != stageDatabase.stagesList.Count-1) //validation for final stage
+            dictKey = DataController.Instance.FormatKey(currentStageID, currentLevelID + 1);
+
         levels[dictKey].isUnlocked = true; 
        
     }
@@ -98,7 +104,7 @@ public class DataController : MonoBehaviour
             newLevel.stageID = levelDatabase.allLevels[i].GetStageID();
             dictKey = DataController.Instance.FormatKey(newLevel.stageID, newLevel.levelID); 
             playerData.levelData.Add(dictKey, newLevel);
-            Debug.Log("Container ID : " + dictKey + " Star Count : " + playerData.levelData[dictKey].starCount);
+            Debug.Log("Container ID : " + dictKey + " Locked : " + !playerData.levelData[dictKey].isUnlocked);
         }
 
     }

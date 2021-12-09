@@ -9,6 +9,7 @@ public class StageConstructor : MonoBehaviour
 
     [SerializeField] private Stages stages;
     [SerializeField] private TMPro.TextMeshProUGUI stageNameText;
+    [SerializeField] private TMPro.TextMeshProUGUI stageCountText;
 
     // Used to select a stage from the stages and instantiate it onto the level
     private GameObject stagePrefab;
@@ -34,7 +35,7 @@ public class StageConstructor : MonoBehaviour
         else Instance = this;
     }
 
-    private void InstantiateStage() {
+    public void InstantiateStage() {
         
         defaultCameraPosition = Camera.main.transform.position;
         selectedStageID = 0;
@@ -45,6 +46,7 @@ public class StageConstructor : MonoBehaviour
         // Set scale here because one change applies to all
         stagePrefab.transform.localScale = new Vector3(0.9f, 0.9f, 1);
         ChangeStageName(stagePrefab.GetComponent<StageController>().stageName);
+        ModifyStageCount(); 
 
     }
 
@@ -55,9 +57,7 @@ public class StageConstructor : MonoBehaviour
             StartCoroutine(ChangeIsland(0.3f, true));
             GameController.Instance.currentStage = selectedStageID;
         }
-
     }
-
     public void ChangeStagePrev()
     {
         if (selectedStageID != 0)
@@ -65,7 +65,6 @@ public class StageConstructor : MonoBehaviour
             StartCoroutine(ChangeIsland(0.3f, false));
             Camera.main.transform.position = defaultCameraPosition;
             GameController.Instance.currentStage = selectedStageID;
-           
         }
     }
 
@@ -101,11 +100,18 @@ public class StageConstructor : MonoBehaviour
         AnimationUtilities.Instance.MoveX(stagePrefab, defaultIslandPosition.x, start.x);
         LevelSelectionController.Instance.ModifyChangeStageBtn(selectedStageID, stages.stagesList.Count); // change the buttons in levelselectoin
         ChangeStageName(stagePrefab.GetComponent<StageController>().stageName);
+        ModifyStageCount(); 
         StopCoroutine(ChangeIsland(0.2f, true));
     }
 
     private void ChangeStageName(string StageName) {
         stageNameText.text = StageName; 
     }
-   
+    private void ModifyStageCount()
+    {
+        var currentStage = GameController.Instance.currentStage + 1;
+        var totalStage = stages.stagesList.Count; 
+        stageCountText.text = currentStage + "/" + totalStage;
+    }
+
 }

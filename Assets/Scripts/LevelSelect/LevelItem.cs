@@ -24,7 +24,7 @@ public class LevelItem : MonoBehaviour
         LevelCountText.GetComponent<TMPro.TextMeshPro>().text = data.levelID.ToString(); 
         StarContainer.GetComponent<StarCounter>().StarCount = data.starCount;
         StarContainer.GetComponent<StarCounter>().FillStars();
-        if (isUnlocked && data.finishCount > 0) LockUnlockCircle.GetComponent<SpriteRenderer>().sprite = UnlockedCircleSprite;
+        if (isUnlocked && data.sessionCount > 0) LockUnlockCircle.GetComponent<SpriteRenderer>().sprite = UnlockedCircleSprite;
         var levelList = DataController.Instance.levelDatabase.allLevels; 
         for (int i = 1; i < levelList.Count; i++) { //start from after onboarding
             if (levelList[i].GetLevelID() == data.levelID && levelList[i].GetStageID() == GameController.Instance.currentStage) {
@@ -41,6 +41,7 @@ public class LevelItem : MonoBehaviour
     public void Push() {
         if (isUnlocked)
         {
+            PerspectivePan.SetPanning();
             AnimationUtilities.AnimateButtonPush(gameObject);
             ModalController.Instance.ShowLevelModal(gameObject);
         }

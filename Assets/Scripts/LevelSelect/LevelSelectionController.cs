@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI; 
+using UnityEngine.UI;
 public class LevelSelectionController : MonoBehaviour
 {
     public static LevelSelectionController Instance;
@@ -9,6 +9,7 @@ public class LevelSelectionController : MonoBehaviour
     [SerializeField] private Canvas levelCanvas;
     [SerializeField] private Button PrevStageBtn;
     [SerializeField] private Button NextStageBtn;
+    
     private bool modalShown;
 
     private void Awake()
@@ -47,6 +48,7 @@ public class LevelSelectionController : MonoBehaviour
                 ModifyPrevStageButton(true);
                 break; 
         }
+        //ModifyStageCount(); 
     }
 
     private void ModifyNextStageButton(bool enableNextStageBtn)
@@ -56,6 +58,8 @@ public class LevelSelectionController : MonoBehaviour
         else
             NextStageBtn.interactable = false; 
     }
+
+   
 
     private void ModifyPrevStageButton(bool enablePrevStageBtn)
     {

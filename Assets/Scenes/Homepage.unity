@@ -915,6 +915,7 @@ MonoBehaviour:
   coinAmount: []
   coinChangeIndicator: []
   selectedLevel: 0
+  currentStage: 0
   sceneState: 0
 --- !u!4 &786046415
 Transform:
@@ -1571,8 +1572,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   levelDatabase: {fileID: 11400000, guid: adb498633390b49fb816da2e47d8d3c8, type: 2}
+  stageDatabase: {fileID: 11400000, guid: ac08d9c9da7ac22458234b5c5b35c827, type: 2}
   playerData:
-    levelData: []
+    levelList: []
 --- !u!1001 &1368407608
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2153,7 +2155,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 14
+  m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1930111640
 GameObject:

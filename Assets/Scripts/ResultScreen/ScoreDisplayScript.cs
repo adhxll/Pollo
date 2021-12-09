@@ -52,7 +52,9 @@ public class ScoreDisplayScript : MonoBehaviour
     void SaveLevelData()
     {
         DataController.Instance.UpdateLevelData(GameController.Instance.currentStage,GameController.Instance.selectedLevel, star, score, accuracy);
-
+        if (star >= 1) { //unlock if star >= 1
+            DataController.Instance.UnlockNextLevel(GameController.Instance.currentStage, GameController.Instance.selectedLevel); 
+        }
     }
 
     void AddMoney()

@@ -40,14 +40,6 @@ public class ModalController : MonoBehaviour
 
         AudioController.Instance.PlayButtonSound();
         SceneManagerScript.Instance.SceneInvoke(SceneManagerScript.SceneName.LSModal, true);
-
-        //if (!modal.activeSelf)
-        //{
-        //    PerspectivePan.SetPanning(); 
-        //    modal.GetComponent<StarCounter>().FillStars();
-        //    Instance.SetValues();
-        //    AnimationUtilities.AnimatePopUp(modal);
-        //}
     }
 
     private void SetLevelToPlay(int selectedLevel)
@@ -71,8 +63,6 @@ public class ModalController : MonoBehaviour
     private IEnumerator DeactivateModal(float countTime)
     {
         yield return new WaitForSeconds(countTime); 
-        //modal.GetComponent<StarCounter>().EmptyStars();
-        //modal.SetActive(false);
         overlay.SetActive(false);
         StopCoroutine(DeactivateModal(0.2f)); 
     }

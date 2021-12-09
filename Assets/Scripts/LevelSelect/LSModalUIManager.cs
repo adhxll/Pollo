@@ -30,6 +30,7 @@ public class LSModalUIManager : MonoBehaviour
 
     public void CloseModal()
     {
+        PerspectivePan.SetPanning();
         AudioController.Instance.PlayButtonSound();
         SceneManagerScript.Instance.SceneUnload(SceneManagerScript.SceneName.LSModal);
     }
