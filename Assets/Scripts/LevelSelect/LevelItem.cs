@@ -5,16 +5,18 @@ using UnityEngine.UI;
 
 public class LevelItem : MonoBehaviour
 {
-    //data to fill the level item
+    // Data to fill the level item
     public LevelItemContainer data;
-    private bool isUnlocked; 
-    //containers for showing the data
+    private bool isUnlocked;
+
+    // Containers for showing the data
     public TMPro.TextMeshPro LevelCountText; 
     public GameObject StarContainer;
     public GameObject LockUnlockCircle;
     public Sprite UnlockedCircleSprite;
     public GameObject lockImage; 
-    public Level levelSO; 
+    public Level levelSO;
+
     void Start()
     {
         //setup the data into container
@@ -28,18 +30,19 @@ public class LevelItem : MonoBehaviour
             if (levelList[i].GetLevelID() == data.levelID && levelList[i].GetStageID() == GameController.Instance.currentStage) {
                 
                 levelSO = levelList[i];
+                LevelCountText.gameObject.SetActive(data.isUnlocked);
                 StarContainer.SetActive(data.isUnlocked);
-                lockImage.SetActive(!data.isUnlocked); 
-                Debug.Log("levelSO stage and level: " + levelSO.GetStageID() + " " + levelSO.GetLevelID());
+                lockImage.SetActive(!data.isUnlocked);
+                //Debug.Log("levelSO stage and level: " + levelSO.GetStageID() + " " + levelSO.GetLevelID());
             }
         }
     }
+
     public void Push() {
         if (isUnlocked)
         {
             AnimationUtilities.AnimateButtonPush(gameObject);
             ModalController.Instance.ShowLevelModal(gameObject);
-            LevelSelectionController.Instance.ModifyLevelInput();
         }
     }
 }

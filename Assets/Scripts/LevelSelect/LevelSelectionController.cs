@@ -4,42 +4,37 @@ using UnityEngine;
 using UnityEngine.UI; 
 public class LevelSelectionController : MonoBehaviour
 {
-    public static LevelSelectionController Instance; 
-    public Canvas levelCanvas;
+    public static LevelSelectionController Instance;
+
+    [SerializeField] private Canvas levelCanvas;
+    [SerializeField] private Button PrevStageBtn;
+    [SerializeField] private Button NextStageBtn;
     private bool modalShown;
-    public GameObject PrevStageBtn;
-    public GameObject NextStageBtn;
-    
+
     private void Awake()
     {
         StartCustomSingleton(); 
     }
-    public void ModifyLevelInput() { //disables level button input when modal is shown
-        if (!modalShown) 
-        {
-            levelCanvas.GetComponent<GraphicRaycaster>().enabled = false;
-            modalShown = true; 
-        }
-        else
-        {
-            levelCanvas.GetComponent<GraphicRaycaster>().enabled = true;
-            modalShown = false; 
-        }
-    }
-    public void SaveGame() {
+
+    public void SaveGame()
+    {
         SaveSystem.SavePlayerData(); 
     }
-    private void StartCustomSingleton() {
-        // used to keep this script as a static singleton, but only within the level selection scene
-        // needed for supporting multiple island prefabs, see LevelItem for example
+
+    private void StartCustomSingleton()
+    {
+        // Used to keep this script as a static singleton, but only within the level selection scene
+        // Needed for supporting multiple island prefabs, see LevelItem for example
         if (Instance != null) Destroy(gameObject);
         else Instance = this;
     }
-    public void ModifyChangeStageBtn(int position, int stageCount) {
-        //0 = last, 1 = mid, 2 = last
+
+    public void ModifyChangeStageBtn(int position, int stageCount)
+    {
+        // 0 = last, 1 = mid, 2 = last
         int number = position - stageCount; 
         switch (number) {
-            case -1: //final
+            case -1: // Final
                 ModifyNextStageButton(false);
                 ModifyPrevStageButton(true); 
                 break;
@@ -47,35 +42,27 @@ public class LevelSelectionController : MonoBehaviour
                 ModifyPrevStageButton(false);
                 ModifyNextStageButton(true); 
                 break;  
-            default: // middle
+            default: // Middle
                 ModifyNextStageButton(true);
                 ModifyPrevStageButton(true);
                 break; 
         }
     }
-    private void ModifyNextStageButton( bool enableNextStageBtn) {
+
+    private void ModifyNextStageButton(bool enableNextStageBtn)
+    {
         if (enableNextStageBtn)
-        {
-            enableNextStageBtn = true;
-            NextStageBtn.SetActive(true);
-        }
-        else {
-            enableNextStageBtn = false;
-            NextStageBtn.SetActive(false); 
-        }
+            NextStageBtn.interactable = true;
+        else
+            NextStageBtn.interactable = false; 
     }
+
     private void ModifyPrevStageButton(bool enablePrevStageBtn)
     {
         if (enablePrevStageBtn)
-        {
-            enablePrevStageBtn = true;
-            PrevStageBtn.SetActive(true); 
-        }
+            PrevStageBtn.interactable = true;
         else
-        {
-            enablePrevStageBtn = false;
-            PrevStageBtn.SetActive(false); 
-        }
+            PrevStageBtn.interactable = false;
     }
 
 }

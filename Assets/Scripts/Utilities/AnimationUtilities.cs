@@ -1,4 +1,5 @@
 using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
@@ -31,6 +32,19 @@ public class AnimationUtilities : MonoBehaviour
 
         obj.transform.DOPunchScale(new Vector3(vectorX, vectorY, vectorZ), 0.2f, 1, 1);
     }
+
+    public void AnimateButtonPush(GameObject obj, Action act)
+    {
+        obj.transform.DORewind();
+
+        float vectorX = obj.transform.localScale.x * -0.1f;
+        float vectorY = obj.transform.localScale.y * -0.1f;
+        float vectorZ = obj.transform.localScale.z * -0.1f;
+
+        obj.transform.DOPunchScale(new Vector3(vectorX, vectorY, vectorZ), 0.1f, 1, 1)
+            .OnComplete(() => act());
+    }
+
     public static void AnimatePopUp(GameObject obj) { //animate expand kebalikan dari pencet tombol
         obj.transform.DORewind();
       
@@ -176,16 +190,30 @@ public class AnimationUtilities : MonoBehaviour
     // Animate waves sideways (left & right)
     public void WavesLinearAnimation(Transform obj)
     {
-        obj.DOPunchScale(new Vector3(0.2f, 0f, 0f), 2f, 1, 1).SetLoops(-1, LoopType.Restart).SetId(1);
-        obj.DOLocalMoveX(0.5f, 2f, false).SetLoops(-1, LoopType.Yoyo).SetEase(Ease.InOutSine).SetRelative().SetId(1);
+        obj.DOPunchScale(new Vector3(0.2f, 0f, 0f), 2f, 1, 1)
+            .SetLoops(-1, LoopType.Restart)
+            .SetId(1);
+        obj.DOLocalMoveX(0.5f, 2f, false)
+            .SetLoops(-1, LoopType.Yoyo)
+            .SetEase(Ease.InOutSine)
+            .SetRelative()
+            .SetId(1);
     }
 
     // Animates waves diagonally
     public void WavesCornerAnimation(Transform obj)
     {
         var sprite = obj.GetComponent<SpriteRenderer>();
-        sprite.DOFade(0.5f, 1f).SetLoops(-1, LoopType.Yoyo).SetId(1);
-        obj.DOPunchScale(new Vector3(0.2f, 0f, 0f), 2f, 1, 1).SetLoops(-1, LoopType.Restart).SetId(1);
-        obj.DOLocalMove(new Vector3(-0.2f, -0.2f, 0), 2f, false).SetLoops(-1, LoopType.Yoyo).SetEase(Ease.InOutSine).SetRelative().SetId(1);
+        sprite.DOFade(0.5f, 1f)
+            .SetLoops(-1, LoopType.Yoyo)
+            .SetId(1);
+        obj.DOPunchScale(new Vector3(0.2f, 0f, 0f), 2f, 1, 1)
+            .SetLoops(-1, LoopType.Restart)
+            .SetId(1);
+        obj.DOLocalMove(new Vector3(-0.2f, -0.2f, 0), 2f, false)
+            .SetLoops(-1, LoopType.Yoyo)
+            .SetEase(Ease.InOutSine)
+            .SetRelative()
+            .SetId(1);
     }
 }

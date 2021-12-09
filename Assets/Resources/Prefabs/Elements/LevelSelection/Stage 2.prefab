@@ -1137,7 +1137,7 @@ MonoBehaviour:
   - {fileID: 8573701988873661874}
   LevelData: []
   stageID: 1
-  stageName: Hawaii Island
+  stageName: CLASSIC LAKESIDE
 --- !u!1 &6069259504065748231
 GameObject:
   m_ObjectHideFlags: 0

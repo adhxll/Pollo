@@ -5,36 +5,47 @@ using UnityEngine;
 using UnityEngine.UI; 
 public class StarCounter : MonoBehaviour
 {
-    //This script can be used to fill the stars UI Element (result, levelselect, etc.).
+    // This script can be used to fill the stars UI Element (result, levelselect, etc.).
     
-    //Gameobject used to store the stars
-    public GameObject[] StarSlots;
+    // Gameobject used to store the stars
+    [SerializeField] private GameObject[] StarSlots;
     public int StarCount;
-    //set star sprites for filled / empty state in starslots
-    public Sprite FilledStarSprite;
-    public Sprite EmptyStarSprite;
+    // Set star sprites for filled / empty state in starslots
+    [SerializeField] private Sprite FilledStarSprite = null;
+    [SerializeField] private Sprite EmptyStarSprite = null;
+
+    [SerializeField] bool enableShadow = false;
 
     public void FillStars() {
-        try {//validation for either SpriteRenderer (world-space) or Image (UI)
+        try {
+            //validation for either SpriteRenderer (world-space) or Image (UI)
             StarSlots[0].GetComponent<SpriteRenderer>();
-             for (int i = 0; i < StarCount; i++)
+            for (int i = 0; i < StarCount; i++)
             {
                 var star = StarSlots[i].GetComponent<SpriteRenderer>();
-                star.color = new Color32(255, 255, 255, 255); //white
-                star.sprite = FilledStarSprite;
+                star.color = new Color32(253, 196, 25, 255);
+                //star.sprite = FilledStarSprite;
+                EnableShadow(star.gameObject, enableShadow);
             }
-                }
+        }
         catch (Exception) {
             for (int i = 0; i < StarCount; i++)
             {
                 var star = StarSlots[i].GetComponent<Image>();
-                star.color = new Color32(255, 255, 255, 255); //white
-                star.sprite = FilledStarSprite;
+                star.color = new Color32(253, 196, 25, 255);
+                //star.sprite = FilledStarSprite;
+                EnableShadow(star.gameObject, enableShadow);
             }
         }
-        
     }
-    public void EmptyStars() {//remember to empty the slots before the parent GameObject is set to inactive (kalo destroy gaperlu)
+
+    void EnableShadow(GameObject star, bool shadow)
+    {
+        if (shadow)
+            star.GetComponent<Shadow>().enabled = true;
+    }
+
+    public void EmptyStars() {  //remember to empty the slots before the parent GameObject is set to inactive (kalo destroy gaperlu)
         try
         {
             StarSlots[0].GetComponent<SpriteRenderer>();

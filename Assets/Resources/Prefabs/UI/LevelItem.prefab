@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2504493785340266677}
   - component: {fileID: 2504493785340266679}
   - component: {fileID: 3810099294207680418}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: LevelItem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -147,7 +147,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2504493785883356012}
   - component: {fileID: 2504493785883356015}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Circle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -165,8 +165,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 50, y: 50, z: 1}
   m_Children:
-  - {fileID: 3256419504263147873}
   - {fileID: 2013865969751214455}
+  - {fileID: 3256419504263147873}
   m_Father: {fileID: 2504493785340266635}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -207,9 +207,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 1986902605
-  m_SortingLayer: 1
-  m_SortingOrder: 0
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 2
   m_Sprite: {fileID: 21300000, guid: 617767d79b6e0482488bc0193eccdf7d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -232,7 +232,7 @@ GameObject:
   - component: {fileID: 3256419504263147873}
   - component: {fileID: 2862347312243350710}
   - component: {fileID: 7509754647007974667}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: Level Number
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -251,7 +251,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2504493785883356012}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -328,8 +328,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4286850686
-  m_fontColor: {r: 0.49411768, g: 0.14901961, b: 0.5176471, a: 1}
+    rgba: 4286916685
+  m_fontColor: {r: 0.3019608, g: 0.15686275, b: 0.52156866, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -417,10 +417,10 @@ Transform:
   m_GameObject: {fileID: 7170627215564469307}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0.1, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 33.333336}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2504493785883356012}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &164013697422805961
 SpriteRenderer:
@@ -461,7 +461,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1986902605
   m_SortingLayer: 1
-  m_SortingOrder: 1
+  m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 6fd501732aa3f4b53a413a1b7914d7e9, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -498,7 +498,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1809401032620771192, guid: ff9982f216eee6649ac09ee52556bd33, type: 3}
       propertyPath: m_Layer
-      value: 5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1941101093748807416, guid: ff9982f216eee6649ac09ee52556bd33, type: 3}
       propertyPath: m_LocalScale.x
@@ -534,7 +534,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3257004328042322606, guid: ff9982f216eee6649ac09ee52556bd33, type: 3}
       propertyPath: m_Layer
-      value: 5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3948217660041936279, guid: ff9982f216eee6649ac09ee52556bd33, type: 3}
       propertyPath: m_RootOrder
@@ -582,11 +582,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4373146304099693149, guid: ff9982f216eee6649ac09ee52556bd33, type: 3}
       propertyPath: m_Layer
-      value: 5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4668675266763868164, guid: ff9982f216eee6649ac09ee52556bd33, type: 3}
       propertyPath: m_Layer
-      value: 5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6974136199515759602, guid: ff9982f216eee6649ac09ee52556bd33, type: 3}
       propertyPath: m_SortingLayer
@@ -606,7 +606,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7915811296339401451, guid: ff9982f216eee6649ac09ee52556bd33, type: 3}
       propertyPath: m_Layer
-      value: 5
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ff9982f216eee6649ac09ee52556bd33, type: 3}

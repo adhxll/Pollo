@@ -10,6 +10,7 @@ public class SceneManagerScript : MonoBehaviour
     {
         Homepage,
         LevelSelection,
+        LSModal,
         GameScene,
         GSPianoScale,
         GSPause,
@@ -99,6 +100,8 @@ public class SceneManagerScript : MonoBehaviour
                 return "Homepage";
             case SceneName.LevelSelection:
                 return "LevelSelection";
+            case SceneName.LSModal:
+                return "LS-Modal";
             case SceneName.GameScene:
                 return "GameScene";
             case SceneName.GSPianoScale:
