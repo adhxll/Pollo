@@ -4,6 +4,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEngine.Audio;
 
 // enum to define keys for using playerprefs
 
@@ -20,6 +21,7 @@ public class GameController : MonoBehaviour
     public int selectedLevel = 0;
     public int currentStage = 0; 
     public SceneStateManager.SceneState sceneState = SceneStateManager.SceneState.Onboarding;
+    [SerializeField] public AudioMixer masterMixer;
 
     private enum PlayerDataKey
     {
@@ -38,7 +40,9 @@ public class GameController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-      
+        // Initializing master audio mixer
+        // This must be put in the Start() function because of unity's bug
+        ResetMixer();
     }
 
     // Singleton pattern
@@ -67,8 +71,17 @@ public class GameController : MonoBehaviour
         // Both currentSkin and totalCoin default value is 0
         this.currentCharacter = PlayerPrefs.GetInt(PlayerDataKey.Character.ToString(), 0);
         this.totalCoin = PlayerPrefs.GetInt(PlayerDataKey.CoinAmount.ToString(), 0);
-        
         ShowCoinAmount();
+
+        
+
+    }
+
+    public void ResetMixer()
+    {
+        // Reset the mixer
+        masterMixer.SetFloat("soundEffects", Mathf.Log10(PlayerPrefs.GetFloat(SettingsList.SoundEffects.ToString())) * 20);
+        masterMixer.SetFloat("musicVolume", Mathf.Log10(PlayerPrefs.GetFloat(SettingsList.Music.ToString())) * 20);
     }
 
     void ShowCoinAmount()
