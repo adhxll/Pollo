@@ -169,28 +169,28 @@ public class Lane : MonoBehaviour
         return false;
     }
 
+    // this function will get the note, but not the octave
+    private int GetIgnoredOctaveValue(int midiNote)
+    {
+        // C1 midinote is 24
+        if (midiNote < 24) return -1; // for now if it's less than C1, we'll just output it as too low hence the negative value
+        return (midiNote - 24) % 12; // 0 => C, 1 => D, 2 => E, etc
+    }
+
     // a function to compare pitch, will return the difference between target pitch and the recorded pitch
     private int ComparePitch()
     {
-        double currentPitch = midiNotes[inputIndex];
-        double lowBound = currentPitch - 5;
-        double highBound = currentPitch + 5;
-        double recordedPitch = SongManager.Instance.GetDetectedPitch().GetMidiNote();
-        //Debug.Log("curr = " + recordedPitch + " low = " + lowBound + " high = " + highBound);
-        if (recordedPitch >= lowBound && recordedPitch <= highBound)
+        double currentPitch = GetIgnoredOctaveValue(midiNotes[inputIndex]-24); 
+        double recordedPitch = GetIgnoredOctaveValue(SongManager.Instance.GetDetectedPitch().GetMidiNote());
+        if (recordedPitch < currentPitch)
         {
-            return 0; //if it's the right pitch
+            ScoreManager.missMessage = "Too Low"; // if it's lower than the target pitch, it will return a negative value
         }
-        else if (recordedPitch < lowBound)
+        else if (recordedPitch > currentPitch)
         {
-            ScoreManager.missMessage = "Too Low";
-            return (int)(recordedPitch - lowBound); // if it's lower than the target pitch, it will return a negative value
+            ScoreManager.missMessage = "Too High"; // if it's higher than the target pitch, it will return a non-zero positive value
         }
-        else
-        {
-            ScoreManager.missMessage = "Too High";
-            return (int)(recordedPitch - highBound); // if it's higher than the target pitch, it will return a non-zero positive value
-        }
+        return (int)(recordedPitch - currentPitch);
     }
 
     // Destroy all spawned child objects in lane
