@@ -187,6 +187,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: ffe65b5c45c14244984af6471543066a, type: 3}
     - target: {fileID: 5946274516017971946, guid: 779f32277b5333f4d8e57c689acd95ec, type: 3}
+      propertyPath: achievementId
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5946274516017971946, guid: 779f32277b5333f4d8e57c689acd95ec, type: 3}
       propertyPath: achievementData.achievementId
       value: 5
       objectReference: {fileID: 0}
@@ -308,7 +312,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6245452647328579763, guid: 779f32277b5333f4d8e57c689acd95ec, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 424
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6245452647328579763, guid: 779f32277b5333f4d8e57c689acd95ec, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -390,6 +394,7 @@ MonoBehaviour:
   achievementData:
     achievementId: 0
     isUnlocked: 0
+  achievementId: 0
 --- !u!4 &69493337
 Transform:
   m_ObjectHideFlags: 0
@@ -1031,6 +1036,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: ae900be4fe59fc3488dec95c2d6be1fc, type: 3}
     - target: {fileID: 5946274516017971946, guid: 779f32277b5333f4d8e57c689acd95ec, type: 3}
+      propertyPath: achievementId
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5946274516017971946, guid: 779f32277b5333f4d8e57c689acd95ec, type: 3}
       propertyPath: achievementData.achievementId
       value: 1
       objectReference: {fileID: 0}
@@ -1140,7 +1149,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6245452647328579763, guid: 779f32277b5333f4d8e57c689acd95ec, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 104
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6245452647328579763, guid: 779f32277b5333f4d8e57c689acd95ec, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -1354,7 +1363,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6245452647328579763, guid: 779f32277b5333f4d8e57c689acd95ec, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 24
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6245452647328579763, guid: 779f32277b5333f4d8e57c689acd95ec, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -2143,6 +2152,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: dfe36694788b56341b3b8d2bb4f76a56, type: 3}
     - target: {fileID: 5946274516017971946, guid: 779f32277b5333f4d8e57c689acd95ec, type: 3}
+      propertyPath: achievementId
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5946274516017971946, guid: 779f32277b5333f4d8e57c689acd95ec, type: 3}
       propertyPath: achievementData.achievementId
       value: 4
       objectReference: {fileID: 0}
@@ -2252,7 +2265,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6245452647328579763, guid: 779f32277b5333f4d8e57c689acd95ec, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 344
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6245452647328579763, guid: 779f32277b5333f4d8e57c689acd95ec, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -2576,6 +2589,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 46f3ce2ebeff3504e94710f366ccefe4, type: 3}
     - target: {fileID: 5946274516017971946, guid: 779f32277b5333f4d8e57c689acd95ec, type: 3}
+      propertyPath: achievementId
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5946274516017971946, guid: 779f32277b5333f4d8e57c689acd95ec, type: 3}
       propertyPath: achievementData.achievementId
       value: 2
       objectReference: {fileID: 0}
@@ -2685,7 +2702,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6245452647328579763, guid: 779f32277b5333f4d8e57c689acd95ec, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 184
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6245452647328579763, guid: 779f32277b5333f4d8e57c689acd95ec, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -2881,6 +2898,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: dd62028d582337c45b5c931b9991254b, type: 3}
     - target: {fileID: 5946274516017971946, guid: 779f32277b5333f4d8e57c689acd95ec, type: 3}
+      propertyPath: achievementId
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5946274516017971946, guid: 779f32277b5333f4d8e57c689acd95ec, type: 3}
       propertyPath: achievementData.isUnlocked
       value: 0
       objectReference: {fileID: 0}
@@ -2994,7 +3015,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6245452647328579763, guid: 779f32277b5333f4d8e57c689acd95ec, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 264
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6245452647328579763, guid: 779f32277b5333f4d8e57c689acd95ec, type: 3}
       propertyPath: m_AnchoredPosition.y

@@ -915,6 +915,7 @@ MonoBehaviour:
   coinAmount: []
   coinChangeIndicator: []
   selectedLevel: 0
+  currentStage: 0
   sceneState: 0
 --- !u!4 &786046415
 Transform:
@@ -1572,7 +1573,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   levelDatabase: {fileID: 11400000, guid: adb498633390b49fb816da2e47d8d3c8, type: 2}
   playerData:
-    levelData: []
+    achievementData: []
+    levelList: []
+  achievementDB: {fileID: 11400000, guid: 45942a69e34050240bfe6ff6ab8c6255, type: 2}
 --- !u!1001 &1368407608
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2141,6 +2144,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b1f6ea8b8c22ba4d92394119c159431, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AchievementList: 
 --- !u!4 &1899134618
 Transform:
   m_ObjectHideFlags: 0
@@ -2153,7 +2157,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 14
+  m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1930111640
 GameObject:
