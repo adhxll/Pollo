@@ -170,27 +170,29 @@ public class Lane : MonoBehaviour
     }
 
     // this function will get the note, but not the octave
-    private int GetIgnoredOctaveValue(int midiNote)
+    private int GetIgnoredOctaveValue(double midiNote)
     {
         // C1 midinote is 24
         if (midiNote < 24) return -1; // for now if it's less than C1, we'll just output it as too low hence the negative value
-        return (midiNote - 24) % 12; // 0 => C, 1 => D, 2 => E, etc
+        return (int)((midiNote - 24) % 12); // 0 => C, 1 => C#, 2 => D, etc
     }
 
     // a function to compare pitch, will return the difference between target pitch and the recorded pitch
     private int ComparePitch()
     {
-        double currentPitch = GetIgnoredOctaveValue(midiNotes[inputIndex]-24); 
-        double recordedPitch = GetIgnoredOctaveValue(SongManager.Instance.GetDetectedPitch().GetMidiNote());
-        if (recordedPitch < currentPitch)
+        double currentMidiNote = midiNotes[inputIndex];
+        double recordedMidiNote = SongManager.Instance.GetDetectedPitch().GetMidiNote();
+        double currentNote = GetIgnoredOctaveValue(midiNotes[inputIndex]); 
+        double recordedNote = GetIgnoredOctaveValue(recordedMidiNote);
+        if (recordedNote < currentNote && recordedMidiNote < currentMidiNote)
         {
             ScoreManager.missMessage = "Too Low"; // if it's lower than the target pitch, it will return a negative value
         }
-        else if (recordedPitch > currentPitch)
+        else if (recordedNote > currentNote && recordedMidiNote > currentMidiNote)
         {
             ScoreManager.missMessage = "Too High"; // if it's higher than the target pitch, it will return a non-zero positive value
         }
-        return (int)(recordedPitch - currentPitch);
+        return (int)(recordedNote - currentNote);
     }
 
     // Destroy all spawned child objects in lane
