@@ -8,9 +8,26 @@ public class RSUIManager : MonoBehaviour
     [SerializeField] private Button nextButton = null;
     [SerializeField] private Button levelSelectButton = null;
 
+    private bool isNextLevel = false;
+    private bool isNextStage = false;
+
     private void Start()
     {
         InitializeNextButton();
+        InitializeLevelSelectButton();
+    }
+
+    void changeGameSceneState()
+    {
+        if (isNextLevel)
+        {
+            GameController.Instance.selectedLevel = +1;
+        }
+        else if (isNextStage)
+        {
+            GameController.Instance.selectedLevel = 1;
+            GameController.Instance.currentStage += 1;
+        }
     }
 
     void InitializeNextButton()
@@ -30,27 +47,31 @@ public class RSUIManager : MonoBehaviour
             if (levels[nextLevelKey].isUnlocked)
             {
                 nextButton.interactable = true;
-                GameController.Instance.selectedLevel = +1;
+                isNextLevel = true;
+                nextButton.onClick.AddListener(changeGameSceneState);
             }
 
         }
         else if (levels.ContainsKey(nextStageKey)) //if the next stage is available
         {
-            Debug.Log("ada " + nextStageKey);
             if (levels[nextStageKey].isUnlocked)
             {
                 nextButton.interactable = true;
-                GameController.Instance.selectedLevel = 1;
-                GameController.Instance.currentStage += 1;
+                isNextStage = true;
+                nextButton.onClick.AddListener(changeGameSceneState);
             }
         }
+
+      
     }
 
-    // We need an indicator of level and stage in GameScene
-    void GoToNextLevel()
+    void InitializeLevelSelectButton()
     {
-        SceneManagerScript.Instance.SceneInvoke(SceneManagerScript.SceneName.GameScene);
+        // change the state of the level selection stage
+        // currently unavailable
     }
+
+
 }
 
 
