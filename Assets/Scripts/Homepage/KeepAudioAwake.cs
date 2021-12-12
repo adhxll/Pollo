@@ -17,12 +17,21 @@ public class KeepAudioAwake : MonoBehaviour
         }
     }
     private void Start(){
-        PlayMusic();
+        StartCoroutine(PlayMusic());
     }
 
-    public void PlayMusic()
+    public IEnumerator PlayMusic()
     {
-        if (!audioSource.isPlaying) audioSource.Play();
+        yield return new WaitForSeconds(0.5f);
+        Debug.Log(SceneManager.GetActiveScene().name);
+        if (!audioSource.isPlaying) {
+            if(SceneManager.GetActiveScene().name != "Homepage" && SceneManager.GetActiveScene().name != "Achievements"){
+                Destroy(gameObject);
+            }
+            else{
+                audioSource.Play();
+            }
+        }
     }
  
     public void StopMusic()

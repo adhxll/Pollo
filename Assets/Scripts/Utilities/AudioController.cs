@@ -17,7 +17,12 @@ public class AudioController : MonoBehaviour
 
     private void Awake()
     {
-        Instance = this;
+        if(Instance != null) Destroy(gameObject);
+        else{
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+            audioSource = GetComponent<AudioSource>();
+        }
     }
 
     public void PlayButtonSound()

@@ -12,6 +12,7 @@ TagManager:
   - CoinAmount
   - CoinChangeIndicator
   - MainThemeSong
+  - AudioController
   layers:
   - Default
   - TransparentFX
