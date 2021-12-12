@@ -2406,6 +2406,10 @@ MonoBehaviour:
   buttonSound: {fileID: 8300000, guid: 537dcbedb86130e479af8f5eafda6924, type: 3}
   countdownSound: {fileID: 8300000, guid: 863eebb6376e3452f919edda005cdd69, type: 3}
   coinAddedSound: {fileID: 8300000, guid: 8f3fbb7c695b5164b9d6aec9f1f71e39, type: 3}
+  starsSound:
+  - {fileID: 8300000, guid: a55b84593386f4dee8b6ffc81e42e4e0, type: 3}
+  - {fileID: 8300000, guid: da5334bb145c84f0ab5a9feb404791d3, type: 3}
+  - {fileID: 8300000, guid: 6e4be10febfbd4fd5975b01d2e9e1dfc, type: 3}
 --- !u!82 &1979482415
 AudioSource:
   m_ObjectHideFlags: 0
