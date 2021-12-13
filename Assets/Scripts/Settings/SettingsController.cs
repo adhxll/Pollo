@@ -18,6 +18,8 @@ enum SettingsList
     SoundEffects,
     Language,
     Notification,
+    ForcePitch,
+    RepeatSection
     Delay,
     Algorithm,
 };

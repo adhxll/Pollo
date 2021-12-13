@@ -22,6 +22,41 @@ public class GSUIManager : MonoBehaviour
     [SerializeField] private Slider repeatSwitch = null;
     //[SerializeField] private TMPro.TextMeshProUGUI sliderValue = null;
 
+    // Set slider value
+    private bool forcePitch
+    {
+        get
+        {
+            var v = PlayerPrefs.GetInt(SettingsList.ForcePitch.ToString());
+            return v == 0 ? false : true;
+        }
+
+        set
+        {
+            var v = SettingsList.ForcePitch.ToString();
+            var i = value ? 1 : 0;
+            PlayerPrefs.SetInt(v, i);
+            pitchSwitch.value = i;
+        }
+    }
+
+    private bool repeatSection
+    {
+        get
+        {
+            var v = PlayerPrefs.GetInt(SettingsList.RepeatSection.ToString());
+            return v == 0 ? false : true;
+        }
+
+        set
+        {
+            var v = SettingsList.RepeatSection.ToString();
+            var i = value ? 1 : 0;
+            PlayerPrefs.SetInt(v, i);
+            repeatSwitch.value = i;
+        }
+    }
+
     private void Awake()
     {
         Instance = this;
@@ -34,9 +69,18 @@ public class GSUIManager : MonoBehaviour
 
     void Initialize()
     {
+        if (pitchSwitch != null && repeatSwitch != null)
+            LoadPractice();
+
         // Check & Animate Background
         if (background != null)
             AnimateStart();
+    }
+
+    void LoadPractice()
+    {
+        pitchSwitch.value = Convert.ToInt32(forcePitch);
+        repeatSwitch.value = Convert.ToInt32(repeatSwitch);
     }
 
     void AnimateStart()
@@ -103,23 +147,19 @@ public class GSUIManager : MonoBehaviour
         SceneManagerScript.Instance.SceneUnload(SceneManagerScript.SceneName.GSPianoScale);
     }
 
-    // Forced Pitch - Switch
-    public void SetForcedPitch()
+    public void ClickForcedPitch()
     {
-        pitchSwitch.onValueChanged.AddListener((v) =>
-        {
-            int value = (int)pitchSwitch.value;
-            PlayerPrefs.SetInt("isForcedPitch", value);
-        });
+        if (forcePitch)
+            forcePitch = false;
+        else
+            forcePitch = true;
     }
 
-    // Repeat Section - Switch
-    public void SetRepeatSection()
+    public void ClickRepeatSection()
     {
-        repeatSwitch.onValueChanged.AddListener((v) =>
-        {
-            int value = (int)repeatSwitch.value;
-            PlayerPrefs.SetInt("isRepeatSection", value);
-        });
+        if (repeatSection)
+            repeatSection = false;
+        else
+            repeatSection = true;
     }
 }
