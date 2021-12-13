@@ -21,7 +21,7 @@ public class Lane : MonoBehaviour
     private int inputIndex = 0;
     private int barIndex = 0;
     private int averageCount = 0;                           // Variable to count in exact midi note to prevent Hit() function called accidentally
-    private int isForcedPitch { get { return PlayerPrefs.GetInt("isForcedPitch"); } }
+    private int isForcedPitch { get { return PlayerPrefs.GetInt(SettingsList.ForcePitch.ToString()); } }
 
     public GameObject GetNotePrefab() { return Instance.notePrefab; }
     public GameObject GetBarPrefab() { return Instance.barPrefab; }

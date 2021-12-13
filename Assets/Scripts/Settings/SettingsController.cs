@@ -16,6 +16,8 @@ enum SettingsList
     SoundEffects,
     Language,
     Notification,
+    ForcePitch,
+    RepeatSection
 };
 
 // class for settings manipulation

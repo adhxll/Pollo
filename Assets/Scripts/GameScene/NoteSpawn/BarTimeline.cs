@@ -187,7 +187,7 @@ public class BarTimeline : MonoBehaviour
 
     void CheckRepeatSection()
     {
-        var isRepeat = PlayerPrefs.GetInt("isRepeatSection");
+        var isRepeat = PlayerPrefs.GetInt(SettingsList.RepeatSection.ToString());
 
         if (isRepeat > 0)
             repeatSection = true;

@@ -10,6 +10,7 @@ public class StarCounter : MonoBehaviour
     // Gameobject used to store the stars
     [SerializeField] private GameObject[] StarSlots;
     public int StarCount;
+
     // Set star sprites for filled / empty state in starslots
     [SerializeField] private Sprite FilledStarSprite = null;
     [SerializeField] private Sprite EmptyStarSprite = null;
@@ -23,9 +24,8 @@ public class StarCounter : MonoBehaviour
             for (int i = 0; i < StarCount; i++)
             {
                 var star = StarSlots[i].GetComponent<SpriteRenderer>();
-                star.color = new Color32(253, 196, 25, 255);
-                //star.sprite = FilledStarSprite;
-                EnableShadow(star.gameObject, enableShadow);
+                star.color = new Color32(255, 255, 255, 255);
+                star.sprite = FilledStarSprite;
             }
         }
         catch (Exception) {
@@ -33,7 +33,6 @@ public class StarCounter : MonoBehaviour
             {
                 var star = StarSlots[i].GetComponent<Image>();
                 star.color = new Color32(253, 196, 25, 255);
-                //star.sprite = FilledStarSprite;
                 EnableShadow(star.gameObject, enableShadow);
             }
         }
@@ -45,7 +44,7 @@ public class StarCounter : MonoBehaviour
             star.GetComponent<Shadow>().enabled = true;
     }
 
-    public void EmptyStars() {  //remember to empty the slots before the parent GameObject is set to inactive (kalo destroy gaperlu)
+    public void EmptyStars() {  // Remember to empty the slots before the parent GameObject is set to inactive (kalo destroy gaperlu)
         try
         {
             StarSlots[0].GetComponent<SpriteRenderer>();
