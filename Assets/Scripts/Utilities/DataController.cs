@@ -110,7 +110,7 @@ public class DataController : MonoBehaviour
             Debug.Log("Container ID : " + dictKey + " Locked : " + !playerData.levelData[dictKey].isUnlocked);
         }
 
-
+        playerData.levelData[FormatKey(1, 1)].isUnlocked = true;
 
         for (int i = 0; i < achievementDB.listAchievement.Count; i++)
         {
