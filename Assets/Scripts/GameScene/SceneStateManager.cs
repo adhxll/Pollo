@@ -279,7 +279,7 @@ public class SceneStateManager : MonoBehaviour
         while (count > 0)
         {
             yield return new WaitForSeconds(delay);
-            AudioController.Instance.PlayCountDown();
+            AudioController.Instance.PlaySound(SoundNames.countdown);
             StartCoroutine(AnimationUtilities.Instance.AnimateObjects(countdownObjects, 0.2f, AnimationUtilities.AnimationType.PunchScale, 0f, 0f));
 
             countdown.SetText(count.ToString());
@@ -290,7 +290,7 @@ public class SceneStateManager : MonoBehaviour
 
         titleButton.SetActive(false);
         AnimationUtilities.Instance.PunchScale(countButton);
-        AudioController.Instance.PlayCountDown();
+        AudioController.Instance.PlaySound(SoundNames.countdown);
         countdown.SetText("Go!");
 
         yield return new WaitForSeconds(delay);

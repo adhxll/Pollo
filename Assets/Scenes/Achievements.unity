@@ -938,8 +938,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1575135846}
-        m_TargetAssemblyTypeName: AudioUIManager, Assembly-CSharp
-        m_MethodName: referButtonSound
+        m_TargetAssemblyTypeName: AUIManager, Assembly-CSharp
+        m_MethodName: SettingsButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1497,21 +1497,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1693691723}
-        m_TargetAssemblyTypeName: SceneManagerScript, Assembly-CSharp
-        m_MethodName: SceneInvoke
-        m_Mode: 5
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: Homepage
-          m_BoolArgument: 0
-        m_CallState: 2
       - m_Target: {fileID: 1575135846}
-        m_TargetAssemblyTypeName: AudioUIManager, Assembly-CSharp
-        m_MethodName: referButtonSound
+        m_TargetAssemblyTypeName: AUIManager, Assembly-CSharp
+        m_MethodName: HomeButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1884,9 +1872,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1575135845}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: da4c679eab848413ab2010b3ed4df6b9, type: 3}
+  m_Script: {fileID: 11500000, guid: 5943ba6e0480b48b1b5e7366f541aa53, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  settingsButton: {fileID: 691363950}
+  homeButton: {fileID: 1015926848}
 --- !u!4 &1575135847
 Transform:
   m_ObjectHideFlags: 0

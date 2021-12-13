@@ -113,19 +113,19 @@ public class ScoreDisplayScript : MonoBehaviour
         if (star > 0) {
             stars[0].GetComponent<Image>().enabled = true;
             AnimationUtilities.Instance.PunchScale(stars[0]);
-            AudioController.Instance.PlayStarSound(0);
+            AudioController.Instance.PlaySound(SoundNames.star1);
         }
         yield return new WaitForSeconds(1f);
         if (star > 1) {
             stars[1].GetComponent<Image>().enabled = true;
             AnimationUtilities.Instance.PunchScale(stars[1]);
-            AudioController.Instance.PlayStarSound(1);
+            AudioController.Instance.PlaySound(SoundNames.star2);
         }
         yield return new WaitForSeconds(1f);
         if (star > 2) {
             stars[2].GetComponent<Image>().enabled = true;
             AnimationUtilities.Instance.PunchScale(stars[2]);
-            AudioController.Instance.PlayStarSound(2);
+            AudioController.Instance.PlaySound(SoundNames.star3);
         }
     }
 }

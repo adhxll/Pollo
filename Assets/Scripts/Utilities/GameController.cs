@@ -106,7 +106,7 @@ public class GameController : MonoBehaviour
         AnimateCoinChange("+", coinAmount);
         this.totalCoin += coinAmount;
         PlayerPrefs.SetInt(PlayerDataKey.CoinAmount.ToString(), totalCoin); // Automatically saves the new value to PlayerPrefs
-        AudioController.Instance.PlayCoinAddSound();
+        AudioController.Instance.PlaySound(SoundNames.coinadd);
     }
     // public function where you can substract any amount of coin
     public void CoinSubstract(int coinAmount)
