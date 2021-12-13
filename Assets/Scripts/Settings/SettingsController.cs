@@ -26,17 +26,17 @@ enum SettingsList
 public class SettingsController : MonoBehaviour
 {
     [Header("Settings Component")]
-    [SerializeField] private Slider musicSlider;
-    [SerializeField] private Slider soundEffectsSlider;
-    [SerializeField] private TMP_Dropdown pitchAlgoDropdown;
-    [SerializeField] private Slider delaySlider;
-    [SerializeField] private TMP_Dropdown languageDropdown; // draft
-    [SerializeField] private Toggle notificationToggle; // draft
+    [SerializeField] private Slider musicSlider = null;
+    [SerializeField] private Slider soundEffectsSlider = null;
+    [SerializeField] private TMP_Dropdown pitchAlgoDropdown = null;
+    [SerializeField] private Slider delaySlider = null;
+    [SerializeField] private TMP_Dropdown languageDropdown = null; // draft
+    [SerializeField] private Toggle notificationToggle = null; // draft
 
     [Space]
     [Header("Misc")]
-    [SerializeField] private TextMeshProUGUI pitchValue;
-    [SerializeField] private TextMeshProUGUI toggleText;
+    [SerializeField] private TextMeshProUGUI pitchValue = null;
+    [SerializeField] private TextMeshProUGUI toggleText = null;
 
     public static SettingsController Instance;
 
