@@ -86,10 +86,7 @@ public class ScoreDisplayScript : MonoBehaviour
 
     void SetStarIndicator()
     {
-        // Need to add animation
-        if (star > 0) stars[0].GetComponent<Image>().enabled = true;
-        if (star > 1) stars[1].GetComponent<Image>().enabled = true;
-        if (star > 2) stars[2].GetComponent<Image>().enabled = true;
+        StartCoroutine(StarAnimation());
     }
 
     // Depends on the star, it will show a corresponding message
@@ -144,5 +141,27 @@ public class ScoreDisplayScript : MonoBehaviour
             TriggerAchievement(4);
         } 
         AchievementPopupController.Instance.LoadAchievementPopup();
+    }
+
+    IEnumerator StarAnimation(){
+        // Need to add animation
+        yield return new WaitForSeconds(1f);
+        if (star > 0) {
+            stars[0].GetComponent<Image>().enabled = true;
+            AnimationUtilities.Instance.PunchScale(stars[0]);
+            AudioController.Instance.PlaySound(SoundNames.star1);
+        }
+        yield return new WaitForSeconds(1f);
+        if (star > 1) {
+            stars[1].GetComponent<Image>().enabled = true;
+            AnimationUtilities.Instance.PunchScale(stars[1]);
+            AudioController.Instance.PlaySound(SoundNames.star2);
+        }
+        yield return new WaitForSeconds(1f);
+        if (star > 2) {
+            stars[2].GetComponent<Image>().enabled = true;
+            AnimationUtilities.Instance.PunchScale(stars[2]);
+            AudioController.Instance.PlaySound(SoundNames.star3);
+        }
     }
 }

@@ -63,7 +63,7 @@ public class GSUIManager : MonoBehaviour
 
     public void ShowPause()
     {
-        AudioController.Instance.PlayButtonSound();
+        AudioController.Instance.PlaySound(SoundNames.click);
         SceneStateManager.Instance.ChangeSceneState(SceneStateManager.SceneState.Pause, false);
         SceneManagerScript.Instance.SceneInvoke(SceneManagerScript.SceneName.GSPause, true);
         SongManager.Instance.PauseSong();
@@ -71,22 +71,26 @@ public class GSUIManager : MonoBehaviour
 
     public void RestartGame()
     {
-        AudioController.Instance.PlayButtonSound();
+        AudioController.Instance.PlaySound(SoundNames.click);
         SceneManagerScript.Instance.SceneUnload(SceneManagerScript.SceneName.GSPause);
         SceneManagerScript.Instance.SceneInvoke(SceneManagerScript.SceneName.GameScene);
     }
 
     public void ResumeGame()
     {
-        AudioController.Instance.PlayButtonSound();
+        AudioController.Instance.PlaySound(SoundNames.click);
         SceneStateManager.Instance.ChangeSceneState(SceneStateManager.SceneState.Countdown, false);
         SceneManagerScript.Instance.SceneUnload(SceneManagerScript.SceneName.GSPause);
         SongManager.Instance.ResumeSong();
     }
 
+    //public void referSound(string sound){
+    //    GameObject.FindGameObjectWithTag("AudioController").GetComponent<AudioController>().PlaySound(sound);
+    //}
+
     public void GoToLevelSelection()
     {
-        AudioController.Instance.PlayButtonSound();
+        AudioController.Instance.PlaySound(SoundNames.click);
         SceneManagerScript.Instance.SceneInvoke(SceneManagerScript.SceneName.LevelSelection);
     }
 
@@ -94,7 +98,7 @@ public class GSUIManager : MonoBehaviour
 
     public void ClosePianoScale()
     {
-        AudioController.Instance.PlayButtonSound();
+        AudioController.Instance.PlaySound(SoundNames.click);
         SceneStateManager.Instance.ChangeSceneState(SceneStateManager.SceneState.Countdown);
         SceneManagerScript.Instance.SceneUnload(SceneManagerScript.SceneName.GSPianoScale);
     }

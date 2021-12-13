@@ -4,13 +4,11 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - PlayButton
-  - AchievementButton
-  - CharacterButton
-  - SoundMuteButton
   - SettingsButton
   - CoinAmount
   - CoinChangeIndicator
+  - MainThemeSong
+  - AudioController
   layers:
   - Default
   - TransparentFX
