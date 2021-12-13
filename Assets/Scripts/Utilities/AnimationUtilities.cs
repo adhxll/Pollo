@@ -1,4 +1,5 @@
 using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
@@ -31,6 +32,19 @@ public class AnimationUtilities : MonoBehaviour
 
         obj.transform.DOPunchScale(new Vector3(vectorX, vectorY, vectorZ), 0.2f, 1, 1);
     }
+
+    public void AnimateButtonPush(GameObject obj, Action act)
+    {
+        obj.transform.DORewind();
+
+        float vectorX = obj.transform.localScale.x * -0.1f;
+        float vectorY = obj.transform.localScale.y * -0.1f;
+        float vectorZ = obj.transform.localScale.z * -0.1f;
+
+        obj.transform.DOPunchScale(new Vector3(vectorX, vectorY, vectorZ), 0.1f, 1, 1)
+            .OnComplete(() => act());
+    }
+
     public static void AnimatePopUp(GameObject obj) { //animate expand kebalikan dari pencet tombol
         obj.transform.DORewind();
       
@@ -150,6 +164,7 @@ public class AnimationUtilities : MonoBehaviour
         else
             obj.transform.DOMoveY(post.y + target, 0.75f).SetEase(Ease.InOutQuad).From(post.y + from);
     }
+
     public void MoveX(GameObject obj, float target, float from, bool loop = false)
     {
         var post = obj.transform.position;
@@ -160,6 +175,7 @@ public class AnimationUtilities : MonoBehaviour
         else
             obj.transform.DOMoveX(post.x + target, 0.75f).SetEase(Ease.InOutQuad).From(post.x + from);
     }
+
     public void MoveCameraX(Camera obj, float target, float from, bool loop = false)
     {// used to move the camera along the x axis with duration 0.75 seconds
         var post = obj.transform.position;
@@ -169,5 +185,35 @@ public class AnimationUtilities : MonoBehaviour
 
         else
             obj.transform.DOMoveX(target, 0.75f).SetEase(Ease.InOutQuad).From(from);
+    }
+
+    // Animate waves sideways (left & right)
+    public void WavesLinearAnimation(Transform obj)
+    {
+        obj.DOPunchScale(new Vector3(0.2f, 0f, 0f), 2f, 1, 1)
+            .SetLoops(-1, LoopType.Restart)
+            .SetId(1);
+        obj.DOLocalMoveX(0.5f, 2f, false)
+            .SetLoops(-1, LoopType.Yoyo)
+            .SetEase(Ease.InOutSine)
+            .SetRelative()
+            .SetId(1);
+    }
+
+    // Animates waves diagonally
+    public void WavesCornerAnimation(Transform obj)
+    {
+        var sprite = obj.GetComponent<SpriteRenderer>();
+        sprite.DOFade(0.5f, 1f)
+            .SetLoops(-1, LoopType.Yoyo)
+            .SetId(1);
+        obj.DOPunchScale(new Vector3(0.2f, 0f, 0f), 2f, 1, 1)
+            .SetLoops(-1, LoopType.Restart)
+            .SetId(1);
+        obj.DOLocalMove(new Vector3(-0.2f, -0.2f, 0), 2f, false)
+            .SetLoops(-1, LoopType.Yoyo)
+            .SetEase(Ease.InOutSine)
+            .SetRelative()
+            .SetId(1);
     }
 }

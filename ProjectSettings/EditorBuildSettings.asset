@@ -32,4 +32,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/GameScene/GS-PianoScale.unity
     guid: c455ce8fa67cf4595bab0ca16905797a
+  - enabled: 1
+    path: Assets/Scenes/LS-Modal.unity
+    guid: 5a9635cf5f6d54f4ca54d177e49b5d22
   m_configObjects: {}

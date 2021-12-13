@@ -21,7 +21,7 @@ public class ScoreDisplayScript : MonoBehaviour
     private GameObject[] stars = null; // the yellow stars inside the Tag GameObject
     [SerializeField]
     private int star = 0;
-    private string[] successMessages = { "Try again!", "Nice!", "Good!", "Awesome!!" };
+    private string[] successMessages = { "Try again!", "Good!", "Nice!", "Awesome!"};
 
     String currentLevelKey = DataController.Instance.FormatKey(GameController.Instance.currentStage, GameController.Instance.selectedLevel);
 
@@ -34,8 +34,9 @@ public class ScoreDisplayScript : MonoBehaviour
         CalculateStar();
         SetStarIndicator();
         SetSuccessMessage();
+        UpdateLevelData();
         UnlockAchievement();
-        SaveLevelData();
+        SaveSystem.SavePlayerData();
     }
     // Start is called before the first frame update
     void Start()
@@ -44,12 +45,13 @@ public class ScoreDisplayScript : MonoBehaviour
     }
 
     // Function to add the level data
-    // Currently empty
     // You can get score, stars and accuracy in this class
-    void SaveLevelData()
+    void UpdateLevelData()
     {
         DataController.Instance.UpdateLevelData(GameController.Instance.currentStage,GameController.Instance.selectedLevel, star, score, accuracy);
-
+        if (star >= 1) { //unlock if star >= 1
+            DataController.Instance.UnlockNextLevel(GameController.Instance.currentStage, GameController.Instance.selectedLevel); 
+        }
     }
 
     void AddMoney()
@@ -113,7 +115,6 @@ public class ScoreDisplayScript : MonoBehaviour
         AchievementPopupController.Instance.AchievementList.Add(achievementId);
     }
 
-
     void UnlockAchievement() 
     {
 
@@ -132,9 +133,8 @@ public class ScoreDisplayScript : MonoBehaviour
         {
             TriggerAchievement(2);
             Debug.Log("no miss");
-            
 
-        } if (star == 3 && DataController.Instance.playerData.achievementData[3].isUnlocked == false) //achieve 3 stars belum
+        } if (star == 3 && DataController.Instance.playerData.achievementData[3].isUnlocked == false) //achieve 3 stars
         {
             TriggerAchievement(3);
             Debug.Log("3 star");
@@ -142,12 +142,7 @@ public class ScoreDisplayScript : MonoBehaviour
         } if (DataController.Instance.playerData.levelData[currentLevelKey].sessionCount == 4 && DataController.Instance.playerData.achievementData[4].isUnlocked == false) //play the same level 5 times
         {
             TriggerAchievement(4);
-        } /* if (star > 1 && DataController.Instance.playerData.achievementData[5].isUnlocked == false)
-        {
-            AchievementTrigger.TriggerAchievement(5);
-            AchievementPopupController.Instance.LoadAchievementPopup(5);
-        }*/
-
+        } 
         AchievementPopupController.Instance.LoadAchievementPopup();
     }
 }

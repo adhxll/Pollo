@@ -5,14 +5,39 @@ using DG.Tweening;
 
 public class WavesAnimation : MonoBehaviour
 {
+
+    public enum WavesType
+    {
+        Corner,
+        Linear
+    }
+
+    [SerializeField] private WavesType anim = WavesType.Linear;
+
     // Start is called before the first frame update
     void Start()
     {
+        Invoke("AnimateWaves", 1f);
+    }
+
+    private void AnimateWaves()
+    {
         foreach (Transform obj in gameObject.transform)
         {
-            var init = obj.position.x;
-            obj.DOPunchScale(new Vector3(0.2f, 0f, 0f), 2f, 1, 1).SetLoops(-1, LoopType.Restart);
-            obj.DOMoveX(init - 1f, 2f, false).SetLoops(-1, LoopType.Yoyo).SetEase(Ease.InOutSine);
+            switch (anim)
+            {
+                case WavesType.Corner:
+                    AnimationUtilities.Instance.WavesCornerAnimation(obj);
+                    break;
+                case WavesType.Linear:
+                    AnimationUtilities.Instance.WavesLinearAnimation(obj);
+                    break;
+            }
         }
+    }
+
+    private void OnDestroy()
+    {
+        DOTween.Kill(1);
     }
 }

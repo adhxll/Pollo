@@ -1573,6 +1573,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   levelDatabase: {fileID: 11400000, guid: adb498633390b49fb816da2e47d8d3c8, type: 2}
+  stageDatabase: {fileID: 11400000, guid: ac08d9c9da7ac22458234b5c5b35c827, type: 2}
   playerData:
     achievementData: []
     levelList: []
