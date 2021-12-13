@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -16,6 +17,7 @@ public class AchievementPopupController : MonoBehaviour //buat munculin scene ac
             StartCoroutine(ShowPopup());
         }
     }
+   
 
     private IEnumerator ShowPopup() //kalo achievementnya ke trigger lebih dari satu, settingan munculnya
     {
@@ -32,14 +34,23 @@ public class AchievementPopupController : MonoBehaviour //buat munculin scene ac
 
     public void UnloadAchievementPopup()
     {
-        StartCoroutine(RemoveScene(5f));
+        try
+        {
+            StartCoroutine(RemoveScene(5f));
+        }
+        catch (Exception e)
+        {
+            Debug.Log("Popup unload cancelled because it has already been destroyed.");
+        }
+
     }
 
     private IEnumerator RemoveScene(float time)
     {
         yield return new WaitForSeconds(time);
-        SceneManager.UnloadScene("AchievementNotif");
-        StopCoroutine(RemoveScene(3f));
+        if (SceneManager.GetActiveScene().name == "AchievementNotif")
+           SceneManager.UnloadSceneAsync("AchievementNotif");
+        StopCoroutine(RemoveScene(0f));
     }
 
     private void StartSingleton()
