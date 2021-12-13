@@ -38,9 +38,9 @@ public class StageConstructor : MonoBehaviour
     public void InstantiateStage() {
         
         defaultCameraPosition = Camera.main.transform.position;
-        selectedStageID = 0;
+        selectedStageID = GameController.Instance.currentStage;
         LevelSelectionController.Instance.ModifyChangeStageBtn(selectedStageID, stages.stagesList.Count);  
-        stagePrefab = Instantiate(stages.stagesList[0], new Vector3(0, 0, 0),
+        stagePrefab = Instantiate(stages.stagesList[selectedStageID], new Vector3(0, 0, 0),
             Quaternion.identity, gameObject.transform.parent);
 
         // Set scale here because one change applies to all

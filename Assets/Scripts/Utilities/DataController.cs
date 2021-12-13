@@ -78,9 +78,9 @@ public class DataController : MonoBehaviour
         //unlocks the next level
         string dictKey = "";
         if (currentLevelID == stageDatabase.stagesList[0].GetComponent<StageController>().levels.Count
-            && currentStageID != stageDatabase.stagesList.Count-1)//validation for final level and final stage 
+            && currentStageID != stageDatabase.stagesList.Count - 1)//validation for final level and final stage 
             dictKey = DataController.Instance.FormatKey(currentStageID + 1, 1); // unlocks next level of next stage
-        else if (currentStageID != stageDatabase.stagesList.Count-1) //validation for final stage
+        else //validation for final stage
             dictKey = DataController.Instance.FormatKey(currentStageID, currentLevelID + 1);
 
         levels[dictKey].isUnlocked = true; 

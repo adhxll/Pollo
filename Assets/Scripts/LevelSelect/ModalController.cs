@@ -38,7 +38,7 @@ public class ModalController : MonoBehaviour
         accuracyValue = levelData.accuracy.ToString();
         levelValue = $"Level {levelData.levelID}";
 
-        AudioController.Instance.PlayButtonSound();
+        AudioController.Instance.PlaySound(SoundNames.click);
         SceneManagerScript.Instance.SceneInvoke(SceneManagerScript.SceneName.LSModal, true);
     }
 

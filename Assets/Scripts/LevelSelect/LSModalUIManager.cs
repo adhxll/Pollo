@@ -16,14 +16,14 @@ public class LSModalUIManager : MonoBehaviour
 
     public void PlayButton()
     {
-        AudioController.Instance.PlayButtonSound();
+        AudioController.Instance.PlaySound(SoundNames.click);
         SetSceneToPlay(SceneStateManager.SceneState.Instruction);
         AnimationUtilities.Instance.AnimateButtonPush(playButton, () => SceneManagerScript.Instance.SceneInvoke(SceneManagerScript.SceneName.GameScene));
     }
 
     public void PracticeButton()
     {
-        AudioController.Instance.PlayButtonSound();
+        AudioController.Instance.PlaySound(SoundNames.click);
         SetSceneToPlay(SceneStateManager.SceneState.Practice);
         AnimationUtilities.Instance.AnimateButtonPush(practiceButton, () => SceneManagerScript.Instance.SceneInvoke(SceneManagerScript.SceneName.GameScene));
     }
@@ -31,7 +31,7 @@ public class LSModalUIManager : MonoBehaviour
     public void CloseModal()
     {
         PerspectivePan.SetPanning();
-        AudioController.Instance.PlayButtonSound();
+        AudioController.Instance.PlaySound(SoundNames.click);
         SceneManagerScript.Instance.SceneUnload(SceneManagerScript.SceneName.LSModal);
     }
 

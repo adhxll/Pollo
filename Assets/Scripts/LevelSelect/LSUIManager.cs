@@ -14,14 +14,14 @@ public class LSUIManager : MonoBehaviour
 
     public void GoToHome()
     {
-        AudioController.Instance.PlayButtonSound();
+        AudioController.Instance.PlaySound(SoundNames.click);
         AnimationUtilities.Instance.AnimateButtonPush(homeButton, () => SceneManagerScript.Instance.SceneInvoke(SceneManagerScript.SceneName.Homepage));
     }
 
     // Additive scene
     public void ShowModal()
     {
-        AudioController.Instance.PlayButtonSound();
+        AudioController.Instance.PlaySound(SoundNames.click);
         SceneManagerScript.Instance.SceneInvoke(SceneManagerScript.SceneName.LSModal, true);
     }
 

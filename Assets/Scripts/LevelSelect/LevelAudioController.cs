@@ -15,6 +15,11 @@ public class LevelAudioController : MonoBehaviour
     private float maxVolume = 1f;
     private float minVolume = 0f;
 
+    private void Awake()
+    {
+        currentIndex = GameController.Instance.currentStage;
+    }
+
     public void ChangeAudioBackgroundForward(){
         StartCoroutine(ChangeClip(audioClip[currentIndex+1]));
         currentIndex += 1;
