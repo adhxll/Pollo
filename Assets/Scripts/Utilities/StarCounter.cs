@@ -24,7 +24,7 @@ public class StarCounter : MonoBehaviour
             {
                 var star = StarSlots[i].GetComponent<SpriteRenderer>();
                 star.color = new Color32(253, 196, 25, 255);
-                //star.sprite = FilledStarSprite;
+                star.sprite = FilledStarSprite;
                 EnableShadow(star.gameObject, enableShadow);
             }
         }

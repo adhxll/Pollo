@@ -23,7 +23,7 @@ public class PitchDetectionSystem : MonoBehaviour
     {
         get
         {
-            var player = PlayerPrefs.GetInt("pitchAlgo");
+            var player = PlayerPrefs.GetInt(SettingsList.Algorithm.ToString(),0);
             return (PitchAlgo)player;
         }
     }

@@ -366,7 +366,7 @@ AudioSource:
   m_GameObject: {fileID: 76487595}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: -7296379011827995680, guid: 3cf20518f37ce44b485246d0a70beb50, type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1
@@ -886,11 +886,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   background: {fileID: 0}
   animateBackground: 1
-  dropdown: {fileID: 0}
-  delaySlider: {fileID: 0}
   pitchSwitch: {fileID: 830498020}
   repeatSwitch: {fileID: 886813732}
-  sliderValue: {fileID: 0}
 --- !u!4 &187335996
 Transform:
   m_ObjectHideFlags: 0

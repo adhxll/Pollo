@@ -304,7 +304,7 @@ AudioSource:
   m_GameObject: {fileID: 519420028}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 8075734884090456327, guid: 3cf20518f37ce44b485246d0a70beb50, type: 2}
   m_audioClip: {fileID: 8300000, guid: 86c407b95775b8e4195b80e7a03c3c7f, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
@@ -917,6 +917,7 @@ MonoBehaviour:
   selectedLevel: 0
   currentStage: 0
   sceneState: 0
+  masterMixer: {fileID: 24100000, guid: 3cf20518f37ce44b485246d0a70beb50, type: 2}
 --- !u!4 &786046415
 Transform:
   m_ObjectHideFlags: 0
@@ -1574,7 +1575,9 @@ MonoBehaviour:
   levelDatabase: {fileID: 11400000, guid: adb498633390b49fb816da2e47d8d3c8, type: 2}
   stageDatabase: {fileID: 11400000, guid: ac08d9c9da7ac22458234b5c5b35c827, type: 2}
   playerData:
+    achievementData: []
     levelList: []
+  achievementDB: {fileID: 11400000, guid: 45942a69e34050240bfe6ff6ab8c6255, type: 2}
 --- !u!1001 &1368407608
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2143,6 +2146,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b1f6ea8b8c22ba4d92394119c159431, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  AchievementList: 
 --- !u!4 &1899134618
 Transform:
   m_ObjectHideFlags: 0
@@ -2330,7 +2334,7 @@ AudioSource:
   m_GameObject: {fileID: 1979482413}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: -7296379011827995680, guid: 3cf20518f37ce44b485246d0a70beb50, type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1

@@ -21,6 +21,9 @@ EditorBuildSettings:
     path: Assets/Scenes/ResultPage.unity
     guid: 12e418af4246a4645a6e00e198c357fb
   - enabled: 1
+    path: Assets/Scenes/AchievementNotif.unity
+    guid: 22c8d1418d14ed54e847c22cbd70ce52
+  - enabled: 1
     path: Assets/Scenes/Achievements.unity
     guid: ba830ff5975ff4ca2b0e654ffc35cca6
   - enabled: 1

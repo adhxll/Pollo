@@ -7,7 +7,7 @@ using System;
 
 public class AchievementPopup : MonoBehaviour //buat scene popup achievement
 {
-   
+    [SerializeField] private GameObject Capsule;
     [SerializeField] private GameObject Icon = null, TextBg = null;
     [SerializeField] private TMPro.TextMeshProUGUI Text = null, TextDescription = null;
     [SerializeField] private Sprite IconColoured = null;
@@ -32,7 +32,19 @@ public class AchievementPopup : MonoBehaviour //buat scene popup achievement
             Text.text = selected.text;
             TextDescription.color = purple;
             TextDescription.text = selected.textDesc;
+
+            StartCoroutine(AnimateAchievement());
            
+    }
+
+    public IEnumerator AnimateAchievement()
+    {
+        AnimationUtilities.Instance.MoveY(Capsule, 0, 120);
+        yield return new WaitForSeconds(2f);
+
+        AnimationUtilities.Instance.MoveY(Capsule, Capsule.transform.position.y, -30);
+        yield return new WaitForSeconds(0.5f);
+        StopCoroutine(AnimateAchievement());
     }
 
     void Awake()

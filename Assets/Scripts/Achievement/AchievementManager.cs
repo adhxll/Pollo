@@ -10,6 +10,7 @@ public class AchievementManager : MonoBehaviour //buat yg di achievement board
     public TMPro.TextMeshProUGUI Text, TextDescription;
     public Sprite IconColoured;
     public Achievement achievementData;
+    public int achievementId;
  
     public void ActivateAchievement() //buat set ui achievement
     {
@@ -36,6 +37,7 @@ public class AchievementManager : MonoBehaviour //buat yg di achievement board
 
     void Awake()
     {
+        achievementData = DataController.Instance.playerData.achievementData[achievementId];
         ActivateAchievement();
      
     }

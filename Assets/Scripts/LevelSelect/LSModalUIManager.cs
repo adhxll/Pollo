@@ -25,7 +25,7 @@ public class LSModalUIManager : MonoBehaviour
     {
         AudioController.Instance.PlayButtonSound();
         SetSceneToPlay(SceneStateManager.SceneState.Practice);
-        AnimationUtilities.Instance.AnimateButtonPush(playButton, () => SceneManagerScript.Instance.SceneInvoke(SceneManagerScript.SceneName.GameScene));
+        AnimationUtilities.Instance.AnimateButtonPush(practiceButton, () => SceneManagerScript.Instance.SceneInvoke(SceneManagerScript.SceneName.GameScene));
     }
 
     public void CloseModal()

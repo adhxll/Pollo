@@ -21,7 +21,9 @@ public class ScoreDisplayScript : MonoBehaviour
     private GameObject[] stars = null; // the yellow stars inside the Tag GameObject
     [SerializeField]
     private int star = 0;
-    private string[] successMessages = { "Try again!", "Nice!", "Good!", "Awesome!!" };
+    private string[] successMessages = { "Try again!", "Good!", "Nice!", "Awesome!"};
+
+    String currentLevelKey = DataController.Instance.FormatKey(GameController.Instance.currentStage, GameController.Instance.selectedLevel);
 
 
     private void Awake()
@@ -32,7 +34,9 @@ public class ScoreDisplayScript : MonoBehaviour
         CalculateStar();
         SetStarIndicator();
         SetSuccessMessage();
-        SaveLevelData();
+        UpdateLevelData();
+        UnlockAchievement();
+        SaveSystem.SavePlayerData();
     }
     // Start is called before the first frame update
     void Start()
@@ -40,16 +44,9 @@ public class ScoreDisplayScript : MonoBehaviour
         AddMoney();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     // Function to add the level data
-    // Currently empty
     // You can get score, stars and accuracy in this class
-    void SaveLevelData()
+    void UpdateLevelData()
     {
         DataController.Instance.UpdateLevelData(GameController.Instance.currentStage,GameController.Instance.selectedLevel, star, score, accuracy);
         if (star >= 1) { //unlock if star >= 1
@@ -110,5 +107,42 @@ public class ScoreDisplayScript : MonoBehaviour
         else if (accuracy >= 30) star = 1;
         else star = 0;
 
+    }
+
+    public static void TriggerAchievement(int achievementId)
+    {
+        DataController.Instance.playerData.achievementData[achievementId].isUnlocked = true;
+        AchievementPopupController.Instance.AchievementList.Add(achievementId);
+    }
+
+    void UnlockAchievement() 
+    {
+
+        if (DataController.Instance.playerData.levelData[currentLevelKey].sessionCount == 0 && DataController.Instance.playerData.achievementData[0].isUnlocked == false) //complete first game
+        {
+            TriggerAchievement(0);
+            Debug.Log("first game");
+
+        } if (score > DataController.Instance.playerData.levelData[currentLevelKey].highScore && DataController.Instance.playerData.achievementData[1].isUnlocked == false &&
+            DataController.Instance.playerData.levelData[currentLevelKey].sessionCount > 0) //beat own high score
+        {
+            TriggerAchievement(1);
+            Debug.Log("high score");
+
+        } if (accuracy == 100 && DataController.Instance.playerData.achievementData[2].isUnlocked == false) //not missing a single not in a level
+        {
+            TriggerAchievement(2);
+            Debug.Log("no miss");
+
+        } if (star == 3 && DataController.Instance.playerData.achievementData[3].isUnlocked == false) //achieve 3 stars
+        {
+            TriggerAchievement(3);
+            Debug.Log("3 star");
+
+        } if (DataController.Instance.playerData.levelData[currentLevelKey].sessionCount == 4 && DataController.Instance.playerData.achievementData[4].isUnlocked == false) //play the same level 5 times
+        {
+            TriggerAchievement(4);
+        } 
+        AchievementPopupController.Instance.LoadAchievementPopup();
     }
 }

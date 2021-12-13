@@ -30,7 +30,7 @@ public class SongManager : MonoBehaviour
     [SerializeField] private float noteSpawnX = 16;                 // Note spawn position in world space
     [SerializeField] private float noteTapX = 0;                    // Note tap position in world space
 
-    private float noteDelay { get { return PlayerPrefs.GetFloat("NoteDelay"); } }
+    private float noteDelay { get { return PlayerPrefs.GetFloat(SettingsList.Delay.ToString(),0); } }
     private float noteDespawnX { get { return noteTapX - (noteSpawnX - noteTapX); } }
     private TextAsset midiJSON { get { return selectedLevel.GetMidiJson(); } }
     private static float midiBPM { get { return (float)60 / (float)midiFile.header.tempos[0].bpm; } }
