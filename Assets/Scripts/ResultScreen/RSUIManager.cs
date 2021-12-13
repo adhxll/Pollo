@@ -5,15 +5,13 @@ using UnityEngine;
 
 public class RSUIManager : MonoBehaviour
 {
-
-    [SerializeField]
-    private GameObject menuButton;
-    [SerializeField]
-    private GameObject restartButton;
-    [SerializeField]
-    private GameObject nextButton;
-    [SerializeField]
-    private GameObject settingsButton;
+    [SerializeField] private GameObject menuButton = null;
+    [SerializeField] private GameObject restartButton = null;
+    [SerializeField] private GameObject settingsButton = null;
+    [SerializeField] private Button levelSelectButton = null;
+    [SerializeField] private Button nextButton = null;
+    private bool isNextLevel = false;
+    private bool isNextStage = false;
 
     public void LevelSelectButton()
     {
@@ -31,7 +29,8 @@ public class RSUIManager : MonoBehaviour
 
     public void NextButton(){
         AudioController.Instance.PlaySound(SoundNames.click);
-        AnimationUtilities.AnimateButtonPush(nextButton); 
+        AnimationUtilities.AnimateButtonPush(nextButton.gameObject);
+        SceneManagerScript.Instance.SceneInvoke(SceneManagerScript.SceneName.GameScene); 
     }
 
     public void SettingsButton(){
@@ -39,11 +38,6 @@ public class RSUIManager : MonoBehaviour
         AnimationUtilities.AnimateButtonPush(settingsButton);
     }
 
-
-    [SerializeField] private Button nextButton = null;
-    [SerializeField] private Button levelSelectButton = null;
-    private bool isNextLevel = false;
-    private bool isNextStage = false;
     private void Start()
     {
         InitializeNextButton();
@@ -55,7 +49,7 @@ public class RSUIManager : MonoBehaviour
         {
             GameController.Instance.selectedLevel = +1;
         }
-        else if (isNextStage)
+        else
         {
             GameController.Instance.selectedLevel = 1;
             GameController.Instance.currentStage += 1;

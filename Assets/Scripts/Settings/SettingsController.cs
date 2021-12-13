@@ -19,7 +19,7 @@ enum SettingsList
     Language,
     Notification,
     ForcePitch,
-    RepeatSection
+    RepeatSection,
     Delay,
     Algorithm,
 };
