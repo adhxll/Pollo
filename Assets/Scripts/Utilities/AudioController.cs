@@ -14,6 +14,8 @@ public class AudioController : MonoBehaviour
     private AudioClip countdownSound;
     [SerializeField]
     private AudioClip coinAddedSound;
+    [SerializeField]
+    private AudioClip[] starsSound;
 
     private void Awake()
     {
@@ -39,6 +41,11 @@ public class AudioController : MonoBehaviour
     public void PlayCoinAddSound()
     {
         audioSource.clip = coinAddedSound;
+        audioSource.Play();
+    }
+
+    public void PlayStarSound(int index){
+        audioSource.clip = starsSound[index];
         audioSource.Play();
     }
 

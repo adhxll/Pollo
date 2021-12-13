@@ -15,4 +15,7 @@ public class AudioUIManager : MonoBehaviour
     public void referCoinAddSound(){
         GameObject.FindGameObjectWithTag("AudioController").GetComponent<AudioController>().PlayCoinAddSound();
     }
+    public void referStarSound(int index){
+        GameObject.FindGameObjectWithTag("AudioController").GetComponent<AudioController>().PlayStarSound(index);
+    }
 }

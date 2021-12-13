@@ -87,10 +87,7 @@ public class ScoreDisplayScript : MonoBehaviour
 
     void SetStarIndicator()
     {
-        // Need to add animation
-        if (star > 0) stars[0].GetComponent<Image>().enabled = true;
-        if (star > 1) stars[1].GetComponent<Image>().enabled = true;
-        if (star > 2) stars[2].GetComponent<Image>().enabled = true;
+        StartCoroutine(StarAnimation());
     }
 
     // Depends on the star, it will show a corresponding message
@@ -108,5 +105,27 @@ public class ScoreDisplayScript : MonoBehaviour
         else if (accuracy >= 30) star = 1;
         else star = 0;
 
+    }
+
+    IEnumerator StarAnimation(){
+        // Need to add animation
+        yield return new WaitForSeconds(1f);
+        if (star > 0) {
+            stars[0].GetComponent<Image>().enabled = true;
+            AnimationUtilities.Instance.PunchScale(stars[0]);
+            AudioController.Instance.PlayStarSound(0);
+        }
+        yield return new WaitForSeconds(1f);
+        if (star > 1) {
+            stars[1].GetComponent<Image>().enabled = true;
+            AnimationUtilities.Instance.PunchScale(stars[1]);
+            AudioController.Instance.PlayStarSound(1);
+        }
+        yield return new WaitForSeconds(1f);
+        if (star > 2) {
+            stars[2].GetComponent<Image>().enabled = true;
+            AnimationUtilities.Instance.PunchScale(stars[2]);
+            AudioController.Instance.PlayStarSound(2);
+        }
     }
 }
