@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,24 +8,49 @@ public class AchievementPopupController : MonoBehaviour //buat munculin scene ac
 {
     
     public static AchievementPopupController Instance;
+    public List<int> AchievementList = new List<int>(); //achievement queue
 
-    public void LoadAchievementPopup(int achievementId) //call this function buat manggil id achievement yg mau dipanggil
+    public void LoadAchievementPopup() //call this function buat manggil id achievement yg mau dipanggil
     {
-        AchievementPopup.SetAchievementId(achievementId);
-        SceneManager.LoadScene("AchievementNotif", LoadSceneMode.Additive);
-        UnloadAchievementPopup();
+        if (AchievementList.Count > 0)
+        {
+            StartCoroutine(ShowPopup());
+        }
+    }
+   
+
+    private IEnumerator ShowPopup() //kalo achievementnya ke trigger lebih dari satu, settingan munculnya
+    {
+        for (int i = 0; i < AchievementList.Count; i++)
+        {
+            AchievementPopup.SetAchievementId(AchievementList[i]);
+            SceneManager.LoadScene("AchievementNotif", LoadSceneMode.Additive);
+            UnloadAchievementPopup();
+            yield return new WaitForSeconds(3f);
+        }
+
+        StopCoroutine(ShowPopup());
     }
 
     public void UnloadAchievementPopup()
     {
-        StartCoroutine(RemoveScene(3f));
+        try
+        {
+            StartCoroutine(RemoveScene(5f));
+        }
+        catch (Exception e)
+        {
+            Debug.Log("Popup unload cancelled because it has already been destroyed.");
+        }
+
     }
 
     private IEnumerator RemoveScene(float time)
     {
         yield return new WaitForSeconds(time);
-        SceneManager.UnloadScene("AchievementNotif");
-        StopCoroutine(RemoveScene(3f));
+        if (SceneManager.GetActiveScene().name == "AchievementNotif")
+           SceneManager.UnloadSceneAsync("AchievementNotif");
+        StopCoroutine(RemoveScene(0f));
     }
 
     private void StartSingleton()
@@ -38,11 +64,6 @@ public class AchievementPopupController : MonoBehaviour //buat munculin scene ac
             Instance = this;
             DontDestroyOnLoad(gameObject);
         }
-    }
-    // Start is called before the first frame update
-    void Start()
-    {
-        
     }
 
     // Update is called once per frame

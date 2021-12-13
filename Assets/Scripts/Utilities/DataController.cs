@@ -8,6 +8,8 @@ public class DataController : MonoBehaviour
     public LevelDatabase levelDatabase;
     //TODO: Add databases for Achievements and Skins
     public PlayerData playerData;
+    public AchievementDB achievementDB;
+
     Dictionary<string, LevelItemContainer> levels; 
     private void Awake()
     {
@@ -63,6 +65,7 @@ public class DataController : MonoBehaviour
         levels = playerData.levelData;
         string dictKey = DataController.Instance.FormatKey(stageID, levelID); 
         levels[dictKey].score = score;
+        levels[dictKey].sessionCount += 1; //update session count whenever session is done.
         if (levels[dictKey].highScore < score) levels[dictKey].highScore = score;
         if (levels[dictKey].starCount < starCount) levels[dictKey].starCount = starCount;
         if (levels[dictKey].accuracy < accuracy) levels[dictKey].accuracy = accuracy;
@@ -81,7 +84,7 @@ public class DataController : MonoBehaviour
     {
         //populate onboarding and first level
         LevelItemContainer level = new LevelItemContainer();
-        string dictKey = DataController.Instance.FormatKey(level.stageID, level.levelID); 
+        string dictKey = DataController.Instance.FormatKey(level.stageID, level.levelID);
         playerData.levelData.Add(dictKey, level);
 
         level = new LevelItemContainer();
@@ -96,12 +99,22 @@ public class DataController : MonoBehaviour
             LevelItemContainer newLevel = new LevelItemContainer();
             newLevel.levelID = levelDatabase.allLevels[i].GetLevelID();
             newLevel.stageID = levelDatabase.allLevels[i].GetStageID();
-            dictKey = DataController.Instance.FormatKey(newLevel.stageID, newLevel.levelID); 
+            dictKey = DataController.Instance.FormatKey(newLevel.stageID, newLevel.levelID);
             playerData.levelData.Add(dictKey, newLevel);
             Debug.Log("Container ID : " + dictKey + " Star Count : " + playerData.levelData[dictKey].starCount);
         }
 
+
+
+        for (int i = 0; i < achievementDB.listAchievement.Count; i++)
+        {
+            Achievement ac = new Achievement();
+            ac.achievementId = i;
+            playerData.achievementData.Add(ac);
+
+        }
     }
+
     public string FormatKey(int stageID, int levelID) {
         //formats a dictionary key to use in dictionary
         string key = stageID + "-" + levelID;

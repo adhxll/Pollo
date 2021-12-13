@@ -6,5 +6,5 @@ using UnityEngine;
 public class Achievement //buat save
 {
     public int achievementId;
-    public bool isUnlocked;
+    public bool isUnlocked = false;
 }
