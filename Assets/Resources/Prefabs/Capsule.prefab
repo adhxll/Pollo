@@ -693,10 +693,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 919ef83c7fe5086499e3dfde42a9cd4c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Icon: {fileID: 3978643054486945667}
-  TextBg: {fileID: 3978643055333830887}
-  Text: {fileID: 2657163329007623782}
-  TextDescription: {fileID: 3978643053902874708}
-  IconColoured: {fileID: 0}
+  capsule: {fileID: 7166178493014833789}
+  icon: {fileID: 3978643054486945667}
+  textBg: {fileID: 0}
+  text: {fileID: 2657163329007623782}
+  textDescription: {fileID: 3978643053902874708}
   achievementDB: {fileID: 11400000, guid: 45942a69e34050240bfe6ff6ab8c6255, type: 2}
-  id: 0
