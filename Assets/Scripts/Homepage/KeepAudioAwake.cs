@@ -7,6 +7,7 @@ public class KeepAudioAwake : MonoBehaviour
 {
     public static KeepAudioAwake Instance;
     private AudioSource audioSource;
+
     private void Awake()
     {
         if(Instance != null) Destroy(gameObject);
@@ -16,6 +17,7 @@ public class KeepAudioAwake : MonoBehaviour
             audioSource = GetComponent<AudioSource>();
         }
     }
+
     private void Start(){
         StartCoroutine(PlayMusic());
     }

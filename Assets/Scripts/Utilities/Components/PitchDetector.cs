@@ -4,12 +4,9 @@ using UnityEngine;
 
 public class PitchDetector : MonoBehaviour
 {
-    [SerializeField]
-    private AudioSource source;
-    [SerializeField]
-    private float pitch;
-    [SerializeField]
-    private int midiNote;
+    [SerializeField] private AudioSource source;
+    [SerializeField] private float pitch;
+    [SerializeField] private int midiNote;
 
     public AudioSource GetSource() { return this.source; }
     public void SetSource(AudioSource source) { this.source = source; }

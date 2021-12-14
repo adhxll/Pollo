@@ -5,7 +5,6 @@ using DG.Tweening;
 
 public class WavesAnimation : MonoBehaviour
 {
-
     public enum WavesType
     {
         Corner,

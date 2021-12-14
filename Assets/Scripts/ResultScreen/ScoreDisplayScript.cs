@@ -11,20 +11,16 @@ public class ScoreDisplayScript : MonoBehaviour
     private int totalNotes;
     private int totalCorrect;
     private int accuracy;
-    [SerializeField]
-    private TMP_Text scoreMessageObject = null;
-    [SerializeField]
-    private TMP_Text scoreObject = null; // the Score game object on ResultPage scene
-    [SerializeField]
-    private TMP_Text accuracyObject = null; // the Score game object on ResultPage scene
-    [SerializeField]
-    private GameObject[] stars = null; // the yellow stars inside the Tag GameObject
-    [SerializeField]
-    private int star = 0;
+
+    [SerializeField] private TMP_Text scoreMessageObject = null;
+    [SerializeField] private TMP_Text scoreObject = null; // the Score game object on ResultPage scene
+    [SerializeField] private TMP_Text accuracyObject = null; // the Score game object on ResultPage scene
+    [SerializeField] private GameObject[] stars = null; // the yellow stars inside the Tag GameObject
+    [SerializeField] private int star = 0;
+
     private string[] successMessages = { "Try again!", "Good!", "Nice!", "Awesome!"};
 
     String currentLevelKey = DataController.Instance.FormatKey(GameController.Instance.currentStage, GameController.Instance.selectedLevel);
-
 
     private void Awake()
     {
@@ -38,6 +34,7 @@ public class ScoreDisplayScript : MonoBehaviour
         UnlockAchievement();
         SaveSystem.SavePlayerData();
     }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -109,7 +106,7 @@ public class ScoreDisplayScript : MonoBehaviour
     public static void TriggerAchievement(int achievementId)
     {
         DataController.Instance.playerData.achievementData[achievementId].isUnlocked = true;
-        AchievementPopupController.Instance.AchievementList.Add(achievementId);
+        AchievementPopupController.Instance.achievementList.Add(achievementId);
     }
 
     void UnlockAchievement() 

@@ -11,11 +11,13 @@ public class DataController : MonoBehaviour
     public PlayerData playerData;
     public AchievementDB achievementDB;
 
-    Dictionary<string, LevelItemContainer> levels; 
+    Dictionary<string, LevelItemContainer> levels;
+
     private void Awake()
     {
         StartSingleton(); 
     }
+
     void Start()
     {
         InitializePlayerData(); 
@@ -33,6 +35,7 @@ public class DataController : MonoBehaviour
             DontDestroyOnLoad(gameObject);
         }
     }
+
     void InitializePlayerData() {
         if (SaveSystem.LoadPlayerData() != null)
         {
@@ -44,6 +47,7 @@ public class DataController : MonoBehaviour
             GenerateInitialvalue(); 
         }
     }
+
     public void CheckForNewLevel()
     { //check if newly developed level has been added
         Debug.Log("Checking for new Level"); 
@@ -60,6 +64,7 @@ public class DataController : MonoBehaviour
             }
         }
     }
+
     public void UpdateLevelData(int stageID, int levelID, int starCount, int score, int accuracy) {
         // TODO: Error handling for if it accessed stageID and levelID that does not exist yet
         //updates level data within playerData instance in singleton
@@ -74,6 +79,7 @@ public class DataController : MonoBehaviour
         // UnlockNextLevel(levelID);
         
     }
+
     public void UnlockNextLevel(int currentStageID, int currentLevelID) {
         //unlocks the next level
         string dictKey = "";
@@ -86,6 +92,7 @@ public class DataController : MonoBehaviour
         levels[dictKey].isUnlocked = true; 
        
     }
+
     public void GenerateInitialvalue()
     {
         //populate onboarding and first level

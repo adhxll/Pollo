@@ -2,13 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// Achievement - UI Manager
 public class AUIManager : MonoBehaviour
 {
-    
-    [SerializeField]
-    private GameObject settingsButton;
-    [SerializeField]
-    private GameObject homeButton;
+    [SerializeField] private GameObject settingsButton = null;
+    [SerializeField] private GameObject homeButton = null;
 
     // Start is called before the first frame update
     void Start()

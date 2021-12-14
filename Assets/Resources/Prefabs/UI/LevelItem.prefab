@@ -130,11 +130,11 @@ MonoBehaviour:
     highScore: 0
     maxScore: 0
     accuracy: 0
-    finishCount: 0
-  LevelCountText: {fileID: 7509754647007974667}
-  StarContainer: {fileID: 1149134762082396481}
-  LockUnlockCircle: {fileID: 2504493785883356013}
-  UnlockedCircleSprite: {fileID: 21300000, guid: 51935e5b607d54256a552983b713726c, type: 3}
+    sessionCount: 0
+  levelCountText: {fileID: 7509754647007974667}
+  starContainer: {fileID: 1149134762082396481}
+  lockUnlockCircle: {fileID: 2504493785883356013}
+  unlockedCircleSprite: {fileID: 21300000, guid: 51935e5b607d54256a552983b713726c, type: 3}
   lockImage: {fileID: 7170627215564469307}
   levelSO: {fileID: 0}
 --- !u!1 &2504493785883356013

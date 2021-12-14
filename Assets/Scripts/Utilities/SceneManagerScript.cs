@@ -17,6 +17,7 @@ public class SceneManagerScript : MonoBehaviour
         ResultPage,
         Settings,
         Achievements,
+        AchievementNotif,
         CharacterSelection
     }
 
@@ -114,6 +115,8 @@ public class SceneManagerScript : MonoBehaviour
                 return "Settings";
             case SceneName.Achievements:
                 return "Achievements";
+            case SceneName.AchievementNotif:
+                return "AchievementNotif";
             case SceneName.CharacterSelection:
                 return "CharacterSelect";
         }
