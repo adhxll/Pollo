@@ -125,6 +125,10 @@ public class GSUIManager : MonoBehaviour
         SongManager.Instance.ResumeSong();
     }
 
+    public void SettingsButton(){
+        AudioController.Instance.PlaySound(SoundNames.click);
+    }
+
     public void GoToLevelSelection()
     {
         AudioController.Instance.PlaySound(SoundNames.click);
