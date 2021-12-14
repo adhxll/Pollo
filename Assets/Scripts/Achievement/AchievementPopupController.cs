@@ -6,25 +6,23 @@ using UnityEngine.SceneManagement;
 
 public class AchievementPopupController : MonoBehaviour //buat munculin scene achievement di scene yg diinginkan
 {
-    
     public static AchievementPopupController Instance;
-    public List<int> AchievementList = new List<int>(); //achievement queue
+    public List<int> achievementList = new List<int>(); //achievement queue
 
     public void LoadAchievementPopup() //call this function buat manggil id achievement yg mau dipanggil
     {
-        if (AchievementList.Count > 0)
+        if (achievementList.Count > 0)
         {
             StartCoroutine(ShowPopup());
         }
     }
-   
 
     private IEnumerator ShowPopup() //kalo achievementnya ke trigger lebih dari satu, settingan munculnya
     {
-        for (int i = 0; i < AchievementList.Count; i++)
+        for (int i = 0; i < achievementList.Count; i++)
         {
-            AchievementPopup.SetAchievementId(AchievementList[i]);
-            SceneManager.LoadScene("AchievementNotif", LoadSceneMode.Additive);
+            AchievementPopup.SetAchievementId(achievementList[i]);
+            SceneManagerScript.Instance.SceneInvoke(SceneManagerScript.SceneName.AchievementNotif, true);
             UnloadAchievementPopup();
             yield return new WaitForSeconds(3f);
         }
@@ -38,18 +36,17 @@ public class AchievementPopupController : MonoBehaviour //buat munculin scene ac
         {
             StartCoroutine(RemoveScene(5f));
         }
-        catch (Exception e)
+        catch
         {
             Debug.Log("Popup unload cancelled because it has already been destroyed.");
         }
-
     }
 
     private IEnumerator RemoveScene(float time)
     {
         yield return new WaitForSeconds(time);
         if (SceneManager.GetActiveScene().name == "AchievementNotif")
-           SceneManager.UnloadSceneAsync("AchievementNotif");
+            SceneManagerScript.Instance.SceneUnload(SceneManagerScript.SceneName.AchievementNotif);
         StopCoroutine(RemoveScene(0f));
     }
 

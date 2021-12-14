@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// Result Scene - UI Manager
 public class RSUIManager : MonoBehaviour
 {
     [SerializeField] private GameObject menuButton = null;
@@ -43,6 +44,7 @@ public class RSUIManager : MonoBehaviour
         InitializeNextButton();
         InitializeLevelSelectButton();
     }
+
     void changeGameSceneState()
     {
         if (isNextLevel)
@@ -87,6 +89,7 @@ public class RSUIManager : MonoBehaviour
             }
         }
     }
+
     void InitializeLevelSelectButton()
     {
         // change the state of the level selection stage

@@ -7,9 +7,9 @@ public class StageConstructor : MonoBehaviour
 {
     public static StageConstructor Instance;
 
-    [SerializeField] private Stages stages;
-    [SerializeField] private TMPro.TextMeshProUGUI stageNameText;
-    [SerializeField] private TMPro.TextMeshProUGUI stageCountText;
+    [SerializeField] private Stages stages = null;
+    [SerializeField] private TMPro.TextMeshProUGUI stageNameText = null;
+    [SerializeField] private TMPro.TextMeshProUGUI stageCountText = null;
 
     // Used to select a stage from the stages and instantiate it onto the level
     private GameObject stagePrefab;

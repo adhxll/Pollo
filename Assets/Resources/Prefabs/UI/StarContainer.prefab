@@ -126,13 +126,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19829bdfbf362d342b1221376b6c1775, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StarSlots:
+  starSlots:
   - {fileID: 1809401032620771192}
   - {fileID: 4373146304099693149}
   - {fileID: 4668675266763868164}
-  StarCount: 0
-  FilledStarSprite: {fileID: 21300000, guid: ab0de4ab80b474ea3a0e0a05eae533ed, type: 3}
-  EmptyStarSprite: {fileID: 21300000, guid: d29ac956de608459c9548d935f2b4f38, type: 3}
+  starCount: 0
+  filledStarSprite: {fileID: 21300000, guid: ab0de4ab80b474ea3a0e0a05eae533ed, type: 3}
+  emptyStarSprite: {fileID: 21300000, guid: 07e096c74071fc04296034725f85cf02, type: 3}
+  enableShadow: 0
 --- !u!1 &4373146304099693149
 GameObject:
   m_ObjectHideFlags: 0

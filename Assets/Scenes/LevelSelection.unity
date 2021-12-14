@@ -1095,7 +1095,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cam: {fileID: 519420031}
-  GameObjectWithMaxBounds: {fileID: 913746202}
+  boundaryObject: {fileID: 913746202}
 --- !u!4 &792734573
 Transform:
   m_ObjectHideFlags: 0
@@ -1999,9 +1999,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69fe2e3fdb0eae742b71c012004da387, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  levelCanvas: {fileID: 640252957}
-  PrevStageBtn: {fileID: 1740671553}
-  NextStageBtn: {fileID: 2038890989}
+  prevStageBtn: {fileID: 1740671553}
+  nextStageBtn: {fileID: 2038890989}
 --- !u!4 &1373399219
 Transform:
   m_ObjectHideFlags: 0

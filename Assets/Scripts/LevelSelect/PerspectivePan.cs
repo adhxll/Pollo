@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 public class PerspectivePan : MonoBehaviour
 {
     [SerializeField] private Camera cam = null;
-    [SerializeField] private GameObject GameObjectWithMaxBounds = null; // Max bounds panning tergantung object, contoh: background
+    [SerializeField] private GameObject boundaryObject = null; // Max bounds panning tergantung object, contoh: background
 
     private Vector3 touchStart; // Vector for storing user input touch
     private float minX, minY, maxX, maxY, camMinX, camMinY, camMaxX, camMaxY, camHeight, camWidth;
@@ -30,7 +30,7 @@ public class PerspectivePan : MonoBehaviour
 
     private void SetupPanningObjects() {
 
-        var renderer = GameObjectWithMaxBounds.GetComponent<Renderer>();
+        var renderer = boundaryObject.GetComponent<Renderer>();
 
         cam = Camera.main;
         camHeight = cam.orthographicSize;

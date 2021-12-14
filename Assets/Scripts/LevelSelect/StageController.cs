@@ -5,14 +5,16 @@ using UnityEngine;
 public class StageController : MonoBehaviour
 {
     public List<GameObject> levels;
-    public List<LevelItem> LevelData = new List<LevelItem>();
+    public List<LevelItem> levelData = new List<LevelItem>();
     public int stageID;
-    public string stageName; 
+    public string stageName;
+
     private void Awake()
     {
         LoadLevelData();
         SetupScene(); 
     }
+
     private void LoadLevelData()
     {
         GameObject lvl;
@@ -26,10 +28,11 @@ public class StageController : MonoBehaviour
         }
         
     }
+
     private void SetupScene() {
         for (int i = 0; i < levels.Count; i++)
         {
-            LevelData.Add(levels[i].GetComponent<LevelItem>());
+            levelData.Add(levels[i].GetComponent<LevelItem>());
         }
     }
 }

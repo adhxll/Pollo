@@ -14,10 +14,8 @@ public class AudioController : MonoBehaviour
 {
     public static AudioController Instance;
 
-    [SerializeField]
-    private AudioSource audioSource;
-    [SerializeField]
-    private AudioClip[] sounds;
+    [SerializeField] private AudioSource audioSource = null;
+    [SerializeField] private AudioClip[] sounds = null;
     private Dictionary<SoundNames, AudioClip> soundBank = new Dictionary<SoundNames, AudioClip>();
 
     private void Awake()

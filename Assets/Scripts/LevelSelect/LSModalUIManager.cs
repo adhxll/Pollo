@@ -2,11 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// Level Selection Modal - UI Manager
 public class LSModalUIManager : MonoBehaviour
 {
     [SerializeField] private GameObject modal = null;
-    [SerializeField] private GameObject practiceButton, playButton;
-    [SerializeField] private TMPro.TextMeshProUGUI levelText, scoreText, accuracyText = null;
+    [SerializeField] private GameObject practiceButton = null, playButton = null;
+    [SerializeField] private TMPro.TextMeshProUGUI levelText = null, scoreText = null, accuracyText = null;
 
     // Start is called before the first frame update
     void Start()
@@ -43,7 +44,7 @@ public class LSModalUIManager : MonoBehaviour
 
         var starCount = modal.GetComponent<StarCounter>();
 
-        starCount.StarCount = ModalController.Instance.starCount;
+        starCount.starCount = ModalController.Instance.starCount;
         starCount.FillStars();
     }
 

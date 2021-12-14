@@ -2,14 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// Homepage - UI Manager
 public class HPUIManager : MonoBehaviour
 {
-    [SerializeField]
-    private GameObject playButton;
-    [SerializeField]
-    private GameObject achievementButton;
-    [SerializeField]
-    private GameObject settingsButton;
+    [SerializeField] private GameObject playButton = null;
+    [SerializeField] private GameObject achievementButton = null;
+    [SerializeField] private GameObject settingsButton = null;
 
     // Start is called before the first frame update
     void Start()

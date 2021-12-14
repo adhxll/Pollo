@@ -16,11 +16,8 @@ public class GSUIManager : MonoBehaviour
     private List<GameObject> objects = new List<GameObject>();
 
     [Space]
-    //[SerializeField] private Dropdown dropdown = null;
-    //[SerializeField] private Slider delaySlider = null;
     [SerializeField] private Slider pitchSwitch = null;
     [SerializeField] private Slider repeatSwitch = null;
-    //[SerializeField] private TMPro.TextMeshProUGUI sliderValue = null;
 
     // Set slider value
     private bool forcePitch
@@ -127,10 +124,6 @@ public class GSUIManager : MonoBehaviour
         SceneManagerScript.Instance.SceneUnload(SceneManagerScript.SceneName.GSPause);
         SongManager.Instance.ResumeSong();
     }
-
-    //public void referSound(string sound){
-    //    GameObject.FindGameObjectWithTag("AudioController").GetComponent<AudioController>().PlaySound(sound);
-    //}
 
     public void GoToLevelSelection()
     {

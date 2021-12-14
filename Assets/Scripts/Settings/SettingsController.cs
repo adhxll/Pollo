@@ -8,7 +8,6 @@ using TMPro;
 using System;
 using Pitch.Algorithm;
 
-
 // List of settings variable that can be manipulated
 // Use these as the playerprefs keys
 // made it public so any class can use it becauese it will be referenced by other class
@@ -48,7 +47,6 @@ public class SettingsController : MonoBehaviour
     private int GetNotificationValue() { return notificationToggle.isOn ? 1 : 0; }
     private float GetDelayValue() { return delaySlider.value; }
     private int GetAlgorithmValue() { return pitchAlgoDropdown.value; }
-
 
     private void Awake()
     {
@@ -175,6 +173,5 @@ public class SettingsController : MonoBehaviour
             i++;
         }
     }
-
 
 }

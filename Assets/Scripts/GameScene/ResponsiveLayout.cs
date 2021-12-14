@@ -4,11 +4,9 @@ using UnityEngine;
 
 public class ResponsiveLayout : MonoBehaviour
 {
-    [SerializeReference]
-    private GameObject leftTree = null;
+    [SerializeField] private GameObject leftTree = null;
 
-    [SerializeReference]
-    private GameObject rightTree = null;
+    [SerializeField] private GameObject rightTree = null;
 
     // Start is called before the first frame update
     void Start()

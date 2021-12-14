@@ -6,10 +6,9 @@ public class LevelSelectionController : MonoBehaviour
 {
     public static LevelSelectionController Instance;
 
-    [SerializeField] private Canvas levelCanvas;
-    [SerializeField] private Button PrevStageBtn;
-    [SerializeField] private Button NextStageBtn;
-    
+    [SerializeField] private Button prevStageBtn = null;
+    [SerializeField] private Button nextStageBtn = null;
+
     private bool modalShown;
 
     private void Awake()
@@ -54,9 +53,9 @@ public class LevelSelectionController : MonoBehaviour
     private void ModifyNextStageButton(bool enableNextStageBtn)
     {
         if (enableNextStageBtn)
-            NextStageBtn.interactable = true;
+            nextStageBtn.interactable = true;
         else
-            NextStageBtn.interactable = false; 
+            nextStageBtn.interactable = false; 
     }
 
    
@@ -64,9 +63,9 @@ public class LevelSelectionController : MonoBehaviour
     private void ModifyPrevStageButton(bool enablePrevStageBtn)
     {
         if (enablePrevStageBtn)
-            PrevStageBtn.interactable = true;
+            prevStageBtn.interactable = true;
         else
-            PrevStageBtn.interactable = false;
+            prevStageBtn.interactable = false;
     }
 
 }

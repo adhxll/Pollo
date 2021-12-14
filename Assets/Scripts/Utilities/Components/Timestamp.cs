@@ -4,12 +4,9 @@ using UnityEngine;
 
 public class Timestamp: MonoBehaviour
 {
-    [SerializeField]
-    private int spawnIndex = 0;
-    [SerializeField]
-    private int inputIndex = 0;
-    [SerializeField]
-    private int barIndex = 0;
+    [SerializeField] private int spawnIndex = 0;
+    [SerializeField] private int inputIndex = 0;
+    [SerializeField] private int barIndex = 0;
 
     public int GetSpawnIndex() { return this.spawnIndex; }
     public void SetSpawnIndex(int spawnIndex) { this.spawnIndex = spawnIndex; }

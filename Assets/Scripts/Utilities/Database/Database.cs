@@ -6,8 +6,7 @@ using System.Linq;
 public class Database : MonoBehaviour
 {
     private static Database Instance;
-    [SerializeField]
-    private LevelDatabase levels = null;
+    [SerializeField] private LevelDatabase levels = null;
 
     private void Awake()
     {

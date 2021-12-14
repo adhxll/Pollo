@@ -6,9 +6,6 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using UnityEngine.Audio;
 
-// enum to define keys for using playerprefs
-
-
 // GameController is our Singleton Class that serves as the game's controller (duh)
 // It stores the game's global variable such as game currency and player's current skin (future development)
 public class GameController : MonoBehaviour
@@ -27,8 +24,7 @@ public class GameController : MonoBehaviour
     {
         CoinAmount,
         Character,
-    };
-
+    }
 
     private void Awake()
     {
@@ -58,6 +54,7 @@ public class GameController : MonoBehaviour
             DontDestroyOnLoad(gameObject);
         }
     }
+
     // Update is called once per frame
     void Update()
     {
@@ -72,9 +69,6 @@ public class GameController : MonoBehaviour
         this.currentCharacter = PlayerPrefs.GetInt(PlayerDataKey.Character.ToString(), 0);
         this.totalCoin = PlayerPrefs.GetInt(PlayerDataKey.CoinAmount.ToString(), 0);
         ShowCoinAmount();
-
-        
-
     }
 
     public void ResetMixer()
@@ -93,7 +87,6 @@ public class GameController : MonoBehaviour
         {
             c.GetComponent<TMP_Text>().text = totalCoin.ToString();
         }
-
     }
 
     // animate the decrease or increase in coinAmount
@@ -110,7 +103,6 @@ public class GameController : MonoBehaviour
             AnimationUtilities.AnimateAddMoney(c); // calls on AnimationUtilities class
             break;
         }
-
     }
 
     // public function where you can add any amount of coin
@@ -121,6 +113,7 @@ public class GameController : MonoBehaviour
         PlayerPrefs.SetInt(PlayerDataKey.CoinAmount.ToString(), totalCoin); // Automatically saves the new value to PlayerPrefs
         AudioController.Instance.PlaySound(SoundNames.coinadd);
     }
+
     // public function where you can substract any amount of coin
     public void CoinSubstract(int coinAmount)
     {

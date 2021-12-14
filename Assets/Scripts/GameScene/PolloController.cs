@@ -6,9 +6,7 @@ public class PolloController : MonoBehaviour
 {
     public static PolloController Instance;
 
-    [SerializeField]
-    private Animator anim = null;
-
+    [SerializeField] private Animator anim = null;
   
     // Start is called before the first frame update
     void Start()

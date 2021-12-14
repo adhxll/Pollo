@@ -10,10 +10,10 @@ public class LevelItem : MonoBehaviour
     private bool isUnlocked;
 
     // Containers for showing the data
-    public TMPro.TextMeshPro LevelCountText; 
-    public GameObject StarContainer;
-    public GameObject LockUnlockCircle;
-    public Sprite UnlockedCircleSprite;
+    public TMPro.TextMeshPro levelCountText; 
+    public GameObject starContainer;
+    public GameObject lockUnlockCircle;
+    public Sprite unlockedCircleSprite;
     public GameObject lockImage; 
     public Level levelSO;
 
@@ -21,17 +21,17 @@ public class LevelItem : MonoBehaviour
     {
         //setup the data into container
         isUnlocked = data.isUnlocked; 
-        LevelCountText.GetComponent<TMPro.TextMeshPro>().text = data.levelID.ToString(); 
-        StarContainer.GetComponent<StarCounter>().StarCount = data.starCount;
-        StarContainer.GetComponent<StarCounter>().FillStars();
-        if (isUnlocked && data.sessionCount > 0) LockUnlockCircle.GetComponent<SpriteRenderer>().sprite = UnlockedCircleSprite;
+        levelCountText.GetComponent<TMPro.TextMeshPro>().text = data.levelID.ToString(); 
+        starContainer.GetComponent<StarCounter>().starCount = data.starCount;
+        starContainer.GetComponent<StarCounter>().FillStars();
+        if (isUnlocked && data.sessionCount > 0) lockUnlockCircle.GetComponent<SpriteRenderer>().sprite = unlockedCircleSprite;
         var levelList = DataController.Instance.levelDatabase.allLevels; 
         for (int i = 1; i < levelList.Count; i++) { //start from after onboarding
             if (levelList[i].GetLevelID() == data.levelID && levelList[i].GetStageID() == GameController.Instance.currentStage) {
                 
                 levelSO = levelList[i];
-                LevelCountText.gameObject.SetActive(data.isUnlocked);
-                StarContainer.SetActive(data.isUnlocked);
+                levelCountText.gameObject.SetActive(data.isUnlocked);
+                starContainer.SetActive(data.isUnlocked);
                 lockImage.SetActive(!data.isUnlocked);
                 //Debug.Log("levelSO stage and level: " + levelSO.GetStageID() + " " + levelSO.GetLevelID());
             }

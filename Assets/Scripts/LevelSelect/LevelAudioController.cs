@@ -4,12 +4,9 @@ using UnityEngine;
 
 public class LevelAudioController : MonoBehaviour
 {
-    [SerializeField]
-    private AudioClip[] audioClip;
-    [SerializeField]
-    private AudioSource audioSource;
-    [SerializeField]
-    private float transitionDuration;
+    [SerializeField] private AudioClip[] audioClip = null;
+    [SerializeField] private AudioSource audioSource = null;
+    [SerializeField] private float transitionDuration = 0;
     private int currentIndex = 0;
 
     private float maxVolume = 1f;
