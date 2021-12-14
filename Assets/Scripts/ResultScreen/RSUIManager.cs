@@ -14,6 +14,11 @@ public class RSUIManager : MonoBehaviour
     private bool isNextLevel = false;
     private bool isNextStage = false;
 
+    private void Start()
+    {
+        InitializeNextButton();
+    }
+
     public void LevelSelectButton()
     {
         AudioController.Instance.PlaySound(SoundNames.click);
@@ -39,34 +44,29 @@ public class RSUIManager : MonoBehaviour
         AnimationUtilities.AnimateButtonPush(settingsButton);
     }
 
-    private void Start()
+    void changeGameSceneLevel()
     {
-        InitializeNextButton();
-        InitializeLevelSelectButton();
-    }
-
-    void changeGameSceneState()
-    {
+        PlayerPrefs.SetInt("IsFirstTime",1);
         if (isNextLevel)
         {
-            GameController.Instance.selectedLevel = +1;
+            GameController.Instance.selectedLevel += 1;
         }
-        else
+        else if (isNextStage)
         {
-            GameController.Instance.selectedLevel = 1;
+            GameController.Instance.selectedLevel = 1; //first level at every stage
             GameController.Instance.currentStage += 1;
         }
     }
 
     void InitializeNextButton()
     {
+        isNextLevel = false;
+        isNextStage = false;
         nextButton.interactable = false;
         // next level dict key
         string nextLevelKey = DataController.Instance.FormatKey(GameController.Instance.currentStage, GameController.Instance.selectedLevel + 1);
         // next stage dict key
         string nextStageKey = DataController.Instance.FormatKey(GameController.Instance.currentStage + 1, 1);
-        Debug.Log("" + nextLevelKey);
-        Debug.Log("" + nextStageKey);
 
         Dictionary<string, LevelItemContainer> levels = DataController.Instance.playerData.levelData;
 
@@ -76,7 +76,7 @@ public class RSUIManager : MonoBehaviour
             {
                 nextButton.interactable = true;
                 isNextLevel = true;
-                nextButton.onClick.AddListener(changeGameSceneState);
+                nextButton.onClick.AddListener(changeGameSceneLevel);
             }
         }
         else if (levels.ContainsKey(nextStageKey)) //if the next stage is available
@@ -85,15 +85,9 @@ public class RSUIManager : MonoBehaviour
             {
                 nextButton.interactable = true;
                 isNextStage = true;
-                nextButton.onClick.AddListener(changeGameSceneState);
+                nextButton.onClick.AddListener(changeGameSceneLevel);
             }
         }
-    }
-
-    void InitializeLevelSelectButton()
-    {
-        // change the state of the level selection stage
-        // currently unavailable
     }
 
 }
