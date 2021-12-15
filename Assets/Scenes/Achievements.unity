@@ -187,6 +187,14 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: ffe65b5c45c14244984af6471543066a, type: 3}
     - target: {fileID: 5946274516017971946, guid: 779f32277b5333f4d8e57c689acd95ec, type: 3}
+      propertyPath: iconColoured
+      value: 
+      objectReference: {fileID: 21300000, guid: ffe65b5c45c14244984af6471543066a, type: 3}
+    - target: {fileID: 5946274516017971946, guid: 779f32277b5333f4d8e57c689acd95ec, type: 3}
+      propertyPath: achievementId
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5946274516017971946, guid: 779f32277b5333f4d8e57c689acd95ec, type: 3}
       propertyPath: achievementData.achievementId
       value: 5
       objectReference: {fileID: 0}
@@ -353,57 +361,6 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 6245452647328579763, guid: 779f32277b5333f4d8e57c689acd95ec, type: 3}
   m_PrefabInstance: {fileID: 37099889}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &69493335
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 69493337}
-  - component: {fileID: 69493336}
-  m_Layer: 0
-  m_Name: _AchievementManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &69493336
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 69493335}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b1115a9b858e3ae48a6f181f9f859bf9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Icon: {fileID: 0}
-  TextBg: {fileID: 0}
-  Text: {fileID: 0}
-  TextDescription: {fileID: 0}
-  IconColoured: {fileID: 0}
-  achievementData:
-    achievementId: 0
-    isUnlocked: 0
---- !u!4 &69493337
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 69493335}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5.1048903, y: -4.282597, z: 90}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 7
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &183794314
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -474,7 +431,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2074115880992617279, guid: 3c989e895ff0745408debca32f2323c4, type: 3}
       propertyPath: m_RootOrder
-      value: 9
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 2074115880992617279, guid: 3c989e895ff0745408debca32f2323c4, type: 3}
       propertyPath: m_LocalScale.x
@@ -527,6 +484,10 @@ PrefabInstance:
     - target: {fileID: 2129460028817894964, guid: 3c989e895ff0745408debca32f2323c4, type: 3}
       propertyPath: m_FlipX
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2815436095631407520, guid: 3c989e895ff0745408debca32f2323c4, type: 3}
+      propertyPath: m_RootOrder
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 2815436095631407520, guid: 3c989e895ff0745408debca32f2323c4, type: 3}
       propertyPath: m_LocalScale.x
@@ -767,7 +728,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2074115880992617279, guid: 3c989e895ff0745408debca32f2323c4, type: 3}
       propertyPath: m_RootOrder
-      value: 8
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 2074115880992617279, guid: 3c989e895ff0745408debca32f2323c4, type: 3}
       propertyPath: m_LocalScale.x
@@ -816,6 +777,10 @@ PrefabInstance:
     - target: {fileID: 2074115880992617279, guid: 3c989e895ff0745408debca32f2323c4, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2815436095631407520, guid: 3c989e895ff0745408debca32f2323c4, type: 3}
+      propertyPath: m_RootOrder
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 2815436095631407520, guid: 3c989e895ff0745408debca32f2323c4, type: 3}
       propertyPath: m_LocalScale.x
@@ -928,7 +893,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 691363953}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1575135846}
+        m_TargetAssemblyTypeName: AUIManager, Assembly-CSharp
+        m_MethodName: SettingsButton
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &691363953
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1030,6 +1007,14 @@ PrefabInstance:
       propertyPath: IconColoured
       value: 
       objectReference: {fileID: 21300000, guid: ae900be4fe59fc3488dec95c2d6be1fc, type: 3}
+    - target: {fileID: 5946274516017971946, guid: 779f32277b5333f4d8e57c689acd95ec, type: 3}
+      propertyPath: iconColoured
+      value: 
+      objectReference: {fileID: 21300000, guid: ae900be4fe59fc3488dec95c2d6be1fc, type: 3}
+    - target: {fileID: 5946274516017971946, guid: 779f32277b5333f4d8e57c689acd95ec, type: 3}
+      propertyPath: achievementId
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5946274516017971946, guid: 779f32277b5333f4d8e57c689acd95ec, type: 3}
       propertyPath: achievementData.achievementId
       value: 1
@@ -1246,6 +1231,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5946274516017971946, guid: 779f32277b5333f4d8e57c689acd95ec, type: 3}
       propertyPath: IconColoured
+      value: 
+      objectReference: {fileID: 21300000, guid: 8e85eb3930c5d984b841b54f459606cf, type: 3}
+    - target: {fileID: 5946274516017971946, guid: 779f32277b5333f4d8e57c689acd95ec, type: 3}
+      propertyPath: iconColoured
       value: 
       objectReference: {fileID: 21300000, guid: 8e85eb3930c5d984b841b54f459606cf, type: 3}
     - target: {fileID: 5946274516017971946, guid: 779f32277b5333f4d8e57c689acd95ec, type: 3}
@@ -1477,16 +1466,16 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1693691723}
-        m_TargetAssemblyTypeName: SceneManagerScript, Assembly-CSharp
-        m_MethodName: SceneInvoke
-        m_Mode: 5
+      - m_Target: {fileID: 1575135846}
+        m_TargetAssemblyTypeName: AUIManager, Assembly-CSharp
+        m_MethodName: HomeButton
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: Homepage
+          m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &1015926851
@@ -1826,6 +1815,51 @@ SortingGroup:
   m_SortingLayerID: -1926883363
   m_SortingLayer: -1
   m_SortingOrder: 0
+--- !u!1 &1575135845
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1575135847}
+  - component: {fileID: 1575135846}
+  m_Layer: 0
+  m_Name: _UIManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1575135846
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1575135845}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5943ba6e0480b48b1b5e7366f541aa53, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  settingsButton: {fileID: 691363950}
+  homeButton: {fileID: 1015926848}
+--- !u!4 &1575135847
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1575135845}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.7489297, y: -8.028208, z: -1.1004186}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1625431765
 GameObject:
   m_ObjectHideFlags: 0
@@ -2142,6 +2176,14 @@ PrefabInstance:
       propertyPath: IconColoured
       value: 
       objectReference: {fileID: 21300000, guid: dfe36694788b56341b3b8d2bb4f76a56, type: 3}
+    - target: {fileID: 5946274516017971946, guid: 779f32277b5333f4d8e57c689acd95ec, type: 3}
+      propertyPath: iconColoured
+      value: 
+      objectReference: {fileID: 21300000, guid: dfe36694788b56341b3b8d2bb4f76a56, type: 3}
+    - target: {fileID: 5946274516017971946, guid: 779f32277b5333f4d8e57c689acd95ec, type: 3}
+      propertyPath: achievementId
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 5946274516017971946, guid: 779f32277b5333f4d8e57c689acd95ec, type: 3}
       propertyPath: achievementData.achievementId
       value: 4
@@ -2576,6 +2618,14 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 46f3ce2ebeff3504e94710f366ccefe4, type: 3}
     - target: {fileID: 5946274516017971946, guid: 779f32277b5333f4d8e57c689acd95ec, type: 3}
+      propertyPath: iconColoured
+      value: 
+      objectReference: {fileID: 21300000, guid: 46f3ce2ebeff3504e94710f366ccefe4, type: 3}
+    - target: {fileID: 5946274516017971946, guid: 779f32277b5333f4d8e57c689acd95ec, type: 3}
+      propertyPath: achievementId
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5946274516017971946, guid: 779f32277b5333f4d8e57c689acd95ec, type: 3}
       propertyPath: achievementData.achievementId
       value: 2
       objectReference: {fileID: 0}
@@ -2880,6 +2930,14 @@ PrefabInstance:
       propertyPath: IconColoured
       value: 
       objectReference: {fileID: 21300000, guid: dd62028d582337c45b5c931b9991254b, type: 3}
+    - target: {fileID: 5946274516017971946, guid: 779f32277b5333f4d8e57c689acd95ec, type: 3}
+      propertyPath: iconColoured
+      value: 
+      objectReference: {fileID: 21300000, guid: dd62028d582337c45b5c931b9991254b, type: 3}
+    - target: {fileID: 5946274516017971946, guid: 779f32277b5333f4d8e57c689acd95ec, type: 3}
+      propertyPath: achievementId
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 5946274516017971946, guid: 779f32277b5333f4d8e57c689acd95ec, type: 3}
       propertyPath: achievementData.isUnlocked
       value: 0

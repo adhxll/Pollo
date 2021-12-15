@@ -6,13 +6,18 @@ public class DataController : MonoBehaviour
 {
     public static DataController Instance;
     public LevelDatabase levelDatabase;
+    public Stages stageDatabase; 
     //TODO: Add databases for Achievements and Skins
     public PlayerData playerData;
-    Dictionary<string, LevelItemContainer> levels; 
+    public AchievementDB achievementDB;
+
+    Dictionary<string, LevelItemContainer> levels;
+
     private void Awake()
     {
         StartSingleton(); 
     }
+
     void Start()
     {
         InitializePlayerData(); 
@@ -30,6 +35,7 @@ public class DataController : MonoBehaviour
             DontDestroyOnLoad(gameObject);
         }
     }
+
     void InitializePlayerData() {
         if (SaveSystem.LoadPlayerData() != null)
         {
@@ -41,6 +47,7 @@ public class DataController : MonoBehaviour
             GenerateInitialvalue(); 
         }
     }
+
     public void CheckForNewLevel()
     { //check if newly developed level has been added
         Debug.Log("Checking for new Level"); 
@@ -57,12 +64,14 @@ public class DataController : MonoBehaviour
             }
         }
     }
+
     public void UpdateLevelData(int stageID, int levelID, int starCount, int score, int accuracy) {
         // TODO: Error handling for if it accessed stageID and levelID that does not exist yet
         //updates level data within playerData instance in singleton
         levels = playerData.levelData;
         string dictKey = DataController.Instance.FormatKey(stageID, levelID); 
         levels[dictKey].score = score;
+        levels[dictKey].sessionCount += 1; //update session count whenever session is done.
         if (levels[dictKey].highScore < score) levels[dictKey].highScore = score;
         if (levels[dictKey].starCount < starCount) levels[dictKey].starCount = starCount;
         if (levels[dictKey].accuracy < accuracy) levels[dictKey].accuracy = accuracy;
@@ -70,18 +79,25 @@ public class DataController : MonoBehaviour
         // UnlockNextLevel(levelID);
         
     }
+
     public void UnlockNextLevel(int currentStageID, int currentLevelID) {
         //unlocks the next level
-        //TODO: Validation for final level
-        string dictKey = DataController.Instance.FormatKey(currentStageID, currentLevelID + 1); 
+        string dictKey = "";
+        if (currentLevelID == stageDatabase.stagesList[0].GetComponent<StageController>().levels.Count
+            && currentStageID != stageDatabase.stagesList.Count - 1)//validation for final level and final stage 
+            dictKey = DataController.Instance.FormatKey(currentStageID + 1, 1); // unlocks next level of next stage
+        else //validation for final stage
+            dictKey = DataController.Instance.FormatKey(currentStageID, currentLevelID + 1);
+
         levels[dictKey].isUnlocked = true; 
        
     }
+
     public void GenerateInitialvalue()
     {
         //populate onboarding and first level
         LevelItemContainer level = new LevelItemContainer();
-        string dictKey = DataController.Instance.FormatKey(level.stageID, level.levelID); 
+        string dictKey = DataController.Instance.FormatKey(level.stageID, level.levelID);
         playerData.levelData.Add(dictKey, level);
 
         level = new LevelItemContainer();
@@ -96,12 +112,22 @@ public class DataController : MonoBehaviour
             LevelItemContainer newLevel = new LevelItemContainer();
             newLevel.levelID = levelDatabase.allLevels[i].GetLevelID();
             newLevel.stageID = levelDatabase.allLevels[i].GetStageID();
-            dictKey = DataController.Instance.FormatKey(newLevel.stageID, newLevel.levelID); 
+            dictKey = DataController.Instance.FormatKey(newLevel.stageID, newLevel.levelID);
             playerData.levelData.Add(dictKey, newLevel);
-            Debug.Log("Container ID : " + dictKey + " Star Count : " + playerData.levelData[dictKey].starCount);
+            Debug.Log("Container ID : " + dictKey + " Locked : " + !playerData.levelData[dictKey].isUnlocked);
         }
 
+        playerData.levelData[FormatKey(1, 1)].isUnlocked = true;
+
+        for (int i = 0; i < achievementDB.listAchievement.Count; i++)
+        {
+            Achievement ac = new Achievement();
+            ac.achievementId = i;
+            playerData.achievementData.Add(ac);
+
+        }
     }
+
     public string FormatKey(int stageID, int levelID) {
         //formats a dictionary key to use in dictionary
         string key = stageID + "-" + levelID;

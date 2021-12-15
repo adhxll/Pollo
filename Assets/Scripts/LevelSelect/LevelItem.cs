@@ -5,33 +5,45 @@ using UnityEngine.UI;
 
 public class LevelItem : MonoBehaviour
 {
-    //data to fill the level item
+    // Data to fill the level item
     public LevelItemContainer data;
-    //containers for showing the data
-    public TMPro.TextMeshPro LevelCountText; 
-    public GameObject StarContainer;
-    public GameObject LockUnlockCircle;
-    public Sprite UnlockedCircleSprite;
-    public Level levelSO; 
+    private bool isUnlocked;
+
+    // Containers for showing the data
+    public TMPro.TextMeshPro levelCountText; 
+    public GameObject starContainer;
+    public GameObject lockUnlockCircle;
+    public Sprite unlockedCircleSprite;
+    public GameObject lockImage; 
+    public Level levelSO;
+
     void Start()
     {
         //setup the data into container
-        LevelCountText.GetComponent<TMPro.TextMeshPro>().text = data.levelID.ToString(); 
-        StarContainer.GetComponent<StarCounter>().StarCount = data.starCount;
-        StarContainer.GetComponent<StarCounter>().FillStars();
-        if (data.isUnlocked) LockUnlockCircle.GetComponent<SpriteRenderer>().sprite = UnlockedCircleSprite;
+        isUnlocked = data.isUnlocked; 
+        levelCountText.GetComponent<TMPro.TextMeshPro>().text = data.levelID.ToString(); 
+        starContainer.GetComponent<StarCounter>().starCount = data.starCount;
+        starContainer.GetComponent<StarCounter>().FillStars();
+        if (isUnlocked && data.sessionCount > 0) lockUnlockCircle.GetComponent<SpriteRenderer>().sprite = unlockedCircleSprite;
         var levelList = DataController.Instance.levelDatabase.allLevels; 
         for (int i = 1; i < levelList.Count; i++) { //start from after onboarding
             if (levelList[i].GetLevelID() == data.levelID && levelList[i].GetStageID() == GameController.Instance.currentStage) {
                 
                 levelSO = levelList[i];
-                Debug.Log("levelSO stage and level: " + levelSO.GetStageID() + " " + levelSO.GetLevelID());
+                levelCountText.gameObject.SetActive(data.isUnlocked);
+                starContainer.SetActive(data.isUnlocked);
+                lockImage.SetActive(!data.isUnlocked);
+                //Debug.Log("levelSO stage and level: " + levelSO.GetStageID() + " " + levelSO.GetLevelID());
             }
         }
     }
+
     public void Push() {
-        AnimationUtilities.AnimateButtonPush(gameObject);
-        ModalController.Instance.ShowLevelModal(gameObject);
-        LevelSelectionController.Instance.ModifyLevelInput(); 
+        if (isUnlocked)
+        {
+            PerspectivePan.SetPanning();
+            AnimationUtilities.AnimateButtonPush(gameObject);
+            ModalController.Instance.ShowLevelModal(gameObject);
+        }
     }
 }

@@ -10,12 +10,14 @@ public class SceneManagerScript : MonoBehaviour
     {
         Homepage,
         LevelSelection,
+        LSModal,
         GameScene,
         GSPianoScale,
         GSPause,
         ResultPage,
         Settings,
         Achievements,
+        AchievementNotif,
         CharacterSelection
     }
 
@@ -99,6 +101,8 @@ public class SceneManagerScript : MonoBehaviour
                 return "Homepage";
             case SceneName.LevelSelection:
                 return "LevelSelection";
+            case SceneName.LSModal:
+                return "LS-Modal";
             case SceneName.GameScene:
                 return "GameScene";
             case SceneName.GSPianoScale:
@@ -111,6 +115,8 @@ public class SceneManagerScript : MonoBehaviour
                 return "Settings";
             case SceneName.Achievements:
                 return "Achievements";
+            case SceneName.AchievementNotif:
+                return "AchievementNotif";
             case SceneName.CharacterSelection:
                 return "CharacterSelect";
         }

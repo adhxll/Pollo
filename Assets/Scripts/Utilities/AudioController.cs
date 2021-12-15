@@ -2,38 +2,43 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum SoundNames
+{
+    click,
+    countdown,
+    coinadd,
+    star1, star2, star3
+}
+
 public class AudioController : MonoBehaviour
 {
     public static AudioController Instance;
 
-    [SerializeField]
-    private AudioSource audioSource;
-    [SerializeField]
-    private AudioClip buttonSound;
-    [SerializeField]
-    private AudioClip countdownSound;
-    [SerializeField]
-    private AudioClip coinAddedSound;
+    [SerializeField] private AudioSource audioSource = null;
+    [SerializeField] private AudioClip[] sounds = null;
+    private Dictionary<SoundNames, AudioClip> soundBank = new Dictionary<SoundNames, AudioClip>();
 
     private void Awake()
     {
-        Instance = this;
+        if(Instance != null) Destroy(gameObject);
+        else{
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+            audioSource = GetComponent<AudioSource>();
+        }
+        SetupDictionary();
     }
 
-    public void PlayButtonSound()
-    {
-        audioSource.clip = buttonSound;
-        audioSource.Play();
+    private void SetupDictionary(){
+        for (int i=0; i<sounds.Length; i++){
+            soundBank.Add((SoundNames)i, sounds[i]);
+        }
     }
-    
-    public void PlayCountDown()
+
+    public void PlaySound(SoundNames sound)
     {
-        audioSource.clip = countdownSound;
-        audioSource.Play();
-    }
-    public void PlayCoinAddSound()
-    {
-        audioSource.clip = coinAddedSound;
+        //soundNames parsed_enum = (soundNames)System.Enum.Parse( typeof(soundNames), sound);
+        audioSource.clip = soundBank[sound];
         audioSource.Play();
     }
 

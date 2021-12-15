@@ -455,14 +455,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1115a9b858e3ae48a6f181f9f859bf9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Icon: {fileID: 6245452647289836002}
-  TextBg: {fileID: 6245452646241558150}
-  Text: {fileID: 5006480137425694727}
-  TextDescription: {fileID: 6245452647739680309}
-  IconColoured: {fileID: 0}
+  icon: {fileID: 6245452647289836002}
+  textBg: {fileID: 6245452646241558150}
+  text: {fileID: 5006480137425694727}
+  description: {fileID: 6245452647739680309}
+  iconColoured: {fileID: 0}
   achievementData:
     achievementId: 0
     isUnlocked: 0
+  achievementId: 0
 --- !u!114 &6427096745115470056
 MonoBehaviour:
   m_ObjectHideFlags: 0

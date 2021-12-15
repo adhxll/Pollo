@@ -15,6 +15,5 @@ public class LevelItemContainer
     public int highScore = 0;
     public int maxScore = 0;
     public int accuracy = 0;
-
-    
+    public int sessionCount = 0;
 }

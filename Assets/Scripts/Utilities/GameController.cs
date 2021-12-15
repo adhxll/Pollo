@@ -4,9 +4,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-
-// enum to define keys for using playerprefs
-
+using UnityEngine.Audio;
 
 // GameController is our Singleton Class that serves as the game's controller (duh)
 // It stores the game's global variable such as game currency and player's current skin (future development)
@@ -20,13 +18,13 @@ public class GameController : MonoBehaviour
     public int selectedLevel = 0;
     public int currentStage = 0; 
     public SceneStateManager.SceneState sceneState = SceneStateManager.SceneState.Onboarding;
+    [SerializeField] public AudioMixer masterMixer;
 
     private enum PlayerDataKey
     {
         CoinAmount,
         Character,
-    };
-
+    }
 
     private void Awake()
     {
@@ -38,7 +36,9 @@ public class GameController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-      
+        // Initializing master audio mixer
+        // This must be put in the Start() function because of unity's bug
+        ResetMixer();
     }
 
     // Singleton pattern
@@ -54,6 +54,7 @@ public class GameController : MonoBehaviour
             DontDestroyOnLoad(gameObject);
         }
     }
+
     // Update is called once per frame
     void Update()
     {
@@ -67,8 +68,14 @@ public class GameController : MonoBehaviour
         // Both currentSkin and totalCoin default value is 0
         this.currentCharacter = PlayerPrefs.GetInt(PlayerDataKey.Character.ToString(), 0);
         this.totalCoin = PlayerPrefs.GetInt(PlayerDataKey.CoinAmount.ToString(), 0);
-        
         ShowCoinAmount();
+    }
+
+    public void ResetMixer()
+    {
+        // Reset the mixer
+        masterMixer.SetFloat("soundEffects", Mathf.Log10(PlayerPrefs.GetFloat(SettingsList.SoundEffects.ToString())) * 20);
+        masterMixer.SetFloat("musicVolume", Mathf.Log10(PlayerPrefs.GetFloat(SettingsList.Music.ToString())) * 20);
     }
 
     void ShowCoinAmount()
@@ -80,7 +87,6 @@ public class GameController : MonoBehaviour
         {
             c.GetComponent<TMP_Text>().text = totalCoin.ToString();
         }
-
     }
 
     // animate the decrease or increase in coinAmount
@@ -97,7 +103,6 @@ public class GameController : MonoBehaviour
             AnimationUtilities.AnimateAddMoney(c); // calls on AnimationUtilities class
             break;
         }
-
     }
 
     // public function where you can add any amount of coin
@@ -106,8 +111,9 @@ public class GameController : MonoBehaviour
         AnimateCoinChange("+", coinAmount);
         this.totalCoin += coinAmount;
         PlayerPrefs.SetInt(PlayerDataKey.CoinAmount.ToString(), totalCoin); // Automatically saves the new value to PlayerPrefs
-        AudioController.Instance.PlayCoinAddSound();
+        AudioController.Instance.PlaySound(SoundNames.coinadd);
     }
+
     // public function where you can substract any amount of coin
     public void CoinSubstract(int coinAmount)
     {

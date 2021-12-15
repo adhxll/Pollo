@@ -6,11 +6,8 @@ public class ParticleController : MonoBehaviour
 {
     public static ParticleController Instance;
 
-    [SerializeField]
-    private ParticleSystem particleHit = null;
-
-    [SerializeField]
-    private ParticleSystem particleMiss = null;
+    [SerializeField] private ParticleSystem particleHit = null;
+    [SerializeField] private ParticleSystem particleMiss = null;
 
     void Start()
     {

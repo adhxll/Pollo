@@ -6,6 +6,7 @@ using UnityEngine;
 public class PlayerData
 {
     public Dictionary<string, LevelItemContainer> levelData = new Dictionary<string, LevelItemContainer>();
+    public List<Achievement> achievementData = new List< Achievement>();
     //dict cannot be serialized into json using JsonUtility, so we use levelList to save
     public List<LevelItemContainer> levelList = new List<LevelItemContainer>();
 }

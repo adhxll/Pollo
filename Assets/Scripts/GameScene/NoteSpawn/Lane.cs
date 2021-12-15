@@ -21,7 +21,7 @@ public class Lane : MonoBehaviour
     private int inputIndex = 0;
     private int barIndex = 0;
     private int averageCount = 0;                           // Variable to count in exact midi note to prevent Hit() function called accidentally
-    private int isForcedPitch { get { return PlayerPrefs.GetInt("isForcedPitch"); } }
+    private int isForcedPitch { get { return PlayerPrefs.GetInt(SettingsList.ForcePitch.ToString()); } }
 
     public GameObject GetNotePrefab() { return Instance.notePrefab; }
     public GameObject GetBarPrefab() { return Instance.barPrefab; }
@@ -91,7 +91,7 @@ public class Lane : MonoBehaviour
                     }
                 }
                 // if you want to use the function in real time, use this
-                //ComparePitch();
+                ComparePitch();
                 if (CheckPitch())
                 {
                     if (Math.Abs(audioTime - timeStamp) < marginOfError)
@@ -112,12 +112,10 @@ public class Lane : MonoBehaviour
                 // Then the note will be considered miss, and the next note will be the [inputIndex]
                 if (timeStamp + marginOfError <= audioTime)
                 {
-                    ComparePitch();
                     Miss();
                     averageCount = 0;
                 }
 
-                //Debug.Log("" + ComparePitch());
             }
         }
     }
@@ -169,28 +167,39 @@ public class Lane : MonoBehaviour
         return false;
     }
 
+    // this function will get the note, but not the octave
+    //private int GetIgnoredOctaveValue(double midiNote)
+    //{
+    //    // C1 midinote is 24
+    //    if (midiNote < 24) return -1; // for now if it's less than C1, we'll just output it as too low hence the negative value
+    //    return (int)((midiNote - 24) % 12); // 0 => C, 1 => C#, 2 => D, etc
+    //}
+
     // a function to compare pitch, will return the difference between target pitch and the recorded pitch
     private int ComparePitch()
     {
-        double currentPitch = midiNotes[inputIndex];
-        double lowBound = currentPitch - 5;
-        double highBound = currentPitch + 5;
-        double recordedPitch = SongManager.Instance.GetDetectedPitch().GetMidiNote();
-        //Debug.Log("curr = " + recordedPitch + " low = " + lowBound + " high = " + highBound);
-        if (recordedPitch >= lowBound && recordedPitch <= highBound)
-        {
-            return 0; //if it's the right pitch
-        }
-        else if (recordedPitch < lowBound)
+        double currentMidiNote = midiNotes[inputIndex];
+        double recordedMidiNote = SongManager.Instance.GetDetectedPitch().GetMidiNote();
+        //double currentNote = GetIgnoredOctaveValue(midiNotes[inputIndex]); 
+        //double recordedNote = GetIgnoredOctaveValue(recordedMidiNote);
+        //if (recordedNote < currentNote && recordedMidiNote < currentMidiNote)
+        //{
+        //    ScoreManager.missMessage = "Too Low"; // if it's lower than the target pitch, it will return a negative value
+        //}
+        //else if (recordedNote > currentNote && recordedMidiNote > currentMidiNote)
+        //{
+        //    ScoreManager.missMessage = "Too High"; // if it's higher than the target pitch, it will return a non-zero positive value
+        //}
+        //else
+        if (recordedMidiNote < currentMidiNote)
         {
             ScoreManager.missMessage = "Too Low";
-            return (int)(recordedPitch - lowBound); // if it's lower than the target pitch, it will return a negative value
         }
-        else
+        else if (recordedMidiNote > currentMidiNote)
         {
             ScoreManager.missMessage = "Too High";
-            return (int)(recordedPitch - highBound); // if it's higher than the target pitch, it will return a non-zero positive value
         }
+        return (int)(recordedMidiNote - currentMidiNote);
     }
 
     // Destroy all spawned child objects in lane
