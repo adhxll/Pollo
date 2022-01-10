@@ -34,6 +34,7 @@ public class GSUIManager : MonoBehaviour
             var i = value ? 1 : 0;
             PlayerPrefs.SetInt(v, i);
             pitchSwitch.value = i;
+            print($"Force Pitch: {forcePitch}");
         }
     }
 
@@ -51,6 +52,7 @@ public class GSUIManager : MonoBehaviour
             var i = value ? 1 : 0;
             PlayerPrefs.SetInt(v, i);
             repeatSwitch.value = i;
+            print($"Repeat Section: {repeatSection}");
         }
     }
 
@@ -77,7 +79,7 @@ public class GSUIManager : MonoBehaviour
     void LoadPractice()
     {
         pitchSwitch.value = Convert.ToInt32(forcePitch);
-        repeatSwitch.value = Convert.ToInt32(repeatSwitch);
+        repeatSwitch.value = Convert.ToInt32(repeatSection);
     }
 
     void AnimateStart()

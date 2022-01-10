@@ -293,12 +293,11 @@ public class SceneStateManager : MonoBehaviour
         yield return new WaitForSeconds(delay);
 
         StartCoroutine(AnimationUtilities.Instance.AnimateObjects(gameplayObjects, 0.1f, AnimationUtilities.AnimationType.MoveY, 0f, 5f));
+        SongManager.Instance.StartSong();
+
         countButton.SetActive(false);
         countdown.SetText("3");
 
-        yield return new WaitForSeconds(2);
-
-        SongManager.Instance.StartSong();
     }
 
     public IEnumerator EndOfSongAnimation()
