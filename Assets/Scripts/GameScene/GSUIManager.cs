@@ -34,7 +34,6 @@ public class GSUIManager : MonoBehaviour
             var i = value ? 1 : 0;
             PlayerPrefs.SetInt(v, i);
             pitchSwitch.value = i;
-            print($"Force Pitch: {forcePitch}");
         }
     }
 
@@ -52,7 +51,6 @@ public class GSUIManager : MonoBehaviour
             var i = value ? 1 : 0;
             PlayerPrefs.SetInt(v, i);
             repeatSwitch.value = i;
-            print($"Repeat Section: {repeatSection}");
         }
     }
 
