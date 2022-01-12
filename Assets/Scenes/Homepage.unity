@@ -136,11 +136,11 @@ PrefabInstance:
       objectReference: {fileID: 21300000, guid: c9a7a718e1a91462891aa308111a0748, type: 3}
     - target: {fileID: 1549176434266764160, guid: c4ca4df083cd5f241a55fdf074dce1b0, type: 3}
       propertyPath: m_Pivot.x
-      value: 0.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1549176434266764160, guid: c4ca4df083cd5f241a55fdf074dce1b0, type: 3}
       propertyPath: m_Pivot.y
-      value: 0.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1549176434266764160, guid: c4ca4df083cd5f241a55fdf074dce1b0, type: 3}
       propertyPath: m_RootOrder
@@ -200,11 +200,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1549176434266764160, guid: c4ca4df083cd5f241a55fdf074dce1b0, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -50
+      value: -30
       objectReference: {fileID: 0}
     - target: {fileID: 1549176434266764160, guid: c4ca4df083cd5f241a55fdf074dce1b0, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -50
+      value: -30
       objectReference: {fileID: 0}
     - target: {fileID: 1549176434266764160, guid: c4ca4df083cd5f241a55fdf074dce1b0, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -946,12 +946,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a3e64a72155ed5143a09983927349d0c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  coinAmount: []
-  coinChangeIndicator: []
+  coinMechanism: {fileID: 0}
+  masterMixer: {fileID: 24100000, guid: 3cf20518f37ce44b485246d0a70beb50, type: 2}
   selectedLevel: 0
   currentStage: 0
   sceneState: 0
-  masterMixer: {fileID: 24100000, guid: 3cf20518f37ce44b485246d0a70beb50, type: 2}
 --- !u!4 &786046415
 Transform:
   m_ObjectHideFlags: 0
