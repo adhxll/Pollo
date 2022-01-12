@@ -55,7 +55,7 @@ public class ScoreDisplayScript : MonoBehaviour
     {
         if (score > 10)
         {
-            GameController.Instance.CoinAdd((int)(score / 10f));
+            GameController.Instance.coinMechanism.CoinAdd((int)(score / 10f));
         }
     }
 
