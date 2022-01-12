@@ -77,7 +77,7 @@ public class GSUIManager : MonoBehaviour
     void LoadPractice()
     {
         pitchSwitch.value = Convert.ToInt32(forcePitch);
-        repeatSwitch.value = Convert.ToInt32(repeatSwitch);
+        repeatSwitch.value = Convert.ToInt32(repeatSection);
     }
 
     void AnimateStart()
