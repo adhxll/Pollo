@@ -70,8 +70,8 @@ public class SettingsController : MonoBehaviour
     // initialize the value on display based on previously saved values on playerprefs
     private void Initialize()
     {
-        SetMusicValue(PlayerPrefs.GetFloat(SettingsList.Music.ToString(), 0));
-        SetSoundEffectsValue(PlayerPrefs.GetFloat(SettingsList.SoundEffects.ToString(), 0));
+        SetMusicValue(PlayerPrefs.GetFloat(SettingsList.Music.ToString(), 1));
+        SetSoundEffectsValue(PlayerPrefs.GetFloat(SettingsList.SoundEffects.ToString(), 1));
         //SetLanguageValue();
         //SetNotificationValue((PlayerPrefs.GetInt(SettingsList.Notification.ToString(), 1) == 1)? true : false);
         InitializeAlgorithmDropdown();
