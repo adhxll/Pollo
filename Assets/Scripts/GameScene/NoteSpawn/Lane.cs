@@ -4,6 +4,7 @@ using UnityEngine;
 using System;
 using DG.Tweening;
 using TMPro;
+using UnityEngine.Analytics;
 
 public class Lane : MonoBehaviour
 {
@@ -151,6 +152,7 @@ public class Lane : MonoBehaviour
         ScoreManager.Miss();
         notes[inputIndex].GetComponent<SpriteRenderer>().sprite = note.GetNoteWrong();
         AnimationUtilities.Instance.AnimateHit(note.gameObject);
+        ReportMissedNote();
         inputIndex++;
     }
 
@@ -248,4 +250,20 @@ public class Lane : MonoBehaviour
         barIndex = 0;
         notes.Clear();
     }
+
+    #region Analytics Function
+
+    // This function analytics output is formatted in the funnels section of our dashboard. 
+    void ReportMissedNote()
+    {
+        Dictionary<string, object> customParams = new Dictionary<string, object>();
+        customParams.Add("stage",GameController.Instance.currentStage);
+        customParams.Add("level", GameController.Instance.selectedLevel);
+        customParams.Add("step",inputIndex);
+
+        var analytics = Analytics.CustomEvent("MissedNote", customParams);
+        //Debug.Log("MissedNotes: "+analytics);
+    }
+
+    #endregion
 }
