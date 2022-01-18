@@ -56,7 +56,8 @@ public class ScoreDisplayScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        rightOrWrongNoteSequenceAnalytics();
+        RightOrWrongNoteSequenceAnalytics();
+        DeviceInfoAnalytics(); 
         AddMoney();
     }
 
@@ -159,20 +160,6 @@ public class ScoreDisplayScript : MonoBehaviour
         } 
         AchievementPopupController.Instance.LoadAchievementPopup();
     }
-
-    void rightOrWrongNoteSequenceAnalytics(){
-        var result  = Analytics.CustomEvent(
-            "Right or Wrong Notes Sequence",
-            new Dictionary<string, object>{
-                {"Stage", GameController.Instance.currentStage},
-                {"Level", GameController.Instance.selectedLevel},
-                {"Correct Notes", getTotalCorrect()},
-                {"Wrong Notes", getTotalWrong()}
-            }
-        );
-        Debug.Log("Analytics Result: " + result);
-    }
-
     IEnumerator StarAnimation(){
         // Need to add animation
         yield return new WaitForSeconds(1f);
@@ -194,4 +181,32 @@ public class ScoreDisplayScript : MonoBehaviour
             AudioController.Instance.PlaySound(SoundNames.star3);
         }
     }
+    #region Analytics Functions
+    void RightOrWrongNoteSequenceAnalytics()
+    {
+        Debug.Log("Sending Note Sequence Analytics...");
+        var result = Analytics.CustomEvent(
+            "Right or Wrong Notes Sequence",
+            new Dictionary<string, object>{
+                {"Stage", GameController.Instance.currentStage},
+                {"Level", GameController.Instance.selectedLevel},
+                {"Correct Notes", getTotalCorrect()},
+                {"Wrong Notes", getTotalWrong()}
+            }
+        );
+        Debug.Log("Analytics Result: " + result);
+    }
+    void DeviceInfoAnalytics()
+    {
+        Debug.Log("Sending Device Info Analytics..."); 
+        var result = Analytics.CustomEvent("Device Information with Score Delay", new Dictionary<string, object> {
+            {"Device Type", SystemInfo.deviceType },
+            {"Device Model",  SystemInfo.deviceModel },
+            {"Delay Settings", PlayerPrefs.GetFloat(SettingsList.Delay.ToString())},
+            {"Session Count" ,  DataController.Instance.playerData.levelData[currentLevelKey].sessionCount},
+            {"Accuracy: " , accuracy}
+        });
+        Debug.Log("Analytics Result: " + result);
+    }
+    #endregion; 
 }
