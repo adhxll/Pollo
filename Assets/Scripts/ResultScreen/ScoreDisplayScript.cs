@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.Analytics;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -10,6 +11,7 @@ public class ScoreDisplayScript : MonoBehaviour
     private int score;
     private int totalNotes;
     private int totalCorrect;
+    private int totalWrong;
     private int accuracy;
 
     [SerializeField] private TMP_Text scoreMessageObject = null;
@@ -22,6 +24,22 @@ public class ScoreDisplayScript : MonoBehaviour
 
     String currentLevelKey = DataController.Instance.FormatKey(GameController.Instance.currentStage, GameController.Instance.selectedLevel);
 
+    public int getScore(){
+        return score;
+    }
+    public int getTotalNotes(){
+        return totalNotes;
+    }
+    public int getTotalCorrect(){
+        return totalCorrect;
+    }
+    public int getTotalWrong(){
+        return totalWrong;
+    }
+    public int getAccuracy(){
+        return accuracy;
+    }
+    
     private void Awake()
     {
         GetSessionScores();
@@ -33,6 +51,7 @@ public class ScoreDisplayScript : MonoBehaviour
         UpdateLevelData();
         UnlockAchievement();
         SaveSystem.SavePlayerData();
+        rightOrWrongNoteSequenceAnalytics();
     }
 
     // Start is called before the first frame update
@@ -66,6 +85,7 @@ public class ScoreDisplayScript : MonoBehaviour
         score = PlayerPrefs.GetInt("SessionScore", 0);
         totalNotes = PlayerPrefs.GetInt("SessionTotalNotes", 1);
         totalCorrect = PlayerPrefs.GetInt("SessionCorrectNotes", 0);
+        totalWrong = totalNotes - totalCorrect;
         accuracy = PlayerPrefs.GetInt("SessionAccuracy", 0);
     }
 
@@ -138,6 +158,19 @@ public class ScoreDisplayScript : MonoBehaviour
             TriggerAchievement(4);
         } 
         AchievementPopupController.Instance.LoadAchievementPopup();
+    }
+
+    void rightOrWrongNoteSequenceAnalytics(){
+        var result  = Analytics.CustomEvent(
+            "Right or Wrong Notes Sequence",
+            new Dictionary<string, object>{
+                {"Stage", GameController.Instance.currentStage},
+                {"Level", GameController.Instance.selectedLevel},
+                {"Correct Notes", getTotalCorrect()},
+                {"Wrong Notes", getTotalWrong()}
+            }
+        );
+        Debug.Log("Analytics Result: " + analyticsResult);
     }
 
     IEnumerator StarAnimation(){
