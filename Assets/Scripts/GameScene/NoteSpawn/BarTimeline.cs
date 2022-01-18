@@ -131,6 +131,8 @@ public class BarTimeline : MonoBehaviour
 
     void SectionManager()
     {
+        var currScene = SceneStateManager.Instance.GetSceneState();
+
         // Determine the current section that the player's at
         if (currentSection < timestamp.Count - 1)
         {
@@ -145,6 +147,15 @@ public class BarTimeline : MonoBehaviour
                     currentSection++;
                     SetTimestampStyle();
                 }
+            }
+        }
+
+        if (currentSection == timestamp.Count - 1 && !repeatSection && currScene != SceneStateManager.SceneState.Countdown)
+        {
+            if (SongManager.Instance.IsAudioFinished())
+            {
+                currentSection = 0;
+                RepeatSection();
             }
         }
     }

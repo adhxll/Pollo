@@ -120,7 +120,7 @@ public class GSUIManager : MonoBehaviour
     public void ResumeGame()
     {
         AudioController.Instance.PlaySound(SoundNames.click);
-        SceneStateManager.Instance.ChangeSceneState(SceneStateManager.SceneState.Countdown, false);
+        SceneStateManager.Instance.ChangeSceneState(SceneStateManager.Instance.GetSceneState(), false);
         SceneManagerScript.Instance.SceneUnload(SceneManagerScript.SceneName.GSPause);
         SongManager.Instance.ResumeSong();
     }
