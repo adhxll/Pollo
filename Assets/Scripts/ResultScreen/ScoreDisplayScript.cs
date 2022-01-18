@@ -51,12 +51,12 @@ public class ScoreDisplayScript : MonoBehaviour
         UpdateLevelData();
         UnlockAchievement();
         SaveSystem.SavePlayerData();
-        rightOrWrongNoteSequenceAnalytics();
     }
 
     // Start is called before the first frame update
     void Start()
     {
+        rightOrWrongNoteSequenceAnalytics();
         AddMoney();
     }
 
@@ -170,7 +170,7 @@ public class ScoreDisplayScript : MonoBehaviour
                 {"Wrong Notes", getTotalWrong()}
             }
         );
-        Debug.Log("Analytics Result: " + analyticsResult);
+        Debug.Log("Analytics Result: " + result);
     }
 
     IEnumerator StarAnimation(){
