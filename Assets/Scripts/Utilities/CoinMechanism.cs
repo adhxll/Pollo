@@ -18,7 +18,6 @@ public class CoinMechanism : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Debug.Log("the coin mechanism is up");
         this.totalCoin = PlayerPrefs.GetInt(PlayerDataKey.CoinAmount.ToString(), 0);
         ShowCoinAmount();
 

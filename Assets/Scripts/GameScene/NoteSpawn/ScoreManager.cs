@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 using System;
+using UnityEngine.Analytics;
 
 public class ScoreManager : MonoBehaviour
 {
@@ -166,4 +167,5 @@ public class ScoreManager : MonoBehaviour
         PlayerPrefs.SetInt("SessionCorrectNotes", (int)correctNotes); 
         PlayerPrefs.SetInt("SessionAccuracy", accuracy);
     }
+
 }

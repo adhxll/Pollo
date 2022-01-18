@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Analytics;
 
 // TODO: - RENAME DI DEVELOPMENT
 public class SceneStateManager : MonoBehaviour
@@ -169,9 +170,10 @@ public class SceneStateManager : MonoBehaviour
 
             onboardingSteps++;
             SetOnboardingObjects();
-        } else {
-            PlayerPrefs.SetInt("IsFirstTime", 1);
+        } else { // if the user finishes onboarding
+            PlayerPrefs.SetInt("IsFirstTime", 1); // isFirstTime == False 
             SceneManagerScript.Instance.SceneInvoke(SceneManagerScript.SceneName.Homepage);
+            ReportTutorialComplete(); // analytics stuffs
         }
     }
 
@@ -184,8 +186,11 @@ public class SceneStateManager : MonoBehaviour
             button.SetText("Sure!");
 
         if (onboardingSteps == 2)
-            button.SetText("...");
+        {
+            ReportFirstInteraction();
 
+            button.SetText("...");
+        }
         if (onboardingSteps == 3)
         {
             button.SetText("Okay!");
@@ -243,11 +248,13 @@ public class SceneStateManager : MonoBehaviour
 
     void InstructionStart()
     {
+        scaleInstructionStart = Time.time;
         SceneManagerScript.Instance.SceneInvoke(SceneManagerScript.SceneName.GSPianoScale, true);
     }
 
     IEnumerator PracticeStart()
     {
+        ReportLevelPracticed(); // sends analytics if the user is choosing to practice a level
         comboObject.SetActive(false);
         accuracyObject.SetActive(false);
 
@@ -270,6 +277,9 @@ public class SceneStateManager : MonoBehaviour
     // Basically telling the sequence of animation that need to be played in transition.
     IEnumerator CountdownStart()
     {
+        // send analytics report if a user has started a normal level
+        ReportLevelStarted();
+        ReportTimeOnInstruction();
         StartCoroutine(AnimationUtilities.Instance.AnimateObjects(countdownObjects, 0.1f, AnimationUtilities.AnimationType.MoveY, 0f, 5f));
 
         int count = 3;
@@ -304,6 +314,8 @@ public class SceneStateManager : MonoBehaviour
     {
         yield return StartCoroutine(AnimationUtilities.Instance.AnimateObjects(gameplayObjects, 0.1f, AnimationUtilities.AnimationType.MoveY, 5f, 0f));
         SceneManagerScript.Instance.SceneInvoke(SceneManagerScript.SceneName.ResultPage);
+        // send analytics if the user finishes a normal level
+        ReportLevelFinished();
     }
 
     public void TogglePractice()
@@ -317,5 +329,59 @@ public class SceneStateManager : MonoBehaviour
             SceneManagerScript.Instance.SceneInvoke(SceneManagerScript.SceneName.GameScene);
         } 
     }
+
+    #region Analytics Functions
+
+    private float scaleInstructionStart = 0.0f;
+
+    Dictionary<string, object> GetLevelParameters()
+    {
+        Dictionary<string, object> customParams = new Dictionary<string, object>();
+        customParams.Add("stage", GameController.Instance.currentStage);
+        customParams.Add("level", GameController.Instance.selectedLevel);
+
+        return customParams;
+    }
+
+    void ReportFirstInteraction()
+    {
+        // Tracks whether the user did the first step on onboarding or not
+        // This event is actually available as a standard event, but for some reason I can't load the AnalyticsEvent class.
+        var analytics = Analytics.CustomEvent("FirstInteractionTrue");
+        //Debug.Log("ReportFirstInteraction: "+ analytics);
+    }
+
+    void ReportTutorialComplete()
+    {
+        var analytics = Analytics.CustomEvent("TutorialCompleteTrue");
+        //Debug.Log("ReportTutorialComplete: " + analytics);
+    }
+
+    void ReportLevelStarted()
+    {
+        var analytics = Analytics.CustomEvent("LevelStarted" , GetLevelParameters());
+        //Debug.Log("Level Started: " + analytics);
+    }
+
+    void ReportLevelFinished()
+    {
+       var analytics = Analytics.CustomEvent("LevelFinished" , GetLevelParameters());
+        //Debug.Log("Level Finished: " + analytics);
+    }
+
+    void ReportLevelPracticed()
+    {
+        var analytics = Analytics.CustomEvent("LevelPracticed" , GetLevelParameters());
+        //Debug.Log("Level Practiced: " + analytics);
+    }
+
+    void ReportTimeOnInstruction()
+    {
+        Dictionary<string, object> customParams = new Dictionary<string, object>();
+        customParams.Add("timePassed", Time.time - scaleInstructionStart);
+        var analytics = Analytics.CustomEvent("TimeSpentOnScaleInstruction" , customParams);
+    }
+
+    #endregion
 }
 

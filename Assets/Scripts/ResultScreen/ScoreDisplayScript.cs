@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System;
+using UnityEngine.Analytics;
 
 public class ScoreDisplayScript : MonoBehaviour
 {
@@ -25,6 +26,7 @@ public class ScoreDisplayScript : MonoBehaviour
     private void Awake()
     {
         GetSessionScores();
+        ReportAccuracy();
         SetScoreText();
         SetAccuracyText();
         CalculateStar();
@@ -161,4 +163,25 @@ public class ScoreDisplayScript : MonoBehaviour
             AudioController.Instance.PlaySound(SoundNames.star3);
         }
     }
+
+    #region Analytics Function
+
+    Dictionary<string, object> GetLevelParameters()
+    {
+        Dictionary<string, object> customParams = new Dictionary<string, object>();
+        customParams.Add("stage", GameController.Instance.currentStage);
+        customParams.Add("level", GameController.Instance.selectedLevel);
+
+        return customParams;
+    }
+
+    void ReportAccuracy()
+    {
+        var customParams = GetLevelParameters();
+        customParams.Add("accuracy", accuracy);
+        customParams.Add("timesPlayed", DataController.Instance.playerData.levelData[currentLevelKey].sessionCount);
+        var analytics = Analytics.CustomEvent("Accuracy", customParams);
+    }
+
+    #endregion
 }

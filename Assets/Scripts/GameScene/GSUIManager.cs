@@ -5,6 +5,7 @@ using Pitch.Algorithm;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
+using UnityEngine.Analytics;
 
 public class GSUIManager : MonoBehaviour
 {
@@ -112,6 +113,7 @@ public class GSUIManager : MonoBehaviour
 
     public void RestartGame()
     {
+        ReportRestartGame();
         AudioController.Instance.PlaySound(SoundNames.click);
         SceneManagerScript.Instance.SceneUnload(SceneManagerScript.SceneName.GSPause);
         SceneManagerScript.Instance.SceneInvoke(SceneManagerScript.SceneName.GameScene);
@@ -159,4 +161,23 @@ public class GSUIManager : MonoBehaviour
         else
             repeatSection = true;
     }
+
+    #region
+
+    Dictionary<string, object> GetLevelParameters()
+    {
+        Dictionary<string, object> customParams = new Dictionary<string, object>();
+        customParams.Add("stage", GameController.Instance.currentStage);
+        customParams.Add("level", GameController.Instance.selectedLevel);
+
+        return customParams;
+    }
+
+    void ReportRestartGame()
+    {
+        var analytics = Analytics.CustomEvent("LevelRestarted", GetLevelParameters());
+        //Debug.Log("Level restarted: " + analytics);
+    }
+
+    #endregion
 }
