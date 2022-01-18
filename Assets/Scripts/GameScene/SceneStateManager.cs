@@ -347,37 +347,39 @@ public class SceneStateManager : MonoBehaviour
     {
         // Tracks whether the user did the first step on onboarding or not
         // This event is actually available as a standard event, but for some reason I can't load the AnalyticsEvent class.
-        var analytics = Analytics.CustomEvent("FirstInteraction" + true);
+        var analytics = Analytics.CustomEvent("FirstInteractionTrue");
         //Debug.Log("ReportFirstInteraction: "+ analytics);
     }
 
     void ReportTutorialComplete()
     {
-        var analytics = Analytics.CustomEvent("TutorialComplete" + true);
+        var analytics = Analytics.CustomEvent("TutorialCompleteTrue");
         //Debug.Log("ReportTutorialComplete: " + analytics);
     }
 
     void ReportLevelStarted()
     {
-        var analytics = Analytics.CustomEvent("LevelStarted" + GetLevelParameters());
+        var analytics = Analytics.CustomEvent("LevelStarted" , GetLevelParameters());
         //Debug.Log("Level Started: " + analytics);
     }
 
     void ReportLevelFinished()
     {
-       var analytics = Analytics.CustomEvent("LevelFinished" + GetLevelParameters());
+       var analytics = Analytics.CustomEvent("LevelFinished" , GetLevelParameters());
         //Debug.Log("Level Finished: " + analytics);
     }
 
     void ReportLevelPracticed()
     {
-        var analytics = Analytics.CustomEvent("LevelPracticed" + GetLevelParameters());
+        var analytics = Analytics.CustomEvent("LevelPracticed" , GetLevelParameters());
         //Debug.Log("Level Practiced: " + analytics);
     }
 
     void ReportTimeOnInstruction()
     {
-        var analytics = Analytics.CustomEvent("TimeSpentOnScaleInstruction" + (Time.time - scaleInstructionStart));
+        Dictionary<string, object> customParams = new Dictionary<string, object>();
+        customParams.Add("timePassed", Time.time - scaleInstructionStart);
+        var analytics = Analytics.CustomEvent("TimeSpentOnScaleInstruction" , customParams);
     }
 
     #endregion

@@ -175,7 +175,7 @@ public class GSUIManager : MonoBehaviour
 
     void ReportRestartGame()
     {
-        var analytics = Analytics.CustomEvent("LevelRestarted" + GetLevelParameters());
+        var analytics = Analytics.CustomEvent("LevelRestarted", GetLevelParameters());
         //Debug.Log("Level restarted: " + analytics);
     }
 
