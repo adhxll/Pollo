@@ -1,15 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.Analytics;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System;
+using UnityEngine.Analytics;
 
 public class ScoreDisplayScript : MonoBehaviour
 {
     private int score;
     private int totalNotes;
     private int totalCorrect;
+    private int totalWrong;
     private int accuracy;
 
     [SerializeField] private TMP_Text scoreMessageObject = null;
@@ -22,9 +25,26 @@ public class ScoreDisplayScript : MonoBehaviour
 
     String currentLevelKey = DataController.Instance.FormatKey(GameController.Instance.currentStage, GameController.Instance.selectedLevel);
 
+    public int getScore(){
+        return score;
+    }
+    public int getTotalNotes(){
+        return totalNotes;
+    }
+    public int getTotalCorrect(){
+        return totalCorrect;
+    }
+    public int getTotalWrong(){
+        return totalWrong;
+    }
+    public int getAccuracy(){
+        return accuracy;
+    }
+    
     private void Awake()
     {
         GetSessionScores();
+        ReportAccuracy();
         SetScoreText();
         SetAccuracyText();
         CalculateStar();
@@ -38,6 +58,8 @@ public class ScoreDisplayScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        RightOrWrongNoteSequenceAnalytics();
+        DeviceInfoAnalytics(); 
         AddMoney();
     }
 
@@ -55,7 +77,7 @@ public class ScoreDisplayScript : MonoBehaviour
     {
         if (score > 10)
         {
-            GameController.Instance.CoinAdd((int)(score / 10f));
+            GameController.Instance.coinMechanism.CoinAdd((int)(score / 10f));
         }
     }
 
@@ -66,6 +88,7 @@ public class ScoreDisplayScript : MonoBehaviour
         score = PlayerPrefs.GetInt("SessionScore", 0);
         totalNotes = PlayerPrefs.GetInt("SessionTotalNotes", 1);
         totalCorrect = PlayerPrefs.GetInt("SessionCorrectNotes", 0);
+        totalWrong = totalNotes - totalCorrect;
         accuracy = PlayerPrefs.GetInt("SessionAccuracy", 0);
     }
 
@@ -112,7 +135,7 @@ public class ScoreDisplayScript : MonoBehaviour
     void UnlockAchievement() 
     {
 
-        if (DataController.Instance.playerData.levelData[currentLevelKey].sessionCount == 0 && DataController.Instance.playerData.achievementData[0].isUnlocked == false) //complete first game
+        if (DataController.Instance.playerData.levelData[currentLevelKey].sessionCount == 1 && DataController.Instance.playerData.achievementData[0].isUnlocked == false) //complete first game
         {
             TriggerAchievement(0);
             Debug.Log("first game");
@@ -133,13 +156,12 @@ public class ScoreDisplayScript : MonoBehaviour
             TriggerAchievement(3);
             Debug.Log("3 star");
 
-        } if (DataController.Instance.playerData.levelData[currentLevelKey].sessionCount == 4 && DataController.Instance.playerData.achievementData[4].isUnlocked == false) //play the same level 5 times
+        } if (DataController.Instance.playerData.levelData[currentLevelKey].sessionCount == 5 && DataController.Instance.playerData.achievementData[4].isUnlocked == false) //play the same level 5 times
         {
             TriggerAchievement(4);
         } 
         AchievementPopupController.Instance.LoadAchievementPopup();
     }
-
     IEnumerator StarAnimation(){
         // Need to add animation
         yield return new WaitForSeconds(1f);
@@ -161,4 +183,51 @@ public class ScoreDisplayScript : MonoBehaviour
             AudioController.Instance.PlaySound(SoundNames.star3);
         }
     }
+
+    #region Analytics Function
+
+    Dictionary<string, object> GetLevelParameters()
+    {
+        Dictionary<string, object> customParams = new Dictionary<string, object>();
+        customParams.Add("stage", GameController.Instance.currentStage);
+        customParams.Add("level", GameController.Instance.selectedLevel);
+
+        return customParams;
+    }
+
+    void ReportAccuracy()
+    {
+        var customParams = GetLevelParameters();
+        customParams.Add("accuracy", accuracy);
+        customParams.Add("timesPlayed", DataController.Instance.playerData.levelData[currentLevelKey].sessionCount);
+        var analytics = Analytics.CustomEvent("Accuracy", customParams);
+    }
+
+    void RightOrWrongNoteSequenceAnalytics()
+    {
+        Debug.Log("Sending Note Sequence Analytics...");
+        var result = Analytics.CustomEvent(
+            "Right or Wrong Notes Sequence",
+            new Dictionary<string, object>{
+                {"Stage", GameController.Instance.currentStage},
+                {"Level", GameController.Instance.selectedLevel},
+                {"Correct Notes", getTotalCorrect()},
+                {"Wrong Notes", getTotalWrong()}
+            }
+        );
+        Debug.Log("Analytics Result: " + result);
+    }
+    void DeviceInfoAnalytics()
+    {
+        Debug.Log("Sending Device Info Analytics..."); 
+        var result = Analytics.CustomEvent("Device Information with Score Delay", new Dictionary<string, object> {
+            {"Device Type", SystemInfo.deviceType },
+            {"Device Model",  SystemInfo.deviceModel },
+            {"Delay Settings", PlayerPrefs.GetFloat(SettingsList.Delay.ToString())},
+            {"Session Count" ,  DataController.Instance.playerData.levelData[currentLevelKey].sessionCount},
+            {"Accuracy: " , accuracy}
+        });
+        Debug.Log("Analytics Result: " + result);
+    }
+    #endregion; 
 }

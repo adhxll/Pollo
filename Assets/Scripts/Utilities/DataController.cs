@@ -20,7 +20,7 @@ public class DataController : MonoBehaviour
 
     void Start()
     {
-        InitializePlayerData(); 
+        InitializePlayerData();
     }
 
     void StartSingleton()

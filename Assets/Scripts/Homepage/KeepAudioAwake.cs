@@ -31,7 +31,7 @@ public class KeepAudioAwake : MonoBehaviour
                 Destroy(gameObject);
             }
             else{
-                audioSource.Play();
+                if (PlayerPrefs.GetInt("IsFirstTime") == 1) audioSource.Play();
             }
         }
     }
