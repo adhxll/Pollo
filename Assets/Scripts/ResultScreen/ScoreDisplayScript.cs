@@ -135,7 +135,7 @@ public class ScoreDisplayScript : MonoBehaviour
     void UnlockAchievement() 
     {
 
-        if (DataController.Instance.playerData.levelData[currentLevelKey].sessionCount == 0 && DataController.Instance.playerData.achievementData[0].isUnlocked == false) //complete first game
+        if (DataController.Instance.playerData.levelData[currentLevelKey].sessionCount == 1 && DataController.Instance.playerData.achievementData[0].isUnlocked == false) //complete first game
         {
             TriggerAchievement(0);
             Debug.Log("first game");
@@ -156,7 +156,7 @@ public class ScoreDisplayScript : MonoBehaviour
             TriggerAchievement(3);
             Debug.Log("3 star");
 
-        } if (DataController.Instance.playerData.levelData[currentLevelKey].sessionCount == 4 && DataController.Instance.playerData.achievementData[4].isUnlocked == false) //play the same level 5 times
+        } if (DataController.Instance.playerData.levelData[currentLevelKey].sessionCount == 5 && DataController.Instance.playerData.achievementData[4].isUnlocked == false) //play the same level 5 times
         {
             TriggerAchievement(4);
         } 
