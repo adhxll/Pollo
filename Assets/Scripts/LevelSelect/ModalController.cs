@@ -42,6 +42,12 @@ public class ModalController : MonoBehaviour
         SceneManagerScript.Instance.SceneInvoke(SceneManagerScript.SceneName.LSModal, true);
     }
 
+    public void ShowDeveloperModal(GameObject sourceLevel) { 
+        //DEV MODE ONLY, only shell function for now
+        //TODO: Set level ID and stage ID
+      
+    }
+
     private void SetLevelToPlay(int selectedLevel)
     {
         var controller = GameController.Instance;

@@ -131,7 +131,35 @@ public class DataController : MonoBehaviour
     public string FormatKey(int stageID, int levelID) {
         //formats a dictionary key to use in dictionary
         string key = stageID + "-" + levelID;
-        return key; 
+        return key;
+    }
+    public void ClearPlayerPrefs() {
+
+        //resets all values to default values, call this in dev mode
+        PlayerPrefs.SetFloat("Music", 1);
+        PlayerPrefs.SetFloat("SoundEffects", 1);
+        PlayerPrefs.SetFloat("ForcePitch", 0);
+        PlayerPrefs.SetFloat("Delay", 0);
+        PlayerPrefs.SetInt("Language", 0);
+        PlayerPrefs.SetInt("Notification", 0);
+        PlayerPrefs.SetInt("RepeatSection", 0);
+        PlayerPrefs.SetInt("Algorithm", 0);
+        PlayerPrefs.SetInt("IsFirstTime", 0);
+
+    }
+    public void ForceUnlockLevel(int currentStageID, int currentLevelID)
+    {
+        //unlocks the selected level in devmode, we need to get the stage ID and level ID first from LevelSelection 
+        string dictKey = "";
+        dictKey = DataController.Instance.FormatKey(currentStageID, currentLevelID);
+        levels[dictKey].isUnlocked = true;
+    }
+    public void ToggleDevMode()
+    {
+        //used to toggle dev mode
+        if (PlayerPrefs.GetInt("DevMode") == 0) PlayerPrefs.SetInt("DevMode", 1);
+        else PlayerPrefs.SetInt("DevMode", 0); 
+
     }
 }
 
