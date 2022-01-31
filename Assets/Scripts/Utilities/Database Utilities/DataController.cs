@@ -136,15 +136,8 @@ public class DataController : MonoBehaviour
     public void ClearPlayerPrefs() {
 
         //resets all values to default values, call this in dev mode
-        PlayerPrefs.SetFloat("Music", 1);
-        PlayerPrefs.SetFloat("SoundEffects", 1);
-        PlayerPrefs.SetFloat("ForcePitch", 0);
-        PlayerPrefs.SetFloat("Delay", 0);
-        PlayerPrefs.SetInt("Language", 0);
-        PlayerPrefs.SetInt("Notification", 0);
-        PlayerPrefs.SetInt("RepeatSection", 0);
-        PlayerPrefs.SetInt("Algorithm", 0);
-        PlayerPrefs.SetInt("IsFirstTime", 0);
+        //Jangan lupa kasih default value ketika mau ngecall playerprefs
+        PlayerPrefs.DeleteAll(); 
 
     }
     public void ForceUnlockLevel(int currentStageID, int currentLevelID)
