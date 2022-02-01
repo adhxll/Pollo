@@ -19,6 +19,7 @@ public class GSUIManager : MonoBehaviour
     [Space]
     [SerializeField] private Slider pitchSwitch = null;
     [SerializeField] private Slider repeatSwitch = null;
+    private int buttonCounter = 0;
 
     // Set slider value
     private bool forcePitch
@@ -163,6 +164,20 @@ public class GSUIManager : MonoBehaviour
     }
 
     #region
+
+    public void CountButtonClick()
+    {
+        buttonCounter++;
+
+        if (buttonCounter == 10) {
+            var saved = PlayerPrefs.GetInt(DeveloperMode.AutoCorrect.ToString());
+            PlayerPrefs.SetInt(DeveloperMode.AutoCorrect.ToString(), saved == 0 ? 1 : 0);
+            buttonCounter = 0;
+
+            // TODO : Remove this once the Developer Mode UI is completed
+            print(saved == 0 ? "Auto Correct Active" : "Auto Correct Inactive");
+        }
+    }
 
     Dictionary<string, object> GetLevelParameters()
     {
