@@ -8,7 +8,9 @@ public class ButtonController : MonoBehaviour
     void Awake(){
         Instance = this;
     }
-    void ButtonClick(GameObject button){
+
+    // A class to group all of them ButtonClick actions
+    public static void OnButtonClick(GameObject button){
         AudioController.Instance.PlaySound(SoundNames.click);
         AnimationUtilities.AnimateButtonPush(button);
     }
