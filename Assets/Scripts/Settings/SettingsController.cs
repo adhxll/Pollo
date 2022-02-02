@@ -8,139 +8,25 @@ using TMPro;
 using System;
 using Pitch.Algorithm;
 
-// List of settings variable that can be manipulated
-// Use these as the playerprefs keys
-// made it public so any class can use it becauese it will be referenced by other class
-enum SettingsList
-{
-    Music,
-    SoundEffects,
-    Language,
-    Notification,
-    ForcePitch,
-    RepeatSection,
-    Delay,
-    Algorithm,
-};
 
 // class for settings manipulation
-public class SettingsController : MonoBehaviour
+
+public class SettingsController : SettingsElement
 {
-    [Header("Settings Component")]
-    [SerializeField] private Slider musicSlider = null;
-    [SerializeField] private Slider soundEffectsSlider = null;
-    [SerializeField] private TMP_Dropdown pitchAlgoDropdown = null;
-    [SerializeField] private Slider delaySlider = null;
-    [SerializeField] private TMP_Dropdown languageDropdown = null; // draft
-    [SerializeField] private Toggle notificationToggle = null; // draft
-
-    [Space]
-    [Header("Misc")]
-    [SerializeField] private TextMeshProUGUI pitchValue = null;
-    [SerializeField] private TextMeshProUGUI toggleText = null;
-
     public static SettingsController Instance;
 
-    private float GetMusicValue() { return musicSlider.value; }
-    private float GetSoundEffectsValue() { return soundEffectsSlider.value; }
-    private int GetLanguageValue() { return languageDropdown.value; }
-    private int GetNotificationValue() { return notificationToggle.isOn ? 1 : 0; }
-    private float GetDelayValue() { return delaySlider.value; }
-    private int GetAlgorithmValue() { return pitchAlgoDropdown.value; }
-
-    private void Awake()
-    {
-        Instance = this;
-
-    }
-
-    // Start is called before the first frame update
     void Start()
     {
-        Initialize();
+        Instance = this;
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-    }
-
-    #region ================ SETTINGS COMPONENT MANIPULATION ================
-
-    // initialize the value on display based on previously saved values on playerprefs
-    private void Initialize()
-    {
-        SetMusicValue(PlayerPrefs.GetFloat(SettingsList.Music.ToString(), 1));
-        SetSoundEffectsValue(PlayerPrefs.GetFloat(SettingsList.SoundEffects.ToString(), 1));
-        //SetLanguageValue();
-        //SetNotificationValue((PlayerPrefs.GetInt(SettingsList.Notification.ToString(), 1) == 1)? true : false);
-        InitializeAlgorithmDropdown();
-        SetDelayValue(PlayerPrefs.GetFloat(SettingsList.Delay.ToString(), 0));
-    }
-
-    // The audio volume grows in logarithmic, so we need this function to translate some values to log
-    private float GetDecibelLogValue(float value)
-    {
-        return Mathf.Log10(value) * 20;
-    }
-
-    // connect this to slider
-    public void SetMusicValue(float newValue)
-    {
-        musicSlider.value = newValue;
-        GameController.Instance.masterMixer.SetFloat("musicVolume", GetDecibelLogValue(newValue));
-    }
-
-    // connect this to slider
-    public void SetSoundEffectsValue(float newValue)
-    {
-        soundEffectsSlider.value = newValue;
-        GameController.Instance.masterMixer.SetFloat("soundEffects", GetDecibelLogValue(newValue));
-    }
-
-    public void SetLanguageValue()
-    {
-
-    }
-
-    public void SetNotificationValue(bool isToggled) // 1 = True, 0 = False
-    {
-        notificationToggle.isOn = isToggled;
-        toggleText.text = isToggled ? "ON" : "OFF";
-
-    }
-
-    void InitializeAlgorithmDropdown()
-    {
-        string[] enumNames = Enum.GetNames(typeof(PitchAlgo));
-        List<string> names = new List<string>(enumNames);
-        pitchAlgoDropdown.AddOptions(names);
-        SetAlgorithmValue(PlayerPrefs.GetInt(SettingsList.Algorithm.ToString(), 0));
-    }
-
-    public void SetAlgorithmValue(int index)
-    {
-        pitchAlgoDropdown.value = index;
-        pitchAlgoDropdown.captionText.text = Enum.GetName(typeof(PitchAlgo), index);
-    }
-
-    public void SetDelayValue(float newValue)
-    { 
-        delaySlider.value = newValue;
-        pitchValue.text = newValue.ToString("0.00");
-    }
-
-    #endregion ================ SETTINGS COMPONENT MANIPULATION ================
 
     // only calls this function when the button 'Save' is pressed
     public void SaveAllSettings()
     {
-        PlayerPrefs.SetFloat(SettingsList.Music.ToString(),GetMusicValue());
-        PlayerPrefs.SetFloat(SettingsList.SoundEffects.ToString(), GetSoundEffectsValue());
-        //PlayerPrefs.SetInt(SettingsList.Language.ToString(), GetLanguageValue());
-        //PlayerPrefs.SetInt(SettingsList.Notification.ToString(), GetNotificationValue());
-        PlayerPrefs.SetFloat(SettingsList.Delay.ToString(), GetDelayValue());
-        PlayerPrefs.SetInt(SettingsList.Algorithm.ToString(), GetAlgorithmValue());
+        app.model.SetMusicPlayerPrefs(app.view.GetMusicValue());
+        app.model.SetSoundEffectsPlayerPrefs(app.view.GetSoundEffectsValue());
+        app.model.SetAlgorithmPlayerPrefs(app.view.GetAlgorithmValue());
+        app.model.SetDelayPlayerPrefs(app.view.GetDelayValue());
     }
 
     // a function you call when a setting button is clicked
@@ -157,7 +43,6 @@ public class SettingsController : MonoBehaviour
         PerspectivePan.SetPanning();
         GameController.Instance.ResetMixer();
         SceneManager.UnloadSceneAsync("Settings");
-
     }
 
     // function to set settings button to any object that has SettingsButton tag
@@ -173,5 +58,8 @@ public class SettingsController : MonoBehaviour
             i++;
         }
     }
-
+    public float GetDecibelLogValue(float value)
+    {
+        return Mathf.Log10(value) * 20;
+    }
 }
