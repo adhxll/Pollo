@@ -10,7 +10,6 @@ using Pitch.Algorithm;
 
 
 // class for settings manipulation
-
 public class SettingsController : SettingsElement
 {
     public static SettingsController Instance;

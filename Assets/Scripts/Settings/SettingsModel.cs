@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 // This class will directly interact with the SettingsList enum which corresponds to the PlayerPrefs
-public class SettingsModel : SettingsElement
+// Usually a model class looks like a class object with its own attributes/property, but in this case it just access it directly from playerprefs 
+// You can say that the attributes of this class is the SettingsList Enum
+// In the future, I hope everyone will use this class to access and manipulate settings
+public class SettingsModel : SettingsElement 
 {
     #region Getter
     public float GetMusicPlayerPrefs(){

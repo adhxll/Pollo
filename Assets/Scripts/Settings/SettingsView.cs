@@ -91,13 +91,13 @@ public class SettingsView : SettingsElement
     //     toggleText.text = isToggled ? "ON" : "OFF";
     // }
 
-    public void CloseButton(){
-        ButtonController.ButtonClick(closeButton);
+    public void OnClickCloseButton(){
+        ButtonController.OnButtonClick(closeButton);
         app.controller.CloseSettings();
     }
 
-    public void SaveButton(){
-        ButtonController.ButtonClick(saveButton);
+    public void OnClickSaveButton(){
+        ButtonController.OnButtonClick(saveButton);
         app.controller.SaveAllSettings();
         app.controller.CloseSettings();
     }
