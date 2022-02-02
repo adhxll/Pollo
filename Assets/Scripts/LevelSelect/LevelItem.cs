@@ -45,5 +45,8 @@ public class LevelItem : MonoBehaviour
             AnimationUtilities.AnimateButtonPush(gameObject);
             ModalController.Instance.ShowLevelModal(gameObject);
         }
+        else {
+            if(PlayerPrefs.GetInt("DevMode") == 1) ModalController.Instance.ShowDeveloperModal(gameObject);
+        }
     }
 }
