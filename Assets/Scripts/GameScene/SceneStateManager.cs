@@ -345,41 +345,84 @@ public class SceneStateManager : MonoBehaviour
 
     void ReportFirstInteraction()
     {
+
         // Tracks whether the user did the first step on onboarding or not
         // This event is actually available as a standard event, but for some reason I can't load the AnalyticsEvent class.
-        var analytics = Analytics.CustomEvent("FirstInteractionTrue");
-        //Debug.Log("ReportFirstInteraction: "+ analytics);
+        if (PlayerPrefs.GetInt(DeveloperMode.DisableAnalytics.ToString()) == 1)
+        {
+            var analytics = Analytics.CustomEvent("FirstInteractionTrue");
+            //Debug.Log("ReportFirstInteraction: "+ analytics);
+        }
+        else
+        {
+            Debug.Log("Report First Interaction not Uploaded to Analytics");
+        }
     }
 
     void ReportTutorialComplete()
     {
-        var analytics = Analytics.CustomEvent("TutorialCompleteTrue");
-        //Debug.Log("ReportTutorialComplete: " + analytics);
+        if (PlayerPrefs.GetInt(DeveloperMode.DisableAnalytics.ToString()) == 1)
+        {
+            var analytics = Analytics.CustomEvent("TutorialCompleteTrue");
+            //Debug.Log("ReportTutorialComplete: " + analytics);
+        }
+        else
+        {
+            Debug.Log("Tutorial Complete not Uploaded to Analytics");
+        }
     }
 
     void ReportLevelStarted()
     {
-        var analytics = Analytics.CustomEvent("LevelStarted" , GetLevelParameters());
-        //Debug.Log("Level Started: " + analytics);
+        if (PlayerPrefs.GetInt(DeveloperMode.DisableAnalytics.ToString()) == 1)
+        {
+            var analytics = Analytics.CustomEvent("LevelStarted", GetLevelParameters());
+            //Debug.Log("Level Started: " + analytics);
+        }
+        else
+        {
+            Debug.Log("Report Level Started not Uploaded to Analytics");
+        }
     }
 
     void ReportLevelFinished()
     {
-       var analytics = Analytics.CustomEvent("LevelFinished" , GetLevelParameters());
-        //Debug.Log("Level Finished: " + analytics);
+        if (PlayerPrefs.GetInt(DeveloperMode.DisableAnalytics.ToString()) == 1)
+        {
+            var analytics = Analytics.CustomEvent("LevelFinished", GetLevelParameters());
+            //Debug.Log("Level Finished: " + analytics);
+        }
+        else
+        {
+            Debug.Log("Report Level Finished not Uploaded to Analytics");
+        }
     }
 
     void ReportLevelPracticed()
     {
-        var analytics = Analytics.CustomEvent("LevelPracticed" , GetLevelParameters());
-        //Debug.Log("Level Practiced: " + analytics);
+        if (PlayerPrefs.GetInt(DeveloperMode.DisableAnalytics.ToString()) == 1)
+        {
+            var analytics = Analytics.CustomEvent("LevelPracticed", GetLevelParameters());
+            //Debug.Log("Level Practiced: " + analytics);
+        }
+        else
+        {
+            Debug.Log("Report Level Practiced not Uploaded to Analytics");
+        }
     }
 
     void ReportTimeOnInstruction()
     {
-        Dictionary<string, object> customParams = new Dictionary<string, object>();
-        customParams.Add("timePassed", Time.time - scaleInstructionStart);
-        var analytics = Analytics.CustomEvent("TimeSpentOnScaleInstruction" , customParams);
+        if (PlayerPrefs.GetInt(DeveloperMode.DisableAnalytics.ToString()) == 1)
+        {
+            Dictionary<string, object> customParams = new Dictionary<string, object>();
+            customParams.Add("timePassed", Time.time - scaleInstructionStart);
+            var analytics = Analytics.CustomEvent("TimeSpentOnScaleInstruction", customParams);
+        }
+        else
+        {
+            Debug.Log("Report Time on Instruction not Uploaded to Analytics");
+        }
     }
 
     #endregion

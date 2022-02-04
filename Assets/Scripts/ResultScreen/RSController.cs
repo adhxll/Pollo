@@ -12,7 +12,6 @@ public class RSController : RSElements
     {
         // Doing analytics
         ReportAccuracy();
-        ReportRightOrWrongNoteSequence();
         DeviceInfoAnalytics(); 
         // Updating database
         UnlockAchievement();
@@ -96,37 +95,37 @@ public class RSController : RSElements
 
     void ReportAccuracy()
     {
-        var customParams = GetLevelParameters();
-        customParams.Add("accuracy", app.model.GetAccuracy());
-        customParams.Add("timesPlayed", DataController.Instance.playerData.levelData[app.model.GetCurrentLevelKey()].sessionCount);
-        var analytics = Analytics.CustomEvent("Accuracy", customParams);
+        if (PlayerPrefs.GetInt(DeveloperMode.DisableAnalytics.ToString()) == 1)
+        {
+            var customParams = GetLevelParameters();
+            customParams.Add("accuracy", app.model.GetAccuracy());
+            customParams.Add("timesPlayed", DataController.Instance.playerData.levelData[app.model.GetCurrentLevelKey()].sessionCount);
+            var analytics = Analytics.CustomEvent("Accuracy", customParams);
+        }
+        else
+        {
+            Debug.Log("Report Accuracy not Uploaded to Analytics");
+        }
     }
 
-    void ReportRightOrWrongNoteSequence()
-    {
-        // Debug.Log("Sending Note Sequence Analytics...");
-        var result = Analytics.CustomEvent(
-            "Right or Wrong Notes Sequence",
-            new Dictionary<string, object>{
-                {"Stage", GameController.Instance.currentStage},
-                {"Level", GameController.Instance.selectedLevel},
-                {"Correct Notes", app.model.GetTotalCorrect()},
-                {"Wrong Notes", app.model.GetTotalWrong()}
-            }
-        );
-        // Debug.Log("Analytics Result: " + result);
-    }
     void DeviceInfoAnalytics()
     {
-        // Debug.Log("Sending Device Info Analytics..."); 
-        var result = Analytics.CustomEvent("Device Information with Score Delay", new Dictionary<string, object> {
-            {"Device Type", SystemInfo.deviceType },
-            {"Device Model",  SystemInfo.deviceModel },
-            {"Delay Settings", PlayerPrefs.GetFloat(SettingsList.Delay.ToString())},
-            {"Session Count" ,  DataController.Instance.playerData.levelData[app.model.GetCurrentLevelKey()].sessionCount},
-            {"Accuracy: " , app.model.GetAccuracy() }
-        });
-        // Debug.Log("Analytics Result: " + result);
+        if (PlayerPrefs.GetInt(DeveloperMode.DisableAnalytics.ToString()) == 1)
+        {
+            // Debug.Log("Sending Device Info Analytics..."); 
+            var result = Analytics.CustomEvent("Device Information with Score Delay", new Dictionary<string, object> {
+                {"Device Type", SystemInfo.deviceType },
+                {"Device Model",  SystemInfo.deviceModel },
+                {"Delay Settings", PlayerPrefs.GetFloat(SettingsList.Delay.ToString())},
+                {"Session Count" ,  DataController.Instance.playerData.levelData[app.model.GetCurrentLevelKey()].sessionCount},
+                {"Accuracy: " , app.model.GetAccuracy() }
+            });
+            // Debug.Log("Analytics Result: " + result);
+        }
+        else
+        {
+            Debug.Log("Device Info Analytics not Uploaded to Analytics");
+        }
     }
     #endregion; 
 }
