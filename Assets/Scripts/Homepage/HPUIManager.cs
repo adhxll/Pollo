@@ -9,34 +9,18 @@ public class HPUIManager : MonoBehaviour
     [SerializeField] private GameObject achievementButton = null;
     [SerializeField] private GameObject settingsButton = null;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-    public void PlayButton()
-    {
-        AudioController.Instance.PlaySound(SoundNames.click);
-        AnimationUtilities.AnimateButtonPush(playButton);
+    public void PlayButton(){
+        ButtonController.OnButtonClick(playButton);
         SceneManagerScript.Instance.SceneInvoke(SceneManagerScript.SceneName.LevelSelection);
     }
 
     public void AchievementButton(){
-        AudioController.Instance.PlaySound(SoundNames.click);
-        AnimationUtilities.AnimateButtonPush(achievementButton);
+        ButtonController.OnButtonClick(achievementButton);
         SceneManagerScript.Instance.SceneInvoke(SceneManagerScript.SceneName.Achievements);
     }
 
     public void SettingsButton(){
-        AudioController.Instance.PlaySound(SoundNames.click);
-        AnimationUtilities.AnimateButtonPush(settingsButton);
+        ButtonController.OnButtonClick(settingsButton);
 
     }
     
