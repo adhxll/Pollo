@@ -6,25 +6,19 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using UnityEngine.Audio;
 
-enum PlayerDataKey
-{
-    CoinAmount,
-    Character,
-}
-
-// GameController is our Singleton Class that serves as the game's controller (duh)
-// It stores the game's global variable such as game currency and player's current skin (future development)
+// GameController for now only contains some objects and data that are carried around the game and needs to be referenced and present in other classes
+// yes, the name is misleading. Consider changing it to GameModel one day once all of the code is nicely refactored
 public class GameController : MonoBehaviour
 {
     public static GameController Instance;
-    private int currentCharacter; // currentSkin is a variable that holds current characterId
-    public CoinMechanism coinMechanism;
+    public CoinController coinController;
+    public CharacterModel character;
     [SerializeField] public AudioMixer masterMixer;
 
-    // Scene states variable
+    // Scene data
     public int selectedLevel = 0;
     public int currentStage = 0; 
-    public SceneStateManager.SceneState sceneState = SceneStateManager.SceneState.Onboarding;
+    public SceneStateManager.SceneState sceneState = SceneStateManager.SceneState.Onboarding; // this refer more to the 
 
 
     private void Awake()
@@ -56,19 +50,12 @@ public class GameController : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        // going to delete this later when we figure out the gamescene state
-        SettingsController.SetSettingsButton(); // search for any GameObject that has  the tag 'SettingsButton'
-    }
-
     // Initialize values from PlayerPrefs
     private void InitializeVariable()
     {
         // Both currentSkin and totalCoin default value is 0
-        this.currentCharacter = PlayerPrefs.GetInt(PlayerDataKey.Character.ToString(), 0);
-        coinMechanism = gameObject.AddComponent<CoinMechanism>();
+        coinController = gameObject.AddComponent<CoinController>();
+        character = gameObject.AddComponent<CharacterModel>();
     }
 
     public void ResetMixer()
@@ -78,20 +65,10 @@ public class GameController : MonoBehaviour
         masterMixer.SetFloat("musicVolume", Mathf.Log10(PlayerPrefs.GetFloat(SettingsList.Music.ToString())) * 20);
     }
 
-    
-    public void SetCurrentSkin(int skinId)
-    {
-        this.currentCharacter = skinId;
-        PlayerPrefs.SetInt(PlayerDataKey.Character.ToString(), skinId); // Automatically saves the new value to PlayerPrefs
-    }
-
-    public int GetCurrentSkin()
-    {
-        return this.currentCharacter;
-    }
-
     // a function that detects when the scene has changed
     // but it doesn't detect when an additive scene is loaded, so it's kinda useless :/
+    // but for now, whenever a scene changes, it will set the settings button automatically
+    // for a settings button in an additive scene, i have to set it manually
     private void ChangedActiveScene(Scene current, Scene next)
     {
         string currentName = current.name;
