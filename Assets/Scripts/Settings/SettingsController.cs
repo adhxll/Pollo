@@ -23,14 +23,6 @@ enum SettingsList
     Algorithm,
 };
 
-enum DeveloperMode
-{
-    AutoCorrect,
-    UnlockLevel,
-    DisableAnalytics,
-    SkipLevel
-}
-
 // class for settings manipulation
 public class SettingsController : MonoBehaviour
 {
