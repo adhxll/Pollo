@@ -7,7 +7,7 @@ using TMPro;
 // this includes storing, changing, showing, animating, etc
 // refer to this class whenever you want to do anything with the coins
 // this class is initialized in the GameController class
-public class CoinMechanism : MonoBehaviour
+public class CoinController : MonoBehaviour
 {
     private int totalCoin;
     private GameObject[] coinAmount;
@@ -18,15 +18,9 @@ public class CoinMechanism : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        this.totalCoin = PlayerPrefs.GetInt(PlayerDataKey.CoinAmount.ToString(), 0);
+        this.totalCoin = PlayerPrefs.GetInt(PlayerDataNames.CoinAmount.ToString(), 0);
         ShowCoinAmount();
 
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     void ShowCoinAmount()
@@ -46,7 +40,6 @@ public class CoinMechanism : MonoBehaviour
     // - int amount => an integer that represents the amount increased or decreased
     private void AnimateCoinChange(string sign, int amount)
     {
-        ShowCoinAmount();
         coinChangeIndicator = GameObject.FindGameObjectsWithTag("CoinChangeIndicator");
         foreach (GameObject c in coinChangeIndicator)
         {
@@ -61,7 +54,8 @@ public class CoinMechanism : MonoBehaviour
     {
         AnimateCoinChange("+", coinAmount);
         this.totalCoin += coinAmount;
-        PlayerPrefs.SetInt(PlayerDataKey.CoinAmount.ToString(), totalCoin); // Automatically saves the new value to PlayerPrefs
+        ShowCoinAmount();
+        PlayerPrefs.SetInt(PlayerDataNames.CoinAmount.ToString(), totalCoin); // Automatically saves the new value to PlayerPrefs
         AudioController.Instance.PlaySound(SoundNames.coinadd);
     }
 
@@ -70,8 +64,7 @@ public class CoinMechanism : MonoBehaviour
     {
         AnimateCoinChange("-", coinAmount);
         this.totalCoin -= coinAmount;
-        PlayerPrefs.SetInt(PlayerDataKey.CoinAmount.ToString(), totalCoin); // Automatically saves the new value to PlayerPrefs
+        ShowCoinAmount();
+        PlayerPrefs.SetInt(PlayerDataNames.CoinAmount.ToString(), totalCoin); // Automatically saves the new value to PlayerPrefs
     }
-
-
 }

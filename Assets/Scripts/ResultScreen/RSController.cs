@@ -15,8 +15,8 @@ public class RSController : RSElements
         ReportRightOrWrongNoteSequence();
         DeviceInfoAnalytics(); 
         // Updating database
-        UpdateLevelData();
         UnlockAchievement();
+        UpdateLevelData();
         SaveSystem.SavePlayerData();
         AddMoney();
     }
@@ -40,24 +40,24 @@ public class RSController : RSElements
         AchievementPopupController.Instance.achievementList.Add(achievementId);
     }
 
+    // This function must be called BEFORE saving the new session data into the database.
     void UnlockAchievement() 
     {
         int star = app.model.GetStar();
         int score = app.model.GetScore();
         int accuracy = app.model.GetAccuracy();
         string key = app.model.GetCurrentLevelKey();
-        if (DataController.Instance.playerData.levelData[key].sessionCount == 1 && DataController.Instance.playerData.achievementData[0].isUnlocked == false) //complete first game
+        if (DataController.Instance.playerData.levelData[key].sessionCount == 0 && DataController.Instance.playerData.achievementData[0].isUnlocked == false) //complete first game
         {
             TriggerAchievement(0);
             // Debug.Log("first game");
-
-        } if (score > DataController.Instance.playerData.levelData[key].highScore && DataController.Instance.playerData.achievementData[1].isUnlocked == false &&
-            DataController.Instance.playerData.levelData[key].sessionCount > 0) //beat own high score
+        } 
+        if (DataController.Instance.playerData.levelData[key].sessionCount > 0 && score > DataController.Instance.playerData.levelData[key].highScore && DataController.Instance.playerData.achievementData[1].isUnlocked == false) //beat own high score
         {
             TriggerAchievement(1);
             // Debug.Log("high score");
 
-        } if (accuracy == 100 && DataController.Instance.playerData.achievementData[2].isUnlocked == false) //not missing a single not in a level
+        } if (accuracy == 100 && DataController.Instance.playerData.achievementData[2].isUnlocked == false) //not missing a single note in a level
         {
             TriggerAchievement(2);
             // Debug.Log("no miss");
@@ -67,7 +67,7 @@ public class RSController : RSElements
             TriggerAchievement(3);
             // Debug.Log("3 star");
 
-        } if (DataController.Instance.playerData.levelData[key].sessionCount == 5 && DataController.Instance.playerData.achievementData[4].isUnlocked == false) //play the same level 5 times
+        } if (DataController.Instance.playerData.levelData[key].sessionCount == 4 && DataController.Instance.playerData.achievementData[4].isUnlocked == false) //play the same level 5 times
         {
             TriggerAchievement(4);
         } 
@@ -79,7 +79,7 @@ public class RSController : RSElements
         int score = app.model.GetScore();
         if (score > 10)
         {
-            GameController.Instance.coinMechanism.CoinAdd((int)(score / 10f));
+            GameController.Instance.coinController.CoinAdd((int)(score / 10f));
         }
     }
 

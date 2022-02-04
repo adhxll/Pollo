@@ -71,6 +71,7 @@ public class GSUIManager : MonoBehaviour
 
     void Initialize()
     {
+        SettingsController.SetSettingsButton(); //added settings button initializer here to optimize
         if (pitchSwitch != null && repeatSwitch != null)
             LoadPractice();
 
