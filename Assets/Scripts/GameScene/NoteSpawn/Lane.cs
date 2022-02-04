@@ -161,6 +161,9 @@ public class Lane : MonoBehaviour
     // Then the note will be considered correct
     private bool CheckPitch()
     {
+        if (SongManager.Instance.IsAutoCorrect())
+            return true;
+
         if (SongManager.Instance.GetDetectedPitch().GetMidiNote() == midiNotes[inputIndex] ||
             SongManager.Instance.GetDetectedPitch().GetMidiNote() + 12 == midiNotes[inputIndex] ||
             SongManager.Instance.GetDetectedPitch().GetMidiNote() - 12 == midiNotes[inputIndex])
