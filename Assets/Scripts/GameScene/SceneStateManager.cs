@@ -348,7 +348,7 @@ public class SceneStateManager : MonoBehaviour
 
         // Tracks whether the user did the first step on onboarding or not
         // This event is actually available as a standard event, but for some reason I can't load the AnalyticsEvent class.
-        if (PlayerPrefs.GetInt(DeveloperMode.DisableAnalytics.ToString()) == 1)
+        if (PlayerPrefs.GetInt(DeveloperMode.DisableAnalytics.ToString(), 0) == 0)
         {
             var analytics = Analytics.CustomEvent("FirstInteractionTrue");
             //Debug.Log("ReportFirstInteraction: "+ analytics);
@@ -361,7 +361,7 @@ public class SceneStateManager : MonoBehaviour
 
     void ReportTutorialComplete()
     {
-        if (PlayerPrefs.GetInt(DeveloperMode.DisableAnalytics.ToString()) == 1)
+        if (PlayerPrefs.GetInt(DeveloperMode.DisableAnalytics.ToString(), 0) == 0)
         {
             var analytics = Analytics.CustomEvent("TutorialCompleteTrue");
             //Debug.Log("ReportTutorialComplete: " + analytics);
@@ -374,7 +374,7 @@ public class SceneStateManager : MonoBehaviour
 
     void ReportLevelStarted()
     {
-        if (PlayerPrefs.GetInt(DeveloperMode.DisableAnalytics.ToString()) == 1)
+        if (PlayerPrefs.GetInt(DeveloperMode.DisableAnalytics.ToString(), 0) == 0)
         {
             var analytics = Analytics.CustomEvent("LevelStarted", GetLevelParameters());
             //Debug.Log("Level Started: " + analytics);
@@ -387,7 +387,7 @@ public class SceneStateManager : MonoBehaviour
 
     void ReportLevelFinished()
     {
-        if (PlayerPrefs.GetInt(DeveloperMode.DisableAnalytics.ToString()) == 1)
+        if (PlayerPrefs.GetInt(DeveloperMode.DisableAnalytics.ToString(), 0) == 0)
         {
             var analytics = Analytics.CustomEvent("LevelFinished", GetLevelParameters());
             //Debug.Log("Level Finished: " + analytics);
@@ -400,7 +400,7 @@ public class SceneStateManager : MonoBehaviour
 
     void ReportLevelPracticed()
     {
-        if (PlayerPrefs.GetInt(DeveloperMode.DisableAnalytics.ToString()) == 1)
+        if (PlayerPrefs.GetInt(DeveloperMode.DisableAnalytics.ToString(), 0) == 0)
         {
             var analytics = Analytics.CustomEvent("LevelPracticed", GetLevelParameters());
             //Debug.Log("Level Practiced: " + analytics);
@@ -413,7 +413,7 @@ public class SceneStateManager : MonoBehaviour
 
     void ReportTimeOnInstruction()
     {
-        if (PlayerPrefs.GetInt(DeveloperMode.DisableAnalytics.ToString()) == 1)
+        if (PlayerPrefs.GetInt(DeveloperMode.DisableAnalytics.ToString(), 0) == 0)
         {
             Dictionary<string, object> customParams = new Dictionary<string, object>();
             customParams.Add("timePassed", Time.time - scaleInstructionStart);

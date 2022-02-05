@@ -23,7 +23,7 @@ public class HPUIManager : MonoBehaviour
 
     public void PlayButton()
     {
-        PlayerPrefs.SetInt(DeveloperMode.DisableAnalytics.ToString(), 0);
+        //PlayerPrefs.SetInt(DeveloperMode.DisableAnalytics.ToString(), 0);
         Debug.Log(PlayerPrefs.GetInt(DeveloperMode.DisableAnalytics.ToString()));
         AudioController.Instance.PlaySound(SoundNames.click);
         AnimationUtilities.AnimateButtonPush(playButton);

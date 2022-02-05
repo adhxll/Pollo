@@ -259,7 +259,7 @@ public class Lane : MonoBehaviour
     // This function analytics output is formatted in the funnels section of our dashboard. 
     void ReportMissedNote()
     {
-        if (PlayerPrefs.GetInt(DeveloperMode.DisableAnalytics.ToString()) == 1)
+        if (PlayerPrefs.GetInt(DeveloperMode.DisableAnalytics.ToString(), 0) == 0)
         {
             Dictionary<string, object> customParams = new Dictionary<string, object>();
             customParams.Add("stage", GameController.Instance.currentStage);

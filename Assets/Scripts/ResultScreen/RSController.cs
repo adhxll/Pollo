@@ -95,7 +95,7 @@ public class RSController : RSElements
 
     void ReportAccuracy()
     {
-        if (PlayerPrefs.GetInt(DeveloperMode.DisableAnalytics.ToString()) == 1)
+        if (PlayerPrefs.GetInt(DeveloperMode.DisableAnalytics.ToString(), 0) == 0)
         {
             var customParams = GetLevelParameters();
             customParams.Add("accuracy", app.model.GetAccuracy());
@@ -108,9 +108,32 @@ public class RSController : RSElements
         }
     }
 
+    void ReportRightOrWrongNoteSequence()
+    {
+        if (PlayerPrefs.GetInt(DeveloperMode.DisableAnalytics.ToString(), 0) == 0)
+        {
+            // Debug.Log("Sending Note Sequence Analytics...");
+            var result = Analytics.CustomEvent(
+            "Right or Wrong Notes Sequence",
+            new Dictionary<string, object>{
+                {"Stage", GameController.Instance.currentStage},
+                {"Level", GameController.Instance.selectedLevel},
+                {"Correct Notes", app.model.GetTotalCorrect()},
+                {"Wrong Notes", app.model.GetTotalWrong()}
+                // Debug.Log("Analytics Result: " + result);
+            }
+            );
+        }
+        else
+        {
+            Debug.Log("Right or Wrong Note Sequence not Uploaded to Analytics");
+        }
+        
+    }
+
     void DeviceInfoAnalytics()
     {
-        if (PlayerPrefs.GetInt(DeveloperMode.DisableAnalytics.ToString()) == 1)
+        if (PlayerPrefs.GetInt(DeveloperMode.DisableAnalytics.ToString(), 0) == 0)
         {
             // Debug.Log("Sending Device Info Analytics..."); 
             var result = Analytics.CustomEvent("Device Information with Score Delay", new Dictionary<string, object> {

@@ -213,7 +213,7 @@ public class GSUIManager : MonoBehaviour
 
     void ReportRestartGame()
     {
-        if (PlayerPrefs.GetInt(DeveloperMode.DisableAnalytics.ToString()) == 1) {
+        if (PlayerPrefs.GetInt(DeveloperMode.DisableAnalytics.ToString(), 0) == 0) {
             var analytics = Analytics.CustomEvent("LevelRestarted", GetLevelParameters());
             //Debug.Log("Level restarted: " + analytics);
         }
