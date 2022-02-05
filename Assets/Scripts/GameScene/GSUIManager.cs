@@ -213,8 +213,14 @@ public class GSUIManager : MonoBehaviour
 
     void ReportRestartGame()
     {
-        var analytics = Analytics.CustomEvent("LevelRestarted", GetLevelParameters());
-        //Debug.Log("Level restarted: " + analytics);
+        if (PlayerPrefs.GetInt(DeveloperMode.DisableAnalytics.ToString(), 0) == 0) {
+            var analytics = Analytics.CustomEvent("LevelRestarted", GetLevelParameters());
+            //Debug.Log("Level restarted: " + analytics);
+        }
+        else
+        {
+            Debug.Log("Level Retarded not Uploaded to Analytics");
+        }
     }
 
     #endregion

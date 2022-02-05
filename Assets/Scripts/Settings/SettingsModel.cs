@@ -31,7 +31,9 @@ public class SettingsModel : SettingsElement
     public int GetRepeatSectionPlayerPrefs(){
         return PlayerPrefs.GetInt(SettingsList.RepeatSection.ToString(), 0);
     }
-
+    public float GetDisableAnalyticsPlayerPrefs(){
+        return PlayerPrefs.GetInt(DeveloperMode.DisableAnalytics.ToString(), 0);
+    }
     #endregion Getter
 
     #region Setter
@@ -55,5 +57,12 @@ public class SettingsModel : SettingsElement
     public void SetRepeatSectionPlayerPrefs(int value){
         PlayerPrefs.SetInt(SettingsList.RepeatSection.ToString(), value);
     }
+    public void SetDisableAnalyticsPlayerPrefs(int value){
+        PlayerPrefs.SetInt(DeveloperMode.DisableAnalytics.ToString(), value);
+    }
     #endregion Getter
 }
+
+
+
+
