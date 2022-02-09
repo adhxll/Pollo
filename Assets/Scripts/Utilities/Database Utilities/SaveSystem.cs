@@ -25,7 +25,7 @@ public class SaveSystem : MonoBehaviour
 
         //serialize into public vars into json using formatter
         string dataString = JsonUtility.ToJson(data);
-        Debug.Log("data string" + dataString); 
+        // Debug.Log("data string" + dataString); 
         File.WriteAllText(path, dataString); 
 
         Debug.Log($"Data has been saved.");

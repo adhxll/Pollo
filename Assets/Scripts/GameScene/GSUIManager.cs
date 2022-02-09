@@ -1,4 +1,5 @@
 using System;
+using System.Timers;
 using System.Collections;
 using System.Collections.Generic;
 using Pitch.Algorithm;
@@ -19,6 +20,9 @@ public class GSUIManager : MonoBehaviour
     [Space]
     [SerializeField] private Slider pitchSwitch = null;
     [SerializeField] private Slider repeatSwitch = null;
+
+    private int buttonCounter = 0;
+    private static Timer buttonCounterTimer;
 
     // Set slider value
     private bool forcePitch
@@ -67,6 +71,7 @@ public class GSUIManager : MonoBehaviour
 
     void Initialize()
     {
+        SettingsController.SetSettingsButton(); //added settings button initializer here to optimize
         if (pitchSwitch != null && repeatSwitch != null)
             LoadPractice();
 
@@ -164,6 +169,39 @@ public class GSUIManager : MonoBehaviour
 
     #region
 
+    private void SetTimer()
+    {
+        buttonCounterTimer = new Timer(5000);
+        buttonCounterTimer.Elapsed += OnTimedEvent;
+        buttonCounterTimer.Enabled = true;
+    }
+
+    private void OnTimedEvent(System.Object source, ElapsedEventArgs e)
+    {
+        buttonCounter = 0;
+        buttonCounterTimer.Dispose();
+    }
+
+    public void OnTappedDevModeButtonCount()
+    {
+        buttonCounter++;
+
+        // Dispose the created timer and set a new one
+        if (buttonCounterTimer != null)
+            buttonCounterTimer.Dispose();
+        SetTimer();
+
+        if (buttonCounter == 10) {
+            var saved = PlayerPrefs.GetInt(DeveloperMode.AutoCorrect.ToString());
+            PlayerPrefs.SetInt(DeveloperMode.AutoCorrect.ToString(), saved == 0 ? 1 : 0);
+            buttonCounter = 0;
+
+            // TODO : Remove this once the Developer Mode UI is completed
+            print(saved == 0 ? "Auto Correct Active" : "Auto Correct Inactive");
+        }
+
+    }
+
     Dictionary<string, object> GetLevelParameters()
     {
         Dictionary<string, object> customParams = new Dictionary<string, object>();
@@ -175,8 +213,14 @@ public class GSUIManager : MonoBehaviour
 
     void ReportRestartGame()
     {
-        var analytics = Analytics.CustomEvent("LevelRestarted", GetLevelParameters());
-        //Debug.Log("Level restarted: " + analytics);
+        if (PlayerPrefs.GetInt(DeveloperMode.DisableAnalytics.ToString(), 0) == 0) {
+            var analytics = Analytics.CustomEvent("LevelRestarted", GetLevelParameters());
+            //Debug.Log("Level restarted: " + analytics);
+        }
+        else
+        {
+            Debug.Log("Level Retarded not Uploaded to Analytics");
+        }
     }
 
     #endregion

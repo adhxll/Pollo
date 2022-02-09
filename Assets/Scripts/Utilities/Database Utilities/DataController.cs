@@ -89,7 +89,9 @@ public class DataController : MonoBehaviour
         else //validation for final stage
             dictKey = DataController.Instance.FormatKey(currentStageID, currentLevelID + 1);
 
-        levels[dictKey].isUnlocked = true; 
+        if(levels.ContainsKey(dictKey)){ // preventing index access to adresses that does not exist
+            levels[dictKey].isUnlocked = true; 
+        }
        
     }
 

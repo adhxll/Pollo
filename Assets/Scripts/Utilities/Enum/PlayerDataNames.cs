@@ -1,0 +1,5 @@
+enum PlayerDataNames
+{
+    CoinAmount,
+    Character,
+}

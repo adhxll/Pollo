@@ -34,6 +34,7 @@ public class SongManager : MonoBehaviour
     private float noteDespawnX { get { return noteTapX - (noteSpawnX - noteTapX); } }
     private TextAsset midiJSON { get { return selectedLevel.GetMidiJson(); } }
     private static float midiBPM { get { return (float)60 / (float)midiFile.header.tempos[0].bpm; } }
+    private int isAutoCorrect { get { return PlayerPrefs.GetInt(DeveloperMode.AutoCorrect.ToString()); } }
 
     // Position Tracking
     private double dspTimeSong;
@@ -225,6 +226,15 @@ public class SongManager : MonoBehaviour
     public bool IsAudioFinished()
     {
         if (GetCurrentAudioProgress() > 0.99)
+            return true;
+
+        return false;
+    }
+
+    public bool IsAutoCorrect()
+    {
+        // TODO: - Add extra condition, check whether developer mode is activated or not
+        if (isAutoCorrect == 1)
             return true;
 
         return false;

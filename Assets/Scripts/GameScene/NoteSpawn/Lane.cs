@@ -161,6 +161,9 @@ public class Lane : MonoBehaviour
     // Then the note will be considered correct
     private bool CheckPitch()
     {
+        if (SongManager.Instance.IsAutoCorrect())
+            return true;
+
         if (SongManager.Instance.GetDetectedPitch().GetMidiNote() == midiNotes[inputIndex] ||
             SongManager.Instance.GetDetectedPitch().GetMidiNote() + 12 == midiNotes[inputIndex] ||
             SongManager.Instance.GetDetectedPitch().GetMidiNote() - 12 == midiNotes[inputIndex])
@@ -256,13 +259,20 @@ public class Lane : MonoBehaviour
     // This function analytics output is formatted in the funnels section of our dashboard. 
     void ReportMissedNote()
     {
-        Dictionary<string, object> customParams = new Dictionary<string, object>();
-        customParams.Add("stage",GameController.Instance.currentStage);
-        customParams.Add("level", GameController.Instance.selectedLevel);
-        customParams.Add("step",inputIndex);
+        if (PlayerPrefs.GetInt(DeveloperMode.DisableAnalytics.ToString(), 0) == 0)
+        {
+            Dictionary<string, object> customParams = new Dictionary<string, object>();
+            customParams.Add("stage", GameController.Instance.currentStage);
+            customParams.Add("level", GameController.Instance.selectedLevel);
+            customParams.Add("step", inputIndex);
 
-        var analytics = Analytics.CustomEvent("MissedNote", customParams);
-        //Debug.Log("MissedNotes: "+analytics);
+            var analytics = Analytics.CustomEvent("MissedNote", customParams);
+            //Debug.Log("MissedNotes: "+analytics);
+        }
+        else
+        {
+            Debug.Log("Missed Note not Uploaded to Analytics");
+        }
     }
 
     #endregion
