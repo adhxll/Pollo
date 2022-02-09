@@ -460,10 +460,12 @@ MonoBehaviour:
   text: {fileID: 5006480137425694727}
   description: {fileID: 6245452647739680309}
   iconColoured: {fileID: 0}
+  iconBW: {fileID: 0}
   achievementData:
     achievementId: 0
     isUnlocked: 0
   achievementId: 0
+  achievementDB: {fileID: 11400000, guid: 45942a69e34050240bfe6ff6ab8c6255, type: 2}
 --- !u!114 &6427096745115470056
 MonoBehaviour:
   m_ObjectHideFlags: 0
