@@ -37,12 +37,6 @@ public class AchievementManager : MonoBehaviour // Buat yg di achievement board
         description.text = achievementDB.listAchievement[achievementId].textDesc;
     }
 
-    private void PolloStyle() // Buat set gaya polo
-    {
-        PolloController.Instance.SetAnimation(10, 0);
-        PolloController.Instance.SetActive(true);
-    }
-
     void Start()
     {
         Invoke("PolloStyle", 1f);

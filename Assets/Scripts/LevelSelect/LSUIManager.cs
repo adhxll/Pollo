@@ -40,13 +40,13 @@ public class LSUIManager : MonoBehaviour
         switch (arrowDirection)
         {
             case 0:
-                AnimationUtilities.AnimateButtonPush(previousButton);
+                ButtonController.OnButtonClick(previousButton);
                 StartCoroutine(ChangeClip(audioClip[currentIndex - 1]));
                 StageConstructor.Instance.ChangeStagePrev();
                 currentIndex -= 1;
                 break;
             case 1:
-                AnimationUtilities.AnimateButtonPush(nextButton);
+                ButtonController.OnButtonClick(nextButton);
                 StartCoroutine(ChangeClip(audioClip[currentIndex + 1]));
                 StageConstructor.Instance.ChangeStageNext();
                 currentIndex += 1;
@@ -72,7 +72,7 @@ public class LSUIManager : MonoBehaviour
 
     public void GoToHome()
     {
-        AudioController.Instance.PlaySound(SoundNames.click);
+        ButtonController.OnButtonClick(homeButton); 
         AnimationUtilities.Instance.AnimateButtonPush(homeButton, () => SceneManagerScript.Instance.SceneInvoke(SceneManagerScript.SceneName.Homepage));
     }
 
