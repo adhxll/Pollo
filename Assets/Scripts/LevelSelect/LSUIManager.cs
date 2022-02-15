@@ -73,7 +73,7 @@ public class LSUIManager : MonoBehaviour
     public void GoToHome()
     {
         ButtonController.OnButtonClick(homeButton); 
-        AnimationUtilities.Instance.AnimateButtonPush(homeButton, () => SceneManagerScript.Instance.SceneInvoke(SceneManagerScript.SceneName.Homepage));
+        SceneManagerScript.Instance.SceneInvoke(SceneManagerScript.SceneName.Homepage);
     }
 
     // Additive scene
