@@ -5,22 +5,11 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Analytics;
 
-// TODO: - RENAME DI DEVELOPMENT
-public class SceneStateManager : MonoBehaviour
+public class GameSceneStateManager : MonoBehaviour
 {
-    public enum SceneState
-    {
-        Onboarding,
-        Instruction,
-        Practice,
-        Countdown,
-        Pause,
-        EndOfSong
-    }
+    public static GameSceneStateManager Instance;
 
-    public static SceneStateManager Instance;
-
-    [SerializeField] private SceneState sceneState = SceneState.Instruction;
+    [SerializeField] private GameSceneState sceneState = GameSceneState.Instruction;
     [Space]
     [SerializeField] private GameObject[] countdownObjects = null;
     [SerializeField] private GameObject[] gameplayObjects = null;
@@ -84,12 +73,12 @@ public class SceneStateManager : MonoBehaviour
 
     #region General Function
 
-    public SceneState GetSceneState()
+    public GameSceneState GetSceneState()
     {
         return sceneState;
     }
 
-    public void ChangeSceneState(SceneState scene, bool reload = true)
+    public void ChangeSceneState(GameSceneState scene, bool reload = true)
     {
         sceneState = scene;
 
@@ -99,7 +88,7 @@ public class SceneStateManager : MonoBehaviour
 
     public void ChangeSceneState(string scene)
     {
-        sceneState = (SceneState) System.Enum.Parse (typeof(SceneState), scene);
+        sceneState = (GameSceneState) System.Enum.Parse (typeof(GameSceneState), scene);
         CheckSceneState();
     }
 
@@ -111,25 +100,25 @@ public class SceneStateManager : MonoBehaviour
 
         switch (sceneState)
         {
-            case SceneState.Onboarding:
+            case GameSceneState.Onboarding:
                 SetActiveInactive(array, false);
                 SetActiveInactive(allParents, false);
                 StartOnboarding();
                 break;
-            case SceneState.Instruction:
+            case GameSceneState.Instruction:
                 SetActiveInactive(array, false);
                 SetActiveInactive(allParents, false);
                 InstructionStart();
                 break;
-            case SceneState.Countdown:
+            case GameSceneState.Countdown:
                 SetActiveInactive(array, false);
                 StartCoroutine(CountdownStart());
                 break;
-            case SceneState.Practice:
+            case GameSceneState.Practice:
                 SetActiveInactive(array, false);
                 StartCoroutine(PracticeStart());
                 break;
-            case SceneState.EndOfSong:
+            case GameSceneState.EndOfSong:
                 StartCoroutine(EndOfSongAnimation());
                 break;
         }
@@ -238,7 +227,7 @@ public class SceneStateManager : MonoBehaviour
     // Check whether onboarding gameplay is finished
     void CheckOnboarding()
     {
-        if (sceneState == SceneState.Onboarding && SongManager.Instance.IsAudioFinished() && isOnboardingGameStarted)
+        if (sceneState == GameSceneState.Onboarding && SongManager.Instance.IsAudioFinished() && isOnboardingGameStarted)
         {
             SetOnboarding();
         }
@@ -323,9 +312,9 @@ public class SceneStateManager : MonoBehaviour
         var practiceText = practiceButton.GetComponentInChildren<TMPro.TextMeshProUGUI>().text;
         if (practiceText == "Practice Mode")
         {
-            ChangeSceneState(SceneState.Practice);
+            ChangeSceneState(GameSceneState.Practice);
         } else {
-            GameController.Instance.sceneState = SceneState.Instruction;
+            GameController.Instance.sceneState = GameSceneState.Instruction;
             SceneManagerScript.Instance.SceneInvoke(SceneManagerScript.SceneName.GameScene);
         } 
     }

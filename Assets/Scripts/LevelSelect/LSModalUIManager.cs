@@ -18,14 +18,14 @@ public class LSModalUIManager : MonoBehaviour
     public void PlayButton()
     {
         AudioController.Instance.PlaySound(SoundNames.click);
-        SetSceneToPlay(SceneStateManager.SceneState.Instruction);
+        SetSceneToPlay(GameSceneState.Instruction);
         AnimationUtilities.Instance.AnimateButtonPush(playButton, () => SceneManagerScript.Instance.SceneInvoke(SceneManagerScript.SceneName.GameScene));
     }
 
     public void PracticeButton()
     {
         AudioController.Instance.PlaySound(SoundNames.click);
-        SetSceneToPlay(SceneStateManager.SceneState.Practice);
+        SetSceneToPlay(GameSceneState.Practice);
         AnimationUtilities.Instance.AnimateButtonPush(practiceButton, () => SceneManagerScript.Instance.SceneInvoke(SceneManagerScript.SceneName.GameScene));
     }
 
@@ -48,7 +48,7 @@ public class LSModalUIManager : MonoBehaviour
         starCount.FillStars();
     }
 
-    private void SetSceneToPlay(SceneStateManager.SceneState scene)
+    private void SetSceneToPlay(GameSceneState scene)
     {
         GameController.Instance.sceneState = scene;
     }

@@ -133,17 +133,17 @@ public class SongManager : MonoBehaviour
         // If the condition is true, it'll change current scene state 'Instruction' to 'Countdown/Gameplay'
         if (songPlayed
             && (AudioSettings.dspTime - dspTimeSong) > songDelayInSeconds
-            && SceneStateManager.Instance.GetSceneState() != SceneStateManager.SceneState.Pause
-            && SceneStateManager.Instance.GetSceneState() != SceneStateManager.SceneState.Practice)
+            && GameSceneStateManager.Instance.GetSceneState() != GameSceneState.Pause
+            && GameSceneStateManager.Instance.GetSceneState() != GameSceneState.Practice)
         {
-            switch (SceneStateManager.Instance.GetSceneState())
+            switch (GameSceneStateManager.Instance.GetSceneState())
             {
-                case SceneStateManager.SceneState.Instruction:
+                case GameSceneState.Instruction:
                     songPlayed = false;
                     ResetScene();
-                    SceneStateManager.Instance.ChangeSceneState(SceneStateManager.SceneState.Countdown);
+                    GameSceneStateManager.Instance.ChangeSceneState(GameSceneState.Countdown);
                     break;
-                case SceneStateManager.SceneState.Countdown:
+                case GameSceneState.Countdown:
                     CheckEndOfSong();
                     break;
             }
@@ -165,7 +165,7 @@ public class SongManager : MonoBehaviour
     void CheckEndOfSong()
     {
         if (IsAudioFinished())
-            SceneStateManager.Instance.ChangeSceneState(SceneStateManager.SceneState.EndOfSong);
+            GameSceneStateManager.Instance.ChangeSceneState(GameSceneState.EndOfSong);
     }
 
     public void PlaySong()

@@ -78,8 +78,8 @@ public class Lane : MonoBehaviour
                 double marginOfError = SongManager.Instance.GetMarginOfError();
                 double audioTime = SongManager.GetAudioSourceTime() - (SongManager.Instance.GetInputDelayInMilliseconds() / 1000.0);
 
-                if (SceneStateManager.Instance.GetSceneState() == SceneStateManager.SceneState.Onboarding ||
-                    SceneStateManager.Instance.GetSceneState() == SceneStateManager.SceneState.Practice && isForcedPitch == 1)
+                if (GameSceneStateManager.Instance.GetSceneState() == GameSceneState.Onboarding ||
+                    GameSceneStateManager.Instance.GetSceneState() == GameSceneState.Practice && isForcedPitch == 1)
                 {
                     if (inputIndex < notes.Count && notes[inputIndex].transform.localPosition.x < -0.25f)
                     {

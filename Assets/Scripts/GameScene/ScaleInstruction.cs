@@ -33,7 +33,7 @@ public class ScaleInstruction : MonoBehaviour
 
     void StartScale()
     {
-        if (SceneStateManager.Instance.GetSceneState() == SceneStateManager.SceneState.Instruction)
+        if (GameSceneStateManager.Instance.GetSceneState() == GameSceneState.Instruction)
         {
             SetupKeySignature();
             StartCoroutine(ScaleInstructionStart());

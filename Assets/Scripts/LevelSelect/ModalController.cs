@@ -50,7 +50,7 @@ public class ModalController : MonoBehaviour
 
     public void SetSceneToPlay(string scene)
     {
-        GameController.Instance.sceneState = (SceneStateManager.SceneState)System.Enum.Parse(typeof(SceneStateManager.SceneState), scene);
+        GameController.Instance.sceneState = (GameSceneState)System.Enum.Parse(typeof(GameSceneState), scene);
     }
 
     public void CloseModal()

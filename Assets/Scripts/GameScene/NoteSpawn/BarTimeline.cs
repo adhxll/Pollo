@@ -131,7 +131,7 @@ public class BarTimeline : MonoBehaviour
 
     void SectionManager()
     {
-        var currScene = SceneStateManager.Instance.GetSceneState();
+        var currScene = GameSceneStateManager.Instance.GetSceneState();
 
         // Determine the current section that the player's at
         if (currentSection < timestamp.Count - 1)
@@ -150,7 +150,7 @@ public class BarTimeline : MonoBehaviour
             }
         }
 
-        if (currentSection == timestamp.Count - 1 && !repeatSection && currScene != SceneStateManager.SceneState.Countdown)
+        if (currentSection == timestamp.Count - 1 && !repeatSection && currScene != GameSceneState.Countdown)
         {
             if (SongManager.Instance.IsAudioFinished())
             {
@@ -199,9 +199,9 @@ public class BarTimeline : MonoBehaviour
     void CheckRepeatSection()
     {
         var isRepeat = PlayerPrefs.GetInt(SettingsList.RepeatSection.ToString());
-        var currScene = SceneStateManager.Instance.GetSceneState();
+        var currScene = GameSceneStateManager.Instance.GetSceneState();
 
-        if (isRepeat > 0 && currScene == SceneStateManager.SceneState.Practice)
+        if (isRepeat > 0 && currScene == GameSceneState.Practice)
             repeatSection = true;
         else
             repeatSection = false;

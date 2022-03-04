@@ -24,7 +24,7 @@ public class GameController : MonoBehaviour
     // Scene states variable
     public int selectedLevel = 0;
     public int currentStage = 0; 
-    public SceneStateManager.SceneState sceneState = SceneStateManager.SceneState.Onboarding;
+    public GameSceneState sceneState = GameSceneState.Onboarding;
 
 
     private void Awake()

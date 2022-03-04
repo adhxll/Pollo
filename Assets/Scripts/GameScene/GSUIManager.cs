@@ -110,7 +110,7 @@ public class GSUIManager : MonoBehaviour
     public void ShowPause()
     {
         AudioController.Instance.PlaySound(SoundNames.click);
-        SceneStateManager.Instance.ChangeSceneState(SceneStateManager.SceneState.Pause, false);
+        GameSceneStateManager.Instance.ChangeSceneState(GameSceneState.Pause, false);
         SceneManagerScript.Instance.SceneInvoke(SceneManagerScript.SceneName.GSPause, true);
         SongManager.Instance.PauseSong();
     }
@@ -126,7 +126,7 @@ public class GSUIManager : MonoBehaviour
     public void ResumeGame()
     {
         AudioController.Instance.PlaySound(SoundNames.click);
-        SceneStateManager.Instance.ChangeSceneState(SceneStateManager.Instance.GetSceneState(), false);
+        GameSceneStateManager.Instance.ChangeSceneState(GameSceneStateManager.Instance.GetSceneState(), false);
         SceneManagerScript.Instance.SceneUnload(SceneManagerScript.SceneName.GSPause);
         SongManager.Instance.ResumeSong();
     }
@@ -146,7 +146,7 @@ public class GSUIManager : MonoBehaviour
     public void ClosePianoScale()
     {
         AudioController.Instance.PlaySound(SoundNames.click);
-        SceneStateManager.Instance.ChangeSceneState(SceneStateManager.SceneState.Countdown);
+        GameSceneStateManager.Instance.ChangeSceneState(GameSceneState.Countdown);
         SceneManagerScript.Instance.SceneUnload(SceneManagerScript.SceneName.GSPianoScale);
     }
 
